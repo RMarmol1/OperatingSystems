@@ -1,0 +1,9 @@
+Lab 1 Questions
+
+1.What are the advantages and disadvantages of using the same system call interface for manipulating both files and devices?
+
+An advantage is that each device can be accessed as though it was a file in the file system. Since most of the kernel deals with devices through this file interface, it is relatively easy to add a new device driver by implementing the hardware-specific code to support this abstract file interface. Therefore, this benefits the user since the code can be written to access devices and files in the same manner. A disadvantage with using the same interface is that it can get hard when trying to capture the functionality of certain devices within the context of the file access API, thereby resulting in either a loss of functionality or a loss of performance. 
+
+2.Would it be possible for the user to develop a new command interpretor using the system call interface provide by the operating system? How?
+
+Yes because the system call interface allows the user to manage processes and communications with enough freedom to develop another command interpretor especially through using system calls from the user level programming. 
