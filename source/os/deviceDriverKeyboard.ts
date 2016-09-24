@@ -59,8 +59,22 @@ module TSOS {
                 _KernelInputQueue.enqueue(chr);
             } else if (((keyCode >= 48) && (keyCode <= 57)) ||   // digits
                 (keyCode == 32) ||   // space
-                (keyCode == 13)) {                       // enter
-                chr = String.fromCharCode(keyCode);
+                (keyCode == 13) || (keyCode == 188) || (keyCode == 190) || (keyCode == 173) || (keyCode == 61) || (keyCode == 191)) {                       // enter
+
+                if (keyCode == 188) {
+                    chr = String.fromCharCode(44);
+                } else if (keyCode == 190) {
+                    chr = String.fromCharCode(46);
+                } else if (keyCode == 173) {
+                    chr = String.fromCharCode(45);
+                } else if (keyCode == 191) {
+                    chr = String.fromCharCode(47);
+                } else {
+                    chr = String.fromCharCode(keyCode);
+                }
+
+                
+                shifted = false;
                 if (isShifted) { //special characters
 
                     if (keyCode == 48) {
@@ -92,7 +106,8 @@ module TSOS {
                     }
 
                     if (keyCode == 55) {
-                        chr = String.fromCharCode(38);
+                        chr = String.fromCharCode(55);
+                        shifted = true;
                     }
 
                     if (keyCode == 56) {
@@ -100,11 +115,33 @@ module TSOS {
                     }
 
                     if (keyCode == 57) {
-                        chr = String.fromCharCode(40);
+                        chr = String.fromCharCode(57);
+                        shifted = true;
+                    }
+
+                    if (keyCode == 188) {
+                        chr = String.fromCharCode(60);
+                    }
+
+                    if (keyCode == 190) {
+                        chr = String.fromCharCode(62);
+                    }
+
+                    if (keyCode == 173) {
+                        chr = String.fromCharCode(95);
+                    }
+
+                    if (keyCode == 61) {
+                        chr = String.fromCharCode(43);
+                    }
+
+                    if (keyCode == 191) {
+                        chr = String.fromCharCode(63);
                     }
 
 
                 }
+                
                 _KernelInputQueue.enqueue(chr);
             }
 
@@ -117,7 +154,7 @@ module TSOS {
 
             else if (keyCode == 38) { //up key
                 //arrow keys
-                
+
                 chr = String.fromCharCode(38);
                 _KernelInputQueue.enqueue(chr);
 
@@ -128,7 +165,7 @@ module TSOS {
             } else if (keyCode == 9) { //tab key
                 chr = String.fromCharCode(9);
                 _KernelInputQueue.enqueue(chr);
-            }
+            }   
         }
     }
 }

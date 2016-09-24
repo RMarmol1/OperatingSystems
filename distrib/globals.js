@@ -51,6 +51,7 @@ var hexArray = []; //holds separate chars of value in user program input
 var capsLock = false; //boolean if caps lock is set or not
 var val = "AA"; //helps with value in checking load function
 var validChar = "0123456789ABCDEFabcdef "; //valid hex characters
+var shifted = false;
 //var imageData = new ImageData(100, 100);
 //   image = _DrawingContext.getImageData(0, 0, 1000, 10000);
 // The OS Kernel and its queues.

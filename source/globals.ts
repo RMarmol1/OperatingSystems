@@ -75,6 +75,8 @@ var val = "AA"; //helps with value in checking load function
 
 var validChar = "0123456789ABCDEFabcdef "; //valid hex characters
 
+var shifted = false;
+
 
 //var imageData = new ImageData(100, 100);
  //   image = _DrawingContext.getImageData(0, 0, 1000, 10000);

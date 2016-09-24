@@ -59,8 +59,23 @@ var TSOS;
             }
             else if (((keyCode >= 48) && (keyCode <= 57)) ||
                 (keyCode == 32) ||
-                (keyCode == 13)) {
-                chr = String.fromCharCode(keyCode);
+                (keyCode == 13) || (keyCode == 188) || (keyCode == 190) || (keyCode == 173) || (keyCode == 61) || (keyCode == 191)) {
+                if (keyCode == 188) {
+                    chr = String.fromCharCode(44);
+                }
+                else if (keyCode == 190) {
+                    chr = String.fromCharCode(46);
+                }
+                else if (keyCode == 173) {
+                    chr = String.fromCharCode(45);
+                }
+                else if (keyCode == 191) {
+                    chr = String.fromCharCode(47);
+                }
+                else {
+                    chr = String.fromCharCode(keyCode);
+                }
+                shifted = false;
                 if (isShifted) {
                     if (keyCode == 48) {
                         chr = String.fromCharCode(41);
@@ -84,13 +99,30 @@ var TSOS;
                         chr = String.fromCharCode(94);
                     }
                     if (keyCode == 55) {
-                        chr = String.fromCharCode(38);
+                        chr = String.fromCharCode(55);
+                        shifted = true;
                     }
                     if (keyCode == 56) {
                         chr = String.fromCharCode(42);
                     }
                     if (keyCode == 57) {
-                        chr = String.fromCharCode(40);
+                        chr = String.fromCharCode(57);
+                        shifted = true;
+                    }
+                    if (keyCode == 188) {
+                        chr = String.fromCharCode(60);
+                    }
+                    if (keyCode == 190) {
+                        chr = String.fromCharCode(62);
+                    }
+                    if (keyCode == 173) {
+                        chr = String.fromCharCode(95);
+                    }
+                    if (keyCode == 61) {
+                        chr = String.fromCharCode(43);
+                    }
+                    if (keyCode == 191) {
+                        chr = String.fromCharCode(63);
                     }
                 }
                 _KernelInputQueue.enqueue(chr);

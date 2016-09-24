@@ -60,7 +60,9 @@ module TSOS {
                     this.currentXPosition = this.xArray.pop(); //brings back last x position
                     this.buffer = (this.buffer).substring(0, (this.buffer).length - 1); //removes last char from buffer
 
-                } else if (chr === String.fromCharCode(38)) { //up key --history of commands
+                } else if (chr === String.fromCharCode(38) ) { //up key --history of commands
+                    
+
 
                     logText = logHistory.pop();
                     logDown.push(logText);
@@ -68,12 +70,24 @@ module TSOS {
                     this.buffer += logText;
 
 
-                } else if (chr === String.fromCharCode(40)) { //down key--history of commands
+                } else if (chr === String.fromCharCode(40) && chr !== String.fromCharCode(57)) { //down key--history of commands
                     logText = logDown.pop();
                     logHistory.push(logText);
                     this.putText(logText);
                     this.buffer += logText;
 
+                } else if (shifted == true) {
+                    if (chr === String.fromCharCode(55) {
+                        this.putText("&");
+                        this.buffer += "&";
+                        shifted = false;
+                    }
+                    if (chr === String.fromCharCode(57) {
+                        this.putText("(");
+                        this.buffer += "(";
+                        shifted = false;
+                    }
+                    
                 } else if (chr === String.fromCharCode(9)) { //tab -- autocompletes commands
 
                     //ver

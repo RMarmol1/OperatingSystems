@@ -66,11 +66,23 @@ var TSOS;
                     this.putText(logText);
                     this.buffer += logText;
                 }
-                else if (chr === String.fromCharCode(40)) {
+                else if (chr === String.fromCharCode(40) && chr !== String.fromCharCode(57)) {
                     logText = logDown.pop();
                     logHistory.push(logText);
                     this.putText(logText);
                     this.buffer += logText;
+                }
+                else if (shifted == true) {
+                    if (chr === String.fromCharCode(55)) {
+                        this.putText("&");
+                        this.buffer += "&";
+                        shifted = false;
+                    }
+                    if (chr === String.fromCharCode(57)) {
+                        this.putText("(");
+                        this.buffer += "(";
+                        shifted = false;
+                    }
                 }
                 else if (chr === String.fromCharCode(9)) {
                     //ver
