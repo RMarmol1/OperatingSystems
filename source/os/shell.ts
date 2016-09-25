@@ -122,6 +122,12 @@ module TSOS {
                 " - validates user code in the HTML5 text area by checking for hex digits and spaces");
             this.commandList[this.commandList.length] = sc;
 
+            //run
+            sc = new ShellCommand(this.shellRun,
+                "run",
+                " - runs CPU hex code");
+            this.commandList[this.commandList.length] = sc;
+
             
 
             
@@ -424,6 +430,104 @@ module TSOS {
 
         }
 
+        public shellRun(args) {
+
+          //  _StdOut.putText("CUNT");
+            var pidNum = args[0];
+
+            for (var i = 0; i < pid[pidNum].length; i++) {
+
+                //A9 -- load accumulator with constant
+                if (pid[pidNum][i] === "a9" || pid[pidNum][i] === "A9") {
+                    _CPU.Acc = pid[pidNum][i + 1];
+                    document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Acc;
+                    _StdOut.putText("Loaded accumulator with: " + _CPU.Acc);
+                    i++;
+                    pcb = i;
+                    document.getElementById("cpuTable").rows[1].cells[1].innerHTML = i;
+                }
+
+                //AD
+                if (pid[pidNum][i] === "ad" || pid[pidNum][i] === "AD") {
+
+                }
+
+                //8D
+                if (pid[pidNum][i] === "8d" || pid[pidNum][i] === "8D") {
+
+
+                }
+
+                //6D
+                if (pid[pidNum][i] === "6d" || pid[pidNum][i] === "6D") {
+
+                }
+
+                //A2 -- load X reg with a constant
+                if (pid[pidNum][i] === "a2" || pid[pidNum][i] === "A2") {
+                    _CPU.Xreg = pid[pidNum][i + 1];
+                    _StdOut.putText("Loaded X reg with: " + _CPU.Xreg);
+                    document.getElementById("cpuTable").rows[1].cells[3].innerHTML = _CPU.Xreg;
+                    i++;
+                    pcb = i;
+                    document.getElementById("cpuTable").rows[1].cells[1].innerHTML = i;
+                }
+
+                //AE
+                if (pid[pidNum][i] === "ae" || pid[pidNum][i] === "AE") {
+
+                }
+
+                //A0 -- load Y reg with a constant
+                if (pid[pidNum][i] === "a0" || pid[pidNum][i] === "A0") {
+                    _CPU.Yreg = pid[pidNum][i + 1];
+                    _StdOut.putText("Loaded Y reg with: " + _CPU.Yreg);
+                    document.getElementById("cpuTable").rows[1].cells[4].innerHTML = _CPU.Yreg;
+                    i++;
+                    pcb = i;
+                    document.getElementById("cpuTable").rows[1].cells[1].innerHTML = i;
+                }
+
+                //AC
+                if (pid[pidNum][i] === "ac" || pid[pidNum][i] === "AC") {
+
+                }
+
+                //EA
+                if (pid[pidNum][i] === "ea" || pid[pidNum][i] === "EA") {
+
+                }
+
+                //00
+                if (pid[pidNum][i] === "00") {
+
+                }
+
+                //EC
+                if (pid[pidNum][i] === "ec" || pid[pidNum][i] === "EC") {
+
+                }
+
+                //D0
+                if (pid[pidNum][i] === "d0" || pid[pidNum][i] === "D0") {
+
+                }
+
+                //EE
+                if (pid[pidNum][i] === "ee" || pid[pidNum][i] === "EE") {
+
+                }
+
+                //FF
+                if (pid[pidNum][i] === "ff" || pid[pidNum][i] === "ff") {
+
+                }
+            }
+            
+            
+
+        }
+
         
 
         public shellLoad(args) { 
@@ -451,18 +555,31 @@ module TSOS {
 
             }
             if (hexBoolean == true) {
-                _StdOut.putText("Value is in Hex!");
+               
+                arrayHex = [];
+                for (var i = 0; i < hexArray.length; i++) {
+                    if (hexArray[i] === " " || hexArray[i] === ",") {
+                        hexArray.splice(i, 1);
+                    }
+                }
+                for (var i = 0; i < hexArray.length; i++) {
+                    arrayHex.push((hexArray[i] + hexArray[i + 1]));
+                    i++;
+                }
+                pid.push(arrayHex);
+                _StdOut.putText("Value is in Hex!" + " PID =" + pidCounter + pid[pidCounter] );
+                pidCounter++;
+
                 
             } else {
                 _StdOut.putText("Value is not in Hex!");
                 
             }
 
-
-
-
-
         }
+
+       
+
         
 
     }

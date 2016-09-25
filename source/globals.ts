@@ -65,6 +65,13 @@ var logText = "";
 
 var hexBoolean = false; //helps with load function
 var hexArray = []; //holds separate chars of value in user program input
+var arrayHex = []; //separates values from hexArray into pairs
+var arrayCounter = 0;
+var memoryArray = []; //holds memory values
+var pcb = 0;
+var cpuTable = document.getElementById('cpuTable');
+var pid = [];
+var pidCounter = 0;
 
 //var blank = _DrawingContext.getImageData(0, 0, 500, 500);
 

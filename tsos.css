@@ -1,7 +1,7 @@
 /* TSOS.css */
 
 body {
-  background: #909193 url(distrib/images/linen.png) repeat;
+  background: #909193 url(distrib/images/back2.png) repeat;
   font-family: Helvetica, Verdana, Arial, sans-serif;
   font-size: 12pt;
   font-weight: normal;
@@ -46,3 +46,34 @@ h3 {
   font-size: 8pt;
   text-align: center;
 }
+
+div.opacity50 {
+  opacity: 0.5;
+}
+
+table {
+font-family: "Arial", "Helvetica", "sans-serif";	}		/* added custom font-family  */
+
+table.one {									 
+margin-bottom: 3em;	
+border-collapse:collapse;	}	
+
+td {							/* removed the border from the table data rows  */
+text-align: center;     
+width: 10em;					
+padding: 1em; 		}		
+
+th {							  /* removed the border from the table heading row  */
+text-align: center;					
+padding: 1em;
+background-color: #e8503a;	     /* added a red background color to the heading cells  */
+color: white;		}			      /* added a white font color to the heading text */
+
+tr {	
+height: 1em;	}
+
+table tr:nth-child(even) {		      /* added all even rows a #eee color  */
+       background-color: #eee;		}
+
+table tr:nth-child(odd) {		     /* added all odd rows a #fff color  */
+background-color:#fff;		}

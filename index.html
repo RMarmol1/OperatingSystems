@@ -66,7 +66,7 @@
              onclick="TSOS.Control.hostBtnReset_click(this);">
    </div>
 
-   <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left">
+   <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left" class="opacity50">
       <canvas id="display"
               width="500px"
               height="500px"
@@ -74,9 +74,11 @@
       </canvas>
    </div>
 
-   <div id="divLog" style="margin-left:520px;">
+   <div id="divLog" style="margin-left:520px;" class="opacity50">
       <label>
-         Host Log
+          <font color="white">
+              Host Log
+          </font>
          <br>
          <textarea name="taHostLog"
                    id  ="taHostLog"
@@ -86,9 +88,11 @@
       </label>
    </div>
 
-   <div id="divUserProgramInput" style="margin-left:520px;">
+   <div id="divUserProgramInput" style="margin-left:520px;" class="opacity50">
       <label>
-         User Program Input
+          <font color="white">
+              User Program Input
+          </font>
          <br>
          <textarea name="taProgramInput"
                    id  ="taProgramInput"
@@ -97,6 +101,52 @@
          ></textarea>
       </label>
    </div>
+
+    <div id="divMemory" style="margin-left:520px;" class="opacity50">
+        <label>
+            <font color="white">
+                Memory
+            </font>
+            <br>
+            <textarea name="taMemory"
+                      id="taMemory"
+                      rows="8"
+                      cols="48"></textarea>
+        </label>
+    </div>
+
+    <div id="divPC" style="margin-left:520px;" class="opacity50">
+        <label>
+            <font color="white">
+                CPU
+            </font>
+            <br>
+          <!-- <textarea name="taPC"
+                      id="taPC"
+                      rows="2"
+                      cols="6"></textarea> -->
+            
+        </label>
+        <table id="cpuTable" class="table.one">
+            <tr>
+                <th>OP</th>
+                <th>PC</th>
+                <th>ACC</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Z</th>
+            </tr>
+            <tr>
+                <td>0x0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+
+        </table>
+    </div>
 </div>
 
 <p class="footerText" style="clear:both;">
