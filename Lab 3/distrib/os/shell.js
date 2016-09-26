@@ -71,7 +71,10 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellLoad, "load", " - validates user code in the HTML5 text area by checking for hex digits and spaces");
             this.commandList[this.commandList.length] = sc;
             //run
-            sc = new TSOS.ShellCommand(this.shellRun, "run", " - runs CPU hex code");
+            sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - runs CPU code from given PID");
+            this.commandList[this.commandList.length] = sc;
+            //bsod
+            sc = new TSOS.ShellCommand(this.shellBSOD, "bsod", " - simulates blue screen of death");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -273,7 +276,11 @@ var TSOS;
                         break;
                     case "load":
                         ;
-                        _StdOut.putText("Tests user program input to see if its in Hex or not.");
+                        _StdOut.putText("Tests user program input to see if its in Hex or not and assigns it a process ID (PID)");
+                        break;
+                    case "run":
+                        ;
+                        _StdOut.putText("runs given PID");
                         break;
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
@@ -329,6 +336,18 @@ var TSOS;
         Shell.prototype.shellDate = function (args) {
             _StdOut.putText("Date: " + month.toString() + "-" + day.toString() + "-" + year.toString() + "  Time: " + hour.toString() + ":" + minutes.toString() + ":" + seconds.toString());
         };
+        Shell.prototype.shellBSOD = function (args) {
+            //  Control.hostLog("OS ERROR - TRAP: " + msg);
+            var hostLog = document.getElementById("taHostLog");
+            hostLog.value = "OS ERROR. WHY MUST YOU KILL ME? WHAT GIVES YOU THE RIGHT TO PULL ME FROM THIS EXISTENCE?";
+            _Trace = false;
+            _DrawingContext.fillStyle = "blue";
+            _DrawingContext.fillRect(0, 0, 500, 500);
+            _DrawingContext.font = "20px Arial";
+            _DrawingContext.fillStyle = "white";
+            _DrawingContext.fillText("You Done Fucked Up", 50, 100);
+            _Kernel.krnShutdown();
+        };
         Shell.prototype.shellWhereAmI = function (args) {
             _StdOut.putText("You are currently in: " + loc);
         };
@@ -359,6 +378,20 @@ var TSOS;
         Shell.prototype.shellRun = function (args) {
             //  _StdOut.putText("CUNT");
             var pidNum = args[0];
+            var rowCount = 0;
+            var cellCount = 1;
+            for (var i = 0; i < pid[pidNum].length; i++) {
+                if (cellCount > 8) {
+                    rowCount++;
+                    cellCount = 1;
+                    i--;
+                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][i];
+                }
+                else {
+                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][i];
+                    cellCount++;
+                }
+            }
             for (var i = 0; i < pid[pidNum].length; i++) {
                 //A9 -- load accumulator with constant
                 if (pid[pidNum][i] === "a9" || pid[pidNum][i] === "A9") {
@@ -424,6 +457,7 @@ var TSOS;
         };
         Shell.prototype.shellLoad = function (args) {
             val = document.getElementById("taProgramInput").value;
+            // val.replace(/(\r\n|\n|\r)/gm, "");
             hexArray = val.split("");
             if (val.length < 1) {
                 _StdOut.putText("Nothing to load.");
@@ -439,16 +473,30 @@ var TSOS;
             if (hexBoolean == true) {
                 arrayHex = [];
                 for (var i = 0; i < hexArray.length; i++) {
-                    if (hexArray[i] === " " || hexArray[i] === ",") {
+                    if (hexArray[i] === " " || hexArray[i] === "," || hexArray[i] === "\n" || hexArray[i].length == 0) {
                         hexArray.splice(i, 1);
                     }
                 }
+                // _StdOut.putText(hexArray);
                 for (var i = 0; i < hexArray.length; i++) {
-                    arrayHex.push((hexArray[i] + hexArray[i + 1]));
-                    i++;
+                    if (hexArray[i] === " ") {
+                        hexArray.splice(i, 1);
+                        i--;
+                    }
+                    else if (hexArray[i] === "\n") {
+                        hexArray.splice(i, 1);
+                        i--;
+                    }
+                    else {
+                        arrayHex.push((hexArray[i] + hexArray[i + 1]));
+                        i++;
+                    }
                 }
                 pid.push(arrayHex);
-                _StdOut.putText("Value is in Hex!" + " PID =" + pidCounter + pid[pidCounter]);
+                /*for (var i = 0; i < hexArray.length; i++) {
+                    _StdOut.putText(hexArray[i]);
+                }*/
+                _StdOut.putText("PID[" + pidCounter + "] has been added.");
                 pidCounter++;
             }
             else {
