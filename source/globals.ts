@@ -12,7 +12,7 @@
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
 const APP_NAME: string    = "OS-MARMOLADE";   // 'cause Bob and I were at a loss for a better name.
-const APP_VERSION: string = "1.00";   // What did you expect?
+const APP_VERSION: string = "1.25";   // What did you expect?
 
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
 
@@ -72,6 +72,8 @@ var pcb = 0;
 var cpuTable = document.getElementById('cpuTable');
 var pid = [];
 var pidCounter = 0;
+var storeLocString = "";
+var storeLocNum = 0;
 
 //var blank = _DrawingContext.getImageData(0, 0, 500, 500);
 
@@ -84,7 +86,11 @@ var validChar = "0123456789ABCDEFabcdef "; //valid hex characters
 
 var shifted = false;
 
+var rowCount = 0;
+var cellCount = 1;
 
+var accString = "";
+var accNum = 0;
 
 
 //var imageData = new ImageData(100, 100);

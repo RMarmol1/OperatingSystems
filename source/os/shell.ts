@@ -398,6 +398,9 @@ module TSOS {
             _StdOut.putText("Date: " + month.toString() + "-" + day.toString() + "-" + year.toString() + "  Time: " + hour.toString() + ":" + minutes.toString() + ":" + seconds.toString());
         }
 
+        
+
+
         public shellBSOD(args) {
 
           //  Control.hostLog("OS ERROR - TRAP: " + msg);
@@ -460,12 +463,12 @@ module TSOS {
 
 
             var pidNum = args[0];
-            var rowCount = 0;
-            var cellCount = 1;
+           // var rowCount = 0;
+            //var cellCount = 1;
 
+            //this.rewriteMemoryTable(pidNum);
+            
             for (var i = 0; i < pid[pidNum].length ; i++) {
-                
-                
                 if (cellCount > 8) {
                     rowCount++;
                     cellCount = 1;
@@ -475,16 +478,21 @@ module TSOS {
                     document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][i];
                     cellCount++; 
                 }
-                   
-                
-                
             }
+
+            rowCount = 0;
+            cellCount = 1;
 
             for (var i = 0; i < pid[pidNum].length; i++) {
 
                 //A9 -- load accumulator with constant
                 if (pid[pidNum][i] === "a9" || pid[pidNum][i] === "A9") {
-                    _CPU.Acc = pid[pidNum][i + 1];
+                    //_CPU.Acc = pid[pidNum][i + 1];
+
+
+                    accString = ("0x" + pid[pidNum][i + 1]);
+                    accNum = parseInt(accString);
+                    _CPU.Acc = accNum;
                     document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Acc;
                     _StdOut.putText("Loaded accumulator with: " + _CPU.Acc);
                     i++;
@@ -492,25 +500,80 @@ module TSOS {
                     document.getElementById("cpuTable").rows[1].cells[1].innerHTML = i;
                 }
 
-                //AD
-                if (pid[pidNum][i] === "ad" || pid[pidNum][i] === "AD") {
+                //AD -- load accumulator from memory
+                else if (pid[pidNum][i] === "ad" || pid[pidNum][i] === "AD") {
+
+                    var valString = "";
+                    var valNum = 0;
+
+                    valString = ("0x" + pid[pidNum][i + 1]);
+                    valNum = parseInt(valString);
+                    _CPU.Acc = parseInt("0x" + pid[pidNum][valNum]);
+                    document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Acc;
+                    _StdOut.putText("Loaded accumulator with: " + _CPU.Acc);
+                    
+                }
+
+                //8D -- store A in given location
+                else if (pid[pidNum][i] === "8d" || pid[pidNum][i] === "8D") {
+                    //i++;
+                    pcb = i;
+                    storeLocString = ("0x" + pid[pidNum][i+1]);
+                    storeLocNum = parseInt(storeLocString);
+                    pid[pidNum][storeLocNum] = _CPU.Acc.toString(16);
+                    
+                    //_StdOut.puText("test");
+                    for (var t = 0; t < pid[pidNum].length; t++) {
+                           if (cellCount > 8) {
+                               rowCount++;
+                               cellCount = 1;
+                               t--;
+                               document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
+                           } else {
+                               document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
+                               cellCount++;
+                           }
+                    } 
+                    
+                    rowCount = 0;
+                    cellCount = 1;
+                    storeLocString = "";
+
+
 
                 }
 
-                //8D
-                if (pid[pidNum][i] === "8d" || pid[pidNum][i] === "8D") {
+                //6D -- takes value at location and adds to ACC and keeps in ACC
+                else if (pid[pidNum][i] === "6d" || pid[pidNum][i] === "6D") {
 
+                    pcb = i;
+                    storeLocString = ("0x" + pid[pidNum][i + 1]);
+                    storeLocNum = parseInt(storeLocString);
+                    
+                    _CPU.Acc += parseInt(pid[pidNum][storeLocNum]);
+                    document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Acc;
+                    //_StdOut.puText("test");
+                    for (var t = 0; t < pid[pidNum].length; t++) {
+                        if (cellCount > 8) {
+                            rowCount++;
+                            cellCount = 1;
+                            t--;
+                            document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
+                        } else {
+                            document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
+                            cellCount++;
+                        }
+                    }
 
-                }
-
-                //6D
-                if (pid[pidNum][i] === "6d" || pid[pidNum][i] === "6D") {
+                    rowCount = 0;
+                    cellCount = 1;
+                    storeLocString = "";
 
                 }
 
                 //A2 -- load X reg with a constant
-                if (pid[pidNum][i] === "a2" || pid[pidNum][i] === "A2") {
-                    _CPU.Xreg = pid[pidNum][i + 1];
+                else if (pid[pidNum][i] === "a2" || pid[pidNum][i] === "A2") {
+                    _CPU.Xreg = parseInt("0x" + pid[pidNum][i + 1]);
                     _StdOut.putText("Loaded X reg with: " + _CPU.Xreg);
                     document.getElementById("cpuTable").rows[1].cells[3].innerHTML = _CPU.Xreg;
                     i++;
@@ -518,13 +581,20 @@ module TSOS {
                     document.getElementById("cpuTable").rows[1].cells[1].innerHTML = i;
                 }
 
-                //AE
-                if (pid[pidNum][i] === "ae" || pid[pidNum][i] === "AE") {
+                //AE -- loads X reg from memory
+                else if (pid[pidNum][i] === "ae" || pid[pidNum][i] === "AE") {
+                    var valString = "";
+                    var valNum = 0;
+
+                    valString = ("0x" + pid[pidNum][i + 1]);
+                    valNum = parseInt(valString);
+                    _CPU.Xreg = parseInt("0x" + pid[pidNum][valNum]);
+                    document.getElementById("cpuTable").rows[1].cells[3].innerHTML = _CPU.Xreg;
 
                 }
 
                 //A0 -- load Y reg with a constant
-                if (pid[pidNum][i] === "a0" || pid[pidNum][i] === "A0") {
+                else if (pid[pidNum][i] === "a0" || pid[pidNum][i] === "A0") {
                     _CPU.Yreg = pid[pidNum][i + 1];
                     _StdOut.putText("Loaded Y reg with: " + _CPU.Yreg);
                     document.getElementById("cpuTable").rows[1].cells[4].innerHTML = _CPU.Yreg;
@@ -533,39 +603,90 @@ module TSOS {
                     document.getElementById("cpuTable").rows[1].cells[1].innerHTML = i;
                 }
 
-                //AC
-                if (pid[pidNum][i] === "ac" || pid[pidNum][i] === "AC") {
+                //AC -- loads Y reg from memory
+                else if (pid[pidNum][i] === "ac" || pid[pidNum][i] === "AC") {
+
+                    var valString = "";
+                    var valNum = 0;
+
+                    valString = ("0x" + pid[pidNum][i + 1]);
+                    valNum = parseInt(valString);
+                    _CPU.Yreg = parseInt("0x" + pid[pidNum][valNum]);
+                    document.getElementById("cpuTable").rows[1].cells[4].innerHTML = _CPU.Yreg;
 
                 }
 
                 //EA
-                if (pid[pidNum][i] === "ea" || pid[pidNum][i] === "EA") {
-
+                else if (pid[pidNum][i] === "ea" || pid[pidNum][i] === "EA") {
+                    //No Operation
                 }
 
                 //00
-                if (pid[pidNum][i] === "00") {
+                else if (pid[pidNum][i] === "00") {
+                    //System Call
+                    //Maybe something here to do with steps?
 
                 }
 
-                //EC
-                if (pid[pidNum][i] === "ec" || pid[pidNum][i] === "EC") {
+                //EC -- compare value at loaction to X reg, if > set Z flag to 1
+                else if (pid[pidNum][i] === "ec" || pid[pidNum][i] === "EC") {
+                    var valString = "";
+                    var valNum = 0;
+                    valString = ("0x" + pid[pidNum][i + 1]);
+                    valNum = parseInt(valString);
+
+                    if (parseInt("0x" + pid[pidNum][valNum]) == _CPU.Xreg) {
+                        _CPU.Zflag = 1;
+                    } else {
+                        _CPU.Zflag = 0;
+                    }
+
+                    document.getElementById("cpuTable").rows[1].cells[5].innerHTML = _CPU.Zflag;
+                    
 
                 }
 
-                //D0
-                if (pid[pidNum][i] === "d0" || pid[pidNum][i] === "D0") {
+                //D0 -- branch n bytes if z flag = 0
+                else if (pid[pidNum][i] === "d0" || pid[pidNum][i] === "D0") {
 
                 }
 
-                //EE
-                if (pid[pidNum][i] === "ee" || pid[pidNum][i] === "EE") {
+                //EE -- increment value of byte at location by 1
+                else if (pid[pidNum][i] === "ee" || pid[pidNum][i] === "EE") {
+                    var valString = "";
+                    var valNum = 0;
+                    var incNum = 0;
+
+                    valString = ("0x" + pid[pidNum][i + 1]);
+                    valNum = parseInt(valString);
+                    incNum = parseInt("0x" + pid[pidNum][valNum]) + 1;
+                    pid[pidNum][valNum] = incNum.toString(16);
+                    
+                    for (var t = 0; t < pid[pidNum].length; t++) {
+                        if (cellCount > 8) {
+                            rowCount++;
+                            cellCount = 1;
+                            t--;
+                            document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
+                        } else {
+                            document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
+                            cellCount++;
+                        }
+                    }
+
+                    rowCount = 0;
+                    cellCount = 1;
+                   
 
                 }
 
                 //FF
-                if (pid[pidNum][i] === "ff" || pid[pidNum][i] === "ff") {
-
+                else if (pid[pidNum][i] === "ff" || pid[pidNum][i] === "ff") {
+                    //System Call
+                }
+                
+                else {
+                    _StdOut.putText("Done");
                 }
             }
             
