@@ -66,6 +66,16 @@
              value="Reset"
              tabindex="2"
              onclick="TSOS.Control.hostBtnReset_click(this);">
+
+       <input type="button"
+              id="btnStep"
+              name="brnStep"
+              class="normal_button"
+              disabled="disabled"
+              value="Step"
+              tabindex="3"
+              onclick="TSOS.Control.hostBtnStep_click(this);">
+
    </div>
 
    <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left" class="opacity50">
@@ -120,15 +130,15 @@
         </label>
         <table id="cpuTable" class="table.one">
             <tr>
-                <th>OP</th>
                 <th>PC</th>
+                <th>IR</th>
                 <th>ACC</th>
                 <th>X</th>
                 <th>Y</th>
                 <th>Z</th>
             </tr>
             <tr>
-                <td>0x0</td>
+                <td>0</td>
                 <td>0</td>
                 <td>0</td>
                 <td>0</td>
