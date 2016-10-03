@@ -122,7 +122,21 @@ module TSOS {
 
         public static hostBtnStep_click(btn): void {
             step = !step;
+            if (step == true) {
+                (<HTMLButtonElement>document.getElementById("btnStep")).value = "Step Mode:ON";
+                //(<HTMLButtonElement>document.getElementById("btnNext")).disabled = false;
+            }
+
+            if (step == false) {
+                (<HTMLButtonElement>document.getElementById("btnStep")).value = "Step Mode:OFF";
+                (<HTMLButtonElement>document.getElementById("btnNext")).disabled = true;
+            }
             
+        }
+
+        public static hostBtnNext_click(btn): void {
+            pause = false;
+            _OsShell.stepEncode(pidNum);
         }
     }
 }

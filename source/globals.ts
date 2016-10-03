@@ -77,6 +77,11 @@ var storeLocString = "";
 var storeLocNum = 0;
 
 var step = false;
+var pause = false;
+
+var stepCounter = 0;
+
+var pidNum = 0;
 
 //var blank = _DrawingContext.getImageData(0, 0, 500, 500);
 

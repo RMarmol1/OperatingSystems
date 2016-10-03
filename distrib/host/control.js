@@ -102,6 +102,17 @@ var TSOS;
         };
         Control.hostBtnStep_click = function (btn) {
             step = !step;
+            if (step == true) {
+                document.getElementById("btnStep").value = "Step Mode:ON";
+            }
+            if (step == false) {
+                document.getElementById("btnStep").value = "Step Mode:OFF";
+                document.getElementById("btnNext").disabled = true;
+            }
+        };
+        Control.hostBtnNext_click = function (btn) {
+            pause = false;
+            _OsShell.stepEncode(pidNum);
         };
         return Control;
     }());
