@@ -11,7 +11,7 @@
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
 var APP_NAME = "OS-MARMOLADE"; // 'cause Bob and I were at a loss for a better name.
-var APP_VERSION = "1.25"; // What did you expect?
+var APP_VERSION = "1.37"; // What did you expect?
 var CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
 var TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
@@ -50,12 +50,17 @@ var hexArray = []; //holds separate chars of value in user program input
 var arrayHex = []; //separates values from hexArray into pairs
 var arrayCounter = 0;
 var memoryArray = []; //holds memory values
-var pcb = 0;
+var pc = 0;
+var ir = "0";
 var cpuTable = document.getElementById('cpuTable');
 var pid = [];
 var pidCounter = 0;
 var storeLocString = "";
 var storeLocNum = 0;
+var step = false;
+var pause = false;
+var stepCounter = 0;
+var pidNum = 0;
 //var blank = _DrawingContext.getImageData(0, 0, 500, 500);
 var capsLock = false; //boolean if caps lock is set or not
 var val = "AA"; //helps with value in checking load function
