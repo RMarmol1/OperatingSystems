@@ -742,6 +742,13 @@ module TSOS {
                     else if (pid[pidNum][i] === "d0" || pid[pidNum][i] === "D0") {
                         _CPU.cycle();
 
+                        var valString = "";
+                        var valNum = 0;
+                        valString = ("0x" + pid[pidNum][i + 1]);
+                        valNum = parseInt(valString);
+
+                        i += valNum;
+
                         //instruction reg
                         document.getElementById("cpuTable").rows[1].cells[1].innerHTML = "D0";
 
@@ -1155,6 +1162,13 @@ module TSOS {
                         //D0 -- branch n bytes if z flag = 0
                         else if (pid[pidNum][i] === "d0" || pid[pidNum][i] === "D0") {
                             _CPU.cycle();
+
+                            var valString = "";
+                            var valNum = 0;
+                            valString = ("0x" + pid[pidNum][i + 1]);
+                            valNum = parseInt(valString);
+
+                            i += valNum;
 
                             stepCounter = i + 2;
                             pause = true;
