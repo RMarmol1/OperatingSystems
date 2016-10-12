@@ -597,6 +597,10 @@ var TSOS;
                         i++;
                         pc = i;
                         document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+                        //keeps within 256 size
+                        if (i > 255) {
+                            i = 255 - i;
+                        }
                     }
                     else if (pid[pidNum][i] === "ee" || pid[pidNum][i] === "EE") {
                         _CPU.cycle();
@@ -898,13 +902,18 @@ var TSOS;
                             valNum = parseInt(valString);
                             i += valNum;
                             stepCounter = i + 2;
-                            pause = true;
+                            //pause = true;
                             //instruction reg
                             document.getElementById("cpuTable").rows[1].cells[1].innerHTML = "D0";
                             //pc
                             i++;
                             pc = i;
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+                            //keeps within 256 size
+                            if (i > 255) {
+                                i = i - 255;
+                                stepCounter = i;
+                            }
                         }
                         else if (pid[pidNum][i] === "ee" || pid[pidNum][i] === "EE") {
                             _CPU.cycle();

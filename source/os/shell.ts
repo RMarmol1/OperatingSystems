@@ -749,6 +749,7 @@ module TSOS {
 
                         i += valNum;
 
+
                         //instruction reg
                         document.getElementById("cpuTable").rows[1].cells[1].innerHTML = "D0";
 
@@ -756,6 +757,12 @@ module TSOS {
                         i++;
                         pc = i;
                         document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                        //keeps within 256 size
+                        if (i > 255) {
+                            
+                            i = 255 - i;
+                        }
                     }
 
                     //EE -- increment value of byte at location by 1
@@ -1171,7 +1178,7 @@ module TSOS {
                             i += valNum;
 
                             stepCounter = i + 2;
-                            pause = true;
+                            //pause = true;
 
                             //instruction reg
                             document.getElementById("cpuTable").rows[1].cells[1].innerHTML = "D0";
@@ -1180,6 +1187,16 @@ module TSOS {
                             i++;
                             pc = i;
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                            //keeps within 256 size
+                            if (i > 255) {
+
+                                i = i - 255;
+                                
+                                stepCounter = i;
+
+                                
+                            }
                         }
 
                         //EE -- increment value of byte at location by 1
