@@ -108,6 +108,9 @@ var TSOS;
             if (step == false) {
                 document.getElementById("btnStep").value = "Step Mode:OFF";
                 document.getElementById("btnNext").disabled = true;
+                if (stepCounter > 0) {
+                    _OsShell.shellRun(_Memory.processID);
+                }
             }
         };
         Control.hostBtnNext_click = function (btn) {

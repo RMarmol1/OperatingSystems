@@ -21,6 +21,9 @@ var KEYBOARD_IRQ = 1;
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
 //
 var _CPU; // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
+var _Memory;
+var _PCB;
+var _MemoryManager;
 var _OSclock = 0; // Page 23.
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 var _Canvas; // Initialized in Control.hostInit().
@@ -60,7 +63,14 @@ var storeLocNum = 0;
 var step = false;
 var pause = false;
 var stepCounter = 0;
+var opCode = "";
+var rowCount = 0;
+var cellCount = 1;
 var pidNum = 0;
+var posNum = 0;
+var position1 = false;
+var position2 = false;
+var position3 = false;
 //var blank = _DrawingContext.getImageData(0, 0, 500, 500);
 var capsLock = false; //boolean if caps lock is set or not
 var val = "AA"; //helps with value in checking load function

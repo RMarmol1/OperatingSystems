@@ -15,6 +15,7 @@
    <script type="text/javascript" src="distrib/host/control.js"></script>
    <script type="text/javascript" src="distrib/host/devices.js"></script>
    <script type="text/javascript" src="distrib/host/cpu.js"></script>
+   <script type="text/javascript" src="distrib/host/memory.js"></script>
 
    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
    <script type="text/javascript" src="distrib/os/interrupt.js"></script>
@@ -27,6 +28,8 @@
    <script type="text/javascript" src="distrib/os/shellCommand.js"></script>
    <script type="text/javascript" src="distrib/os/userCommand.js"></script>
    <script type="text/javascript" src="distrib/os/kernel.js"></script>
+    <script type="text/javascript" src="distrib/os/pcb.js"></script>
+    <script type="text/javascript" src="distrib/os/memoryManager.js"></script>
 
    <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
@@ -124,6 +127,43 @@
         
       </label>
    </div>
+
+    <div id="divPCB" style="margin-left:520px;" class="opacity50">
+        <label>
+            <font color="white">
+                PCB
+            </font>
+            <br>
+            <!-- <textarea name="taPC"
+                        id="taPC"
+                        rows="2"
+                        cols="6"></textarea> -->
+
+        </label>
+        <table id="pcbTable" class="table.one">
+            <tr>
+                <th>PID</th>
+                <th>PC</th>
+                <th>IR</th>
+                <th>ACC</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Z</th>
+                <th>State</th>
+            </tr>
+            <tr>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+            </tr>
+
+        </table>
+    </div>
 
     <div id="divPC" style="margin-left:520px;" class="opacity50">
         <label>

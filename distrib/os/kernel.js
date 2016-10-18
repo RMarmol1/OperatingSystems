@@ -39,6 +39,15 @@ var TSOS;
             //
             // ... more?
             //
+            // Initialize memory
+            _Memory = new TSOS.Memory();
+            _Memory.init();
+            //Initialize PCB
+            _PCB = new TSOS.PCB();
+            _PCB.init();
+            //Initialize mem manager
+            _MemoryManager = new TSOS.MemoryManager();
+            _MemoryManager.init();
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
             this.krnEnableInterrupts();

@@ -130,6 +130,11 @@ module TSOS {
             if (step == false) {
                 (<HTMLButtonElement>document.getElementById("btnStep")).value = "Step Mode:OFF";
                 (<HTMLButtonElement>document.getElementById("btnNext")).disabled = true;
+                if (stepCounter > 0) {
+                    _OsShell.shellRun(_Memory.processID);
+                }
+                
+
             }
             
         }
