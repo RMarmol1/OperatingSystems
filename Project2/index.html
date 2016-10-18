@@ -1,0 +1,714 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+   <meta name="author"             content="Rafael A. Marmol" />
+   <link rel="stylesheet" href="tsos.css" type="text/css" media="screen" />
+   <title>
+      MARMOLADE-OS - a browser-based virtual Operating System in TypeScript
+   </title>
+
+   <!-- Globals CONSTANTS and _Variables. Must included be first. -->
+   <script type="text/javascript" src="distrib/globals.js"></script>
+
+   <!-- Host (Virtual Machine / Hardware Simulation) Routines -->
+   <script type="text/javascript" src="distrib/host/control.js"></script>
+   <script type="text/javascript" src="distrib/host/devices.js"></script>
+   <script type="text/javascript" src="distrib/host/cpu.js"></script>
+   <script type="text/javascript" src="distrib/host/memory.js"></script>
+
+   <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
+   <script type="text/javascript" src="distrib/os/interrupt.js"></script>
+   <script type="text/javascript" src="distrib/os/canvastext.js"></script>
+   <script type="text/javascript" src="distrib/os/console.js"></script>
+   <script type="text/javascript" src="distrib/os/deviceDriver.js"></script>
+   <script type="text/javascript" src="distrib/os/deviceDriverKeyboard.js"></script>
+   <script type="text/javascript" src="distrib/os/queue.js"></script>
+   <script type="text/javascript" src="distrib/os/shell.js"></script>
+   <script type="text/javascript" src="distrib/os/shellCommand.js"></script>
+   <script type="text/javascript" src="distrib/os/userCommand.js"></script>
+   <script type="text/javascript" src="distrib/os/kernel.js"></script>
+    <script type="text/javascript" src="distrib/os/pcb.js"></script>
+    <script type="text/javascript" src="distrib/os/memoryManager.js"></script>
+
+   <!-- Other Routines -->
+   <script type="text/javascript" src="distrib/utils.js"></script>
+   <!-- Uncomment this line below to enable GLaDOS testing -->
+   <script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
+</head>
+
+<body onload="onDocumentLoad()">
+
+<img src="distrib/images/logo.png" />
+
+<div id="divMain" style="width:100%;">
+
+   <div id="divButtonBar" style="margin:4px;">
+      <input type="button"
+             id = "btnStartOS"
+             name="brnStartOS"
+             class="normal_button"
+             value="Start"
+             tabindex="0"
+             onclick="TSOS.Control.hostBtnStartOS_click(this);">
+
+      <input type="button"
+             id = "btnHaltOS"
+             name="brnHaltOS"
+             class="normal_button"
+             disabled="disabled"
+             value="Halt"
+             tabindex="1"
+             onclick="TSOS.Control.hostBtnHaltOS_click(this);">
+
+      <input type="button"
+             id = "btnReset"
+             name="brnReset"
+             class="normal_button"
+             disabled="disabled"
+             value="Reset"
+             tabindex="2"
+             onclick="TSOS.Control.hostBtnReset_click(this);">
+
+       <input type="button"
+              id="btnStep"
+              name="brnStep"
+              class="normal_button"
+              disabled="disabled"
+              value="Step Mode:OFF"
+              tabindex="3"
+              onclick="TSOS.Control.hostBtnStep_click(this);">
+
+       <input type="button"
+              id="btnNext"
+              name="brnNext"
+              class="normal_button"
+              disabled="disabled"
+              value=">"
+              tabindex="3"
+              onclick="TSOS.Control.hostBtnNext_click(this);">
+
+   </div>
+
+   <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left" class="opacity50">
+      <canvas id="display"
+              width="500px"
+              height="500px"
+              tabindex="3">
+      </canvas>
+   </div>
+
+   <div id="divLog" style="margin-left:520px;" class="opacity50">
+      <label>
+          <font color="white">
+              Host Log
+          </font>
+         <br>
+         <textarea name="taHostLog"
+                   id  ="taHostLog"
+                   rows="26"
+                   cols="48"
+         ></textarea>
+      </label>
+   </div>
+
+   <div id="divUserProgramInput" style="margin-left:520px; text-wrap:none" class="opacity50">
+      <label>
+          <font color="white">
+              User Program Input
+          </font>
+         <br>
+          
+         <textarea name="taProgramInput"
+                   id  ="taProgramInput"
+                   rows="8"
+                   cols="48"
+         ></textarea>
+        
+      </label>
+   </div>
+
+    <div id="divPCB" style="margin-left:520px;" class="opacity50">
+        <label>
+            <font color="white">
+                PCB
+            </font>
+            <br>
+            <!-- <textarea name="taPC"
+                        id="taPC"
+                        rows="2"
+                        cols="6"></textarea> -->
+
+        </label>
+        <table id="pcbTable" class="table.one">
+            <tr>
+                <th>PID</th>
+                <th>PC</th>
+                <th>IR</th>
+                <th>ACC</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Z</th>
+                <th>State</th>
+            </tr>
+            <tr>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+                <td>--</td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div id="divPC" style="margin-left:520px;" class="opacity50">
+        <label>
+            <font color="white">
+                CPU
+            </font>
+            <br>
+          <!-- <textarea name="taPC"
+                      id="taPC"
+                      rows="2"
+                      cols="6"></textarea> -->
+            
+        </label>
+        <table id="cpuTable" class="table.one">
+            <tr>
+                <th>PC</th>
+                <th>IR</th>
+                <th>ACC</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Z</th>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+
+        </table>
+    </div>
+    <div id="memLabel" style="margin-left:520px;" class="opacity50">
+    <font color="white">
+        Memory
+    </font>
+    </div>
+    <div id="divMemory" style="margin-left:520px; height:100px; overflow:auto" class="opacity50">
+        <!--<label>
+            
+        </label> 
+            <br> -->
+            <!--<textarea name="taPC"
+                        id="taPC"
+                        rows="2"
+                        cols="6"></textarea> -->
+
+        
+        <table id="memoryTable" class="table.one">
+            <tr>
+                <th>0x0</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x8</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x10</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x18</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x20</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x28</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x30</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x38</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x40</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x48</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x50</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x58</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x60</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x68</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x70</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x78</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x80</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x88</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x90</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x98</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xA0</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xA8</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xB0</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xB8</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xC0</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xC8</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xD0</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xD8</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xE0</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xE8</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xF0</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0xF8</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x100</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x108</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x110</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x118</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x120</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x128</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x130</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x138</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x140</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x148</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x150</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+            <tr>
+                <th>0x158</th>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+                <td>00</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<p class="footerText" style="clear:both;">
+   <br>
+   Copyright &copy; 2008 - 2015 No Rights Reserved.
+   <br>
+   Reproduction is inhibited without the express written consent of
+   Ted Codd, Stevie Ray Vaughan, and Ian Fleming.
+</p>
+
+</body>
+</html>
