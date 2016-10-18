@@ -604,7 +604,7 @@ var TSOS;
                         }
                         document.getElementById("cpuTable").rows[1].cells[5].innerHTML = _CPU.Zflag;
                         //instruction reg
-                        opCOde = "EC";
+                        opCode = "EC";
                         document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
                         //pc
                         i++;
@@ -615,25 +615,40 @@ var TSOS;
                         _PCB.printPCB();
                     }
                     else if (pid[pidNum][i] === "d0" || pid[pidNum][i] === "D0") {
-                        _CPU.cycle();
-                        var valString = "";
-                        var valNum = 0;
-                        valString = ("0x" + pid[pidNum][i + 1]);
-                        valNum = parseInt(valString);
-                        i += valNum;
-                        //instruction reg
-                        opCode = "D0";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-                        //pc
-                        i++;
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-                        //keeps within 256 size
-                        if (i > 255) {
-                            i = 255 - i;
+                        if (_CPU.Zflag == 0) {
+                            _CPU.cycle();
+                            var valString = "";
+                            var valNum = 0;
+                            valString = ("0x" + pid[pidNum][i + 1]);
+                            valNum = parseInt(valString);
+                            i += valNum;
+                            //instruction reg
+                            opCode = "D0";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+                            //pc
+                            i++;
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+                            //keeps within 256 size
+                            if (i > 255) {
+                                i = 255 - i;
+                            }
+                        }
+                        else {
+                            _CPU.cycle();
+                            //instruction reg
+                            opCode = "D0";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+                            //pc
+                            i++;
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
                         }
                     }
                     else if (pid[pidNum][i] === "ee" || pid[pidNum][i] === "EE") {
@@ -980,29 +995,45 @@ var TSOS;
                             _PCB.printPCB();
                         }
                         else if (pid[pidNum][i] === "d0" || pid[pidNum][i] === "D0") {
-                            _CPU.cycle();
-                            var valString = "";
-                            var valNum = 0;
-                            valString = ("0x" + pid[pidNum][i + 1]);
-                            valNum = parseInt(valString);
-                            i += valNum;
-                            stepCounter = i + 2;
-                            //pause = true;
-                            //instruction reg
-                            opCode = "D0";
-                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-                            //pc
-                            i++;
-                            pc = i;
-                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-                            //keeps within 256 size
-                            if (i > 255) {
-                                i = i - 255;
-                                stepCounter = i;
+                            if (_CPU.Zflag == 0) {
+                                _CPU.cycle();
+                                var valString = "";
+                                var valNum = 0;
+                                valString = ("0x" + pid[pidNum][i + 1]);
+                                valNum = parseInt(valString);
+                                i += valNum;
+                                stepCounter = i + 2;
+                                //pause = true;
+                                //instruction reg
+                                opCode = "D0";
+                                document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+                                //pc
+                                i++;
+                                pc = i;
+                                document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+                                //keeps within 256 size
+                                if (i > 255) {
+                                    i = i - 255;
+                                    stepCounter = i;
+                                }
+                                //PCB
+                                _PCB.setAllPCB();
+                                _PCB.printPCB();
                             }
-                            //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            else {
+                                _CPU.cycle();
+                                stepCounter = i + 2;
+                                //instruction reg
+                                opCode = "D0";
+                                document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+                                //pc
+                                i++;
+                                pc = i;
+                                document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+                                //PCB
+                                _PCB.setAllPCB();
+                                _PCB.printPCB();
+                            }
                         }
                         else if (pid[pidNum][i] === "ee" || pid[pidNum][i] === "EE") {
                             _CPU.cycle();
