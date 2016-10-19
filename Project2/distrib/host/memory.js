@@ -1,3 +1,7 @@
+/*
+    Core memory class that holds processes
+
+*/
 var TSOS;
 (function (TSOS) {
     var Memory = (function () {
@@ -19,6 +23,13 @@ var TSOS;
             this.position1 = false;
             this.position2 = false;
             this.position3 = false;
+        };
+        Memory.prototype.formatSize = function (p) {
+            if (this.processArray[p].length < 256) {
+                while (_Memory.processArray[p].length < 256) {
+                    _Memory.processArray[p].push("00");
+                }
+            }
         };
         return Memory;
     }());

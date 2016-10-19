@@ -1,3 +1,8 @@
+/*
+	Process Control Block class to hold state, pid, etc.
+*/
+
+
 module TSOS {
     export class PCB {
         constructor(
@@ -24,6 +29,7 @@ module TSOS {
 
         }
 
+		//prints pcb contents in pcb html table
         public printPCB() {
             document.getElementById("pcbTable").rows[1].cells[0].innerHTML = _PCB.pcbPID;
             document.getElementById("pcbTable").rows[1].cells[1].innerHTML = _PCB.pcbpc;
@@ -35,6 +41,7 @@ module TSOS {
             document.getElementById("pcbTable").rows[1].cells[7].innerHTML = _PCB.pcbState;
         }
 
+		//set pcb contents
         public setAllPCB() {
             this.pcbPID = pidNum;
             this.pcbpc = pc;
@@ -46,6 +53,7 @@ module TSOS {
             this.pcbState = "Running";
         }
 
+		//resets all pcb contents
         public finishedPCB() {
             this.pcbPID = pidNum;
             this.pcbpc = 0;
