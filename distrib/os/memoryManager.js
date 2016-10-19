@@ -1,3 +1,6 @@
+/*
+    Memory manager class that prints memory in memory html table and
+*/
 var TSOS;
 (function (TSOS) {
     var MemoryManager = (function () {
@@ -8,6 +11,7 @@ var TSOS;
         MemoryManager.prototype.init = function () {
             this.posArray = [];
         };
+        //to be used in next project -- prints memory at correct location
         MemoryManager.prototype.printMemoryAtLocation = function () {
             pidNum = _Memory.processID;
             if (this.posArray[pidNum] == 0) {
@@ -67,6 +71,7 @@ var TSOS;
                 _StdOut.putText("Memory is full");
             }
         };
+        //prints memory in html table
         MemoryManager.prototype.printMemory = function () {
             /*
             if (this.posArray[_Memory.processID] == 0) {
@@ -94,6 +99,9 @@ var TSOS;
            rowCount = 0;
            cellCount = 1;*/
             for (var i = 0; i < _Memory.processArray[_Memory.processID].length; i++) {
+                if (_Memory.processArray[_Memory.processID][i] == '') {
+                    _Memory.processArray[_Memory.processID][i] = "00";
+                }
                 if (cellCount > 8) {
                     rowCount++;
                     cellCount = 1;

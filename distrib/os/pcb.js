@@ -1,3 +1,6 @@
+/*
+    Process Control Block class to hold state, pid, etc.
+*/
 var TSOS;
 (function (TSOS) {
     var PCB = (function () {
@@ -28,6 +31,7 @@ var TSOS;
             this.pcbZReg = 0;
             this.pcbState = "Running";
         };
+        //prints pcb contents in pcb html table
         PCB.prototype.printPCB = function () {
             document.getElementById("pcbTable").rows[1].cells[0].innerHTML = _PCB.pcbPID;
             document.getElementById("pcbTable").rows[1].cells[1].innerHTML = _PCB.pcbpc;
@@ -38,6 +42,7 @@ var TSOS;
             document.getElementById("pcbTable").rows[1].cells[6].innerHTML = _PCB.pcbZReg;
             document.getElementById("pcbTable").rows[1].cells[7].innerHTML = _PCB.pcbState;
         };
+        //set pcb contents
         PCB.prototype.setAllPCB = function () {
             this.pcbPID = pidNum;
             this.pcbpc = pc;
@@ -48,6 +53,7 @@ var TSOS;
             this.pcbZReg = _CPU.Zflag;
             this.pcbState = "Running";
         };
+        //resets all pcb contents
         PCB.prototype.finishedPCB = function () {
             this.pcbPID = pidNum;
             this.pcbpc = 0;

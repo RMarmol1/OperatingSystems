@@ -512,318 +512,273 @@ module TSOS {
             if (step == false && _CPU.isExecuting == true) {
 
                 for (var i = stepCounter; i < pid[pidNum].length; i++) {
+                    if (_CPU.isExecuting == true) {
 
-                    //A9 -- load accumulator with constant
-                    if (pid[pidNum][i] === "a9" || pid[pidNum][i] === "A9") {
-                        //_CPU.Acc = pid[pidNum][i + 1];
+                        //A9 -- load accumulator with constant
+                        if (pid[pidNum][i] === "a9" || pid[pidNum][i] === "A9") {
+                            //_CPU.Acc = pid[pidNum][i + 1];
 
-                        _CPU.cycle();
-
-                        accString = ("0x" + pid[pidNum][i + 1]);
-                        accNum = parseInt(accString);
-                        _CPU.Acc = accNum;
-                        document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Acc;
-                        // _StdOut.putText("Loaded accumulator with: " + _CPU.Acc);
-
-                        i++;
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-
-                        //instruction reg
-                        opCode = "A9";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-                    }
-
-                    //AD -- load accumulator from memory
-                    else if (pid[pidNum][i] === "ad" || pid[pidNum][i] === "AD") {
-
-                        _CPU.cycle();
-
-                        var valString = "";
-                        var valNum = 0;
-
-                        valString = ("0x" + pid[pidNum][i + 1]);
-                        valNum = parseInt(valString);
-                        _CPU.Acc = parseInt("0x" + pid[pidNum][valNum]);
-                        document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Acc;
-
-                        //pc
-                        i += 2;
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-
-                        // _StdOut.putText("Loaded accumulator with: " + _CPU.Acc);
-
-                        //instruction reg
-                        opCode = "AD";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-
-                    }
-
-                    //8D -- store A in given location
-                    else if (pid[pidNum][i] === "8d" || pid[pidNum][i] === "8D") {
-                        //i++;
-
-                        _CPU.cycle();
-                        pc = i;
-                        storeLocString = ("0x" + pid[pidNum][i + 1]);
-                        storeLocNum = parseInt(storeLocString);
-                        pid[pidNum][storeLocNum] = _CPU.Acc.toString(16);
-
-                        _MemoryManager.printMemory();
-                        storeLocString = "";
-
-                        //instruction reg
-                        opCode = "8D";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-
-                        //pc
-                        i += 2;
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-
-                    }
-
-                    //6D -- takes value at location and adds to ACC and keeps in ACC
-                    else if (pid[pidNum][i] === "6d" || pid[pidNum][i] === "6D") {
-                        _CPU.cycle();
-                        pc = i;
-                        storeLocString = ("0x" + pid[pidNum][i + 1]);
-                        storeLocNum = parseInt(storeLocString);
-
-                        _CPU.Acc += parseInt(pid[pidNum][storeLocNum]);
-                        document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Acc;
-                        _MemoryManager.printMemory();
-                        storeLocString = "";
-
-                        //instruction reg
-                        opCode = "6D";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-                        //pc
-                        i += 2;
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-                    }
-
-                    //A2 -- load X reg with a constant
-                    else if (pid[pidNum][i] === "a2" || pid[pidNum][i] === "A2") {
-
-                        _CPU.cycle();
-                        _CPU.Xreg = parseInt("0x" + pid[pidNum][i + 1]);
-                        //  _StdOut.putText("Loaded X reg with: " + _CPU.Xreg);
-                        document.getElementById("cpuTable").rows[1].cells[3].innerHTML = _CPU.Xreg;
-                        i++;
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = i;
-
-                        //instruction reg
-                        opCode = "A2";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-                    }
-
-                    //AE -- loads X reg from memory
-                    else if (pid[pidNum][i] === "ae" || pid[pidNum][i] === "AE") {
-                        _CPU.cycle();
-
-                        var valString = "";
-                        var valNum = 0;
-
-                        valString = ("0x" + pid[pidNum][i + 1]);
-                        valNum = parseInt(valString);
-                        _CPU.Xreg = parseInt("0x" + pid[pidNum][valNum]);
-                        document.getElementById("cpuTable").rows[1].cells[3].innerHTML = _CPU.Xreg;
-
-                        //instruction reg
-                        opCode = "AE";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-
-                        //pc
-                        i += 2;
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-
-                    }
-
-                    //A0 -- load Y reg with a constant
-                    else if (pid[pidNum][i] === "a0" || pid[pidNum][i] === "A0") {
-                        _CPU.cycle();
-
-                        _CPU.Yreg = pid[pidNum][i + 1];
-                        // _StdOut.putText("Loaded Y reg with: " + _CPU.Yreg);
-                        document.getElementById("cpuTable").rows[1].cells[4].innerHTML = _CPU.Yreg;
-                        i++;
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = i;
-
-                        //instruction reg
-                        opCode = "A0";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-                    }
-
-                    //AC -- loads Y reg from memory
-                    else if (pid[pidNum][i] === "ac" || pid[pidNum][i] === "AC") {
-
-                        _CPU.cycle();
-                        var valString = "";
-                        var valNum = 0;
-
-                        valString = ("0x" + pid[pidNum][i + 1]);
-                        valNum = parseInt(valString);
-                        _CPU.Yreg = parseInt("0x" + pid[pidNum][valNum]);
-                        document.getElementById("cpuTable").rows[1].cells[4].innerHTML = _CPU.Yreg;
-
-                        //instruction reg
-                        opCode = "AC";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-
-                        //pc
-                        i += 2;;
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-
-                    }
-
-                    //EA
-                    else if (pid[pidNum][i] === "ea" || pid[pidNum][i] === "EA") {
-                        _CPU.cycle();
-                        //No Operation
-
-                        //instruction reg
-                        opCode = "EA";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-
-                        //pc
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-                    }
-
-                    //00
-                    else if (pid[pidNum][i] === "00") {
-                        _CPU.cycle();
-                        //System Call
-                        //Maybe something here to do with steps?
-
-                        //instruction reg
-                        opCode = "00";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-
-                        //pc
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-
-                    }
-
-                    //EC -- compare value at loaction to X reg, if > set Z flag to 1
-                    else if (pid[pidNum][i] === "ec" || pid[pidNum][i] === "EC") {
-                        _CPU.cycle();
-                        var valString = "";
-                        var valNum = 0;
-                        valString = ("0x" + pid[pidNum][i + 1]);
-                        valNum = parseInt(valString);
-
-                        if (parseInt("0x" + pid[pidNum][valNum]) == _CPU.Xreg) {
-                            _CPU.Zflag = 1;
-                        } else {
-                            _CPU.Zflag = 0;
-                        }
-
-                        document.getElementById("cpuTable").rows[1].cells[5].innerHTML = _CPU.Zflag;
-
-                        //instruction reg
-                        opCode = "EC";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-
-                        //pc
-                        i++;
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-                    }
-
-                    //D0 -- branch n bytes if z flag = 0
-                    else if (pid[pidNum][i] === "d0" || pid[pidNum][i] === "D0") {
-                        if (_CPU.Zflag == 0) {
                             _CPU.cycle();
 
+                            accString = ("0x" + pid[pidNum][i + 1]);
+                            accNum = parseInt(accString);
+                            _CPU.Acc = accNum;
+                            document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Acc;
+                            // _StdOut.putText("Loaded accumulator with: " + _CPU.Acc);
+
+                            i++;
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                            //instruction reg
+                            opCode = "A9";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+                        }
+
+                        //AD -- load accumulator from memory
+                        else if (pid[pidNum][i] === "ad" || pid[pidNum][i] === "AD") {
+
+                            _CPU.cycle();
+
+                            var valString = "";
+                            var valNum = 0;
+
+                            valString = ("0x" + pid[pidNum][i + 1]);
+                            valNum = parseInt(valString);
+                            _CPU.Acc = parseInt("0x" + pid[pidNum][valNum]);
+                            document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Acc;
+
+                            //pc
+                            i += 2;
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                            // _StdOut.putText("Loaded accumulator with: " + _CPU.Acc);
+
+                            //instruction reg
+                            opCode = "AD";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+
+                        }
+
+                        //8D -- store A in given location
+                        else if (pid[pidNum][i] === "8d" || pid[pidNum][i] === "8D") {
+                            //i++;
+
+                            _CPU.cycle();
+                            pc = i;
+                            storeLocString = ("0x" + pid[pidNum][i + 1]);
+                            storeLocNum = parseInt(storeLocString);
+
+                            pid[pidNum][storeLocNum] = _CPU.Acc.toString(16);
+
+                            _MemoryManager.printMemory();
+                            storeLocString = "";
+
+                            //instruction reg
+                            opCode = "8D";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                            //pc
+                            i += 2;
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+
+                        }
+
+                        //6D -- takes value at location and adds to ACC and keeps in ACC
+                        else if (pid[pidNum][i] === "6d" || pid[pidNum][i] === "6D") {
+                            _CPU.cycle();
+                            pc = i;
+                            storeLocString = ("0x" + pid[pidNum][i + 1]);
+                            storeLocNum = parseInt(storeLocString);
+
+                            _CPU.Acc += parseInt(pid[pidNum][storeLocNum]);
+                            document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Acc;
+                            _MemoryManager.printMemory();
+                            storeLocString = "";
+
+                            //instruction reg
+                            opCode = "6D";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+                            //pc
+                            i += 2;
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+                        }
+
+                        //A2 -- load X reg with a constant
+                        else if (pid[pidNum][i] === "a2" || pid[pidNum][i] === "A2") {
+
+                            _CPU.cycle();
+                            _CPU.Xreg = parseInt("0x" + pid[pidNum][i + 1]);
+                            //  _StdOut.putText("Loaded X reg with: " + _CPU.Xreg);
+                            document.getElementById("cpuTable").rows[1].cells[3].innerHTML = _CPU.Xreg;
+                            i++;
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = i;
+
+                            //instruction reg
+                            opCode = "A2";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+                        }
+
+                        //AE -- loads X reg from memory
+                        else if (pid[pidNum][i] === "ae" || pid[pidNum][i] === "AE") {
+                            _CPU.cycle();
+
+                            var valString = "";
+                            var valNum = 0;
+
+                            valString = ("0x" + pid[pidNum][i + 1]);
+                            valNum = parseInt(valString);
+                            _CPU.Xreg = parseInt("0x" + pid[pidNum][valNum]);
+                            document.getElementById("cpuTable").rows[1].cells[3].innerHTML = _CPU.Xreg;
+
+                            //instruction reg
+                            opCode = "AE";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                            //pc
+                            i += 2;
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+
+                        }
+
+                        //A0 -- load Y reg with a constant
+                        else if (pid[pidNum][i] === "a0" || pid[pidNum][i] === "A0") {
+                            _CPU.cycle();
+
+                            _CPU.Yreg = parseInt("0x" + pid[pidNum][i + 1]);
+                            // _StdOut.putText("Loaded Y reg with: " + _CPU.Yreg);
+                            document.getElementById("cpuTable").rows[1].cells[4].innerHTML = _CPU.Yreg;
+                            i++;
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = i;
+
+                            //instruction reg
+                            opCode = "A0";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+                        }
+
+                        //AC -- loads Y reg from memory
+                        else if (pid[pidNum][i] === "ac" || pid[pidNum][i] === "AC") {
+
+                            _CPU.cycle();
+                            var valString = "";
+                            var valNum = 0;
+
+                            valString = ("0x" + pid[pidNum][i + 1]);
+                            valNum = parseInt(valString);
+                            _CPU.Yreg = parseInt("0x" + pid[pidNum][valNum]);
+                            document.getElementById("cpuTable").rows[1].cells[4].innerHTML = _CPU.Yreg;
+
+                            //instruction reg
+                            opCode = "AC";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                            //pc
+                            i += 2;;
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+
+                        }
+
+                        //EA
+                        else if (pid[pidNum][i] === "ea" || pid[pidNum][i] === "EA") {
+                            _CPU.cycle();
+                            //No Operation
+
+                            //instruction reg
+                            opCode = "EA";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                            //pc
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+                        }
+
+                        //00
+                        else if (pid[pidNum][i] === "00") {
+                            _CPU.cycle();
+                            //System Call
+                            //Maybe something here to do with steps?
+
+                            //instruction reg
+                            opCode = "00";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                            //pc
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+
+                            _CPU.isExecuting = false;
+
+                        }
+
+                        //EC -- compare value at loaction to X reg, if > set Z flag to 1
+                        else if (pid[pidNum][i] === "ec" || pid[pidNum][i] === "EC") {
+                            _CPU.cycle();
                             var valString = "";
                             var valNum = 0;
                             valString = ("0x" + pid[pidNum][i + 1]);
                             valNum = parseInt(valString);
 
-                            i += valNum;
-
-
-                            //instruction reg
-                            opCode = "D0";
-                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
-
-                            //pc
-                            i++;
-                            pc = i;
-                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-
-                            //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
-
-                            //keeps within 256 size
-                            if (i > 255) {
-
-                                i = 255 - i;
+                            if (parseInt("0x" + pid[pidNum][valNum]) == _CPU.Xreg) {
+                                _CPU.Zflag = 1;
+                            } else {
+                                _CPU.Zflag = 0;
                             }
-                        } else {
 
-                            _CPU.cycle();
+                            document.getElementById("cpuTable").rows[1].cells[5].innerHTML = _CPU.Zflag;
 
                             //instruction reg
-                            opCode = "D0";
+                            opCode = "EC";
                             document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
 
                             //pc
-                            i++;
+                            i+=2;
                             pc = i;
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
 
@@ -832,57 +787,135 @@ module TSOS {
                             _PCB.printPCB();
                         }
 
-                        
-                    }
+                        //D0 -- branch n bytes if z flag = 0
+                        else if (pid[pidNum][i] === "d0" || pid[pidNum][i] === "D0") {
+                            if (_CPU.Zflag === 0) {
+                                _CPU.cycle();
 
-                    //EE -- increment value of byte at location by 1
-                    else if (pid[pidNum][i] === "ee" || pid[pidNum][i] === "EE") {
-                        _CPU.cycle();
+                                var valString = "";
+                                var valNum = 0;
+                                valString = ("0x" + pid[pidNum][i + 1]);
+                                valNum = parseInt(valString);
 
-                        var valString = "";
-                        var valNum = 0;
-                        var incNum = 0;
+                                i += valNum;
 
-                        valString = ("0x" + pid[pidNum][i + 1]);
-                        valNum = parseInt(valString);
-                        incNum = parseInt("0x" + pid[pidNum][valNum]) + 1;
-                        pid[pidNum][valNum] = incNum.toString(16);
 
-                        _MemoryManager.printMemory();
+                                //instruction reg
+                                opCode = "D0";
+                                document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
 
-                        //instruction reg
-                        opCode = "EE";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+                                //pc
+                                i++;
+                                pc = i;
+                                document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
 
-                        //pc
-                        i += 2;
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+                                //keeps within 256 size
+                                if (i > 255) {
 
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-                    }
+                                    i = i - 256;
 
-                    //FF
-                    else if (pid[pidNum][i] === "ff" || pid[pidNum][i] === "ff") {
-                        _CPU.cycle();
-                        //System Call
-                        //instruction reg
-                        opCode = "FF";
-                        document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+                                }
 
-                        //pc
-                        pc = i;
-                        document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+                                //PCB
+                                _PCB.setAllPCB();
+                                _PCB.printPCB();
 
-                        //PCB
-                        _PCB.setAllPCB();
-                        _PCB.printPCB();
-                    }
+                            } else {
 
-                    else {
-                        // _StdOut.putText("Done");
+                                
+                                //pause = true;
+
+                                //instruction reg
+                                opCode = "D0";
+                                document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                                //pc
+                                i++;
+                                pc = i;
+                                document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+                                
+                            }
+
+
+
+                        }
+
+                        //EE -- increment value of byte at location by 1
+                        else if (pid[pidNum][i] === "ee" || pid[pidNum][i] === "EE") {
+                            _CPU.cycle();
+
+                            var valString = "";
+                            var valNum = 0;
+                            var incNum = 0;
+
+                            valString = ("0x" + pid[pidNum][i + 1]);
+                            valNum = parseInt(valString);
+                            incNum = parseInt("0x" + pid[pidNum][valNum]) + 1;
+                            pid[pidNum][valNum] = incNum.toString(16);
+
+                            _MemoryManager.printMemory();
+
+                            //instruction reg
+                            opCode = "EE";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                            //pc
+                            i += 2;
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+                        }
+
+                        //FF
+                        else if (pid[pidNum][i] === "ff" || pid[pidNum][i] === "FF") {
+                            _CPU.cycle();
+                            //System Call
+
+                            if (_CPU.Xreg == 1) {
+                                _StdOut.putText("" + _CPU.Yreg);
+                            }
+
+                            if (_CPU.Xreg == 2) {
+
+                                for (var t = _CPU.Yreg; t < pid[pidNum].length; t++) {
+                                    if (pid[pidNum][t] == "44") {
+                                        _StdOut.putText("D");
+                                    }
+                                    else if (pid[pidNum][t] == "4f" || pid[pidNum][t] == "4F") {
+                                        _StdOut.putText("O");
+                                    }
+                                    else if (pid[pidNum][t] == "4e" || pid[pidNum][t] == "4E") {
+                                        _StdOut.putText("N");
+                                    }
+                                    else if (pid[pidNum][t] == "45") {
+                                        _StdOut.putText("E");
+                                    }
+                                    else if (pid[pidNum][t] == "00") {
+                                        t = 300;
+                                    }
+                                }
+                            }
+
+                            //instruction reg
+                            opCode = "FF";
+                            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
+
+                            //pc
+                            pc = i;
+                            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
+
+                            //PCB
+                            _PCB.setAllPCB();
+                            _PCB.printPCB();
+                        }
+
+                        else {
+
+                            // _StdOut.putText("Done");
+                        }
                     }
                 }
             }
@@ -983,6 +1016,8 @@ module TSOS {
 
                 pidCounter++;
 
+                _Memory.formatSize(_Memory.processID);
+
                 _MemoryManager.printMemory();
 
                 
@@ -1044,20 +1079,9 @@ module TSOS {
                             pid[pidNum][storeLocNum] = _CPU.Acc.toString(16);
 
                             //_StdOut.puText("test");
-                            for (var t = 0; t < pid[pidNum].length; t++) {
-                                if (cellCount > 8) {
-                                    rowCount++;
-                                    cellCount = 1;
-                                    t--;
-                                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
-                                } else {
-                                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
-                                    cellCount++;
-                                }
-                            }
+                            _MemoryManager.printMemory();
 
-                            rowCount = 0;
-                            cellCount = 1;
+                            
                             storeLocString = "";
 
                             stepCounter = i + 3;
@@ -1088,20 +1112,7 @@ module TSOS {
                             _CPU.Acc += parseInt(pid[pidNum][storeLocNum]);
                             document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Acc;
                             //_StdOut.puText("test");
-                            for (var t = 0; t < pid[pidNum].length; t++) {
-                                if (cellCount > 8) {
-                                    rowCount++;
-                                    cellCount = 1;
-                                    t--;
-                                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
-                                } else {
-                                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
-                                    cellCount++;
-                                }
-                            }
-
-                            rowCount = 0;
-                            cellCount = 1;
+                            _MemoryManager.printMemory();
                             storeLocString = "";
 
                             stepCounter = i + 3;
@@ -1179,7 +1190,13 @@ module TSOS {
                         else if (pid[pidNum][i] === "a0" || pid[pidNum][i] === "A0") {
                             _CPU.cycle();
 
-                            _CPU.Yreg = pid[pidNum][i + 1];
+                            var valString = "";
+                            
+
+                            valString = ("0x" + pid[pidNum][i + 1]);
+                           
+                            _CPU.Yreg = parseInt(valString);
+
                             // _StdOut.putText("Loaded Y reg with: " + _CPU.Yreg);
                             document.getElementById("cpuTable").rows[1].cells[4].innerHTML = _CPU.Yreg;
 
@@ -1272,6 +1289,9 @@ module TSOS {
                             _PCB.setAllPCB();
                             _PCB.printPCB();
 
+                            _CPU.isExecuting = false;
+                            stepCounter = 999;
+
                         }
 
                         //EC -- compare value at loaction to X reg, if > set Z flag to 1
@@ -1310,7 +1330,7 @@ module TSOS {
 
                         //D0 -- branch n bytes if z flag = 0
                         else if (pid[pidNum][i] === "d0" || pid[pidNum][i] === "D0") {
-                            if (_CPU.Zflag == 0) {
+                            if (_CPU.Zflag === 0) {
                                 _CPU.cycle();
 
                                 var valString = "";
@@ -1345,11 +1365,12 @@ module TSOS {
                                 //PCB
                                 _PCB.setAllPCB();
                                 _PCB.printPCB();
+
                             } else {
-                                _CPU.cycle();
-
+                                
                                 stepCounter = i + 2;
-
+                                //pause = true;
+                                
                                 //instruction reg
                                 opCode = "D0";
                                 document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
@@ -1358,16 +1379,12 @@ module TSOS {
                                 i++;
                                 pc = i;
                                 document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
-
-                                //PCB
-                                _PCB.setAllPCB();
-                                _PCB.printPCB();
-
-
+                                pause = true;
                             }
-
-                           
+                            
+ 
                         }
+                        
 
                         //EE -- increment value of byte at location by 1
                         else if (pid[pidNum][i] === "ee" || pid[pidNum][i] === "EE") {
@@ -1382,20 +1399,7 @@ module TSOS {
                             incNum = parseInt("0x" + pid[pidNum][valNum]) + 1;
                             pid[pidNum][valNum] = incNum.toString(16);
 
-                            for (var t = 0; t < pid[pidNum].length; t++) {
-                                if (cellCount > 8) {
-                                    rowCount++;
-                                    cellCount = 1;
-                                    t--;
-                                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
-                                } else {
-                                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][t];
-                                    cellCount++;
-                                }
-                            }
-
-                            rowCount = 0;
-                            cellCount = 1;
+                            _MemoryManager.printMemory();
 
                             stepCounter = i + 3;
                             pause = true;
@@ -1415,9 +1419,35 @@ module TSOS {
                         }
 
                         //FF
-                        else if (pid[pidNum][i] === "ff" || pid[pidNum][i] === "ff") {
+                        else if (pid[pidNum][i] === "ff" || pid[pidNum][i] === "FF") {
+
                             _CPU.cycle();
                             //System Call
+
+                            if (_CPU.Xreg == 1) {
+                                _StdOut.putText("" + _CPU.Yreg);
+                            }
+
+                            if (_CPU.Xreg == 2) {
+
+                                for (var t = _CPU.Yreg; t < pid[pidNum].length; t++) {
+                                    if (pid[pidNum][t] == "44") {
+                                        _StdOut.putText("D");
+                                    }
+                                    else if (pid[pidNum][t] == "4f" || pid[pidNum][t] == "4F") {
+                                        _StdOut.putText("O");
+                                    }
+                                    else if (pid[pidNum][t] == "4e" || pid[pidNum][t] == "4E") {
+                                        _StdOut.putText("N");
+                                    }
+                                    else if (pid[pidNum][t] == "45") {
+                                        _StdOut.putText("E");
+                                    }
+                                    else if (pid[pidNum][t] == "00") {
+                                        t = 300;
+                                    }
+                                }
+                            }
 
                             stepCounter = i + 1;
                             pause = true;

@@ -1,3 +1,8 @@
+/*
+	Memory manager class that prints memory in memory html table and
+*/
+
+
 module TSOS {
     export class MemoryManager {
 
@@ -11,7 +16,7 @@ module TSOS {
 
         }
 
-
+		//to be used in next project -- prints memory at correct location
         public printMemoryAtLocation() {
             pidNum = _Memory.processID;
             if (this.posArray[pidNum] == 0) {
@@ -73,6 +78,7 @@ module TSOS {
             
         }
 
+		//prints memory in html table
         public printMemory() {
 			/*
             if (this.posArray[_Memory.processID] == 0) {
@@ -100,7 +106,12 @@ module TSOS {
            rowCount = 0;
            cellCount = 1;*/
 
-           for (var i = 0; i < _Memory.processArray[_Memory.processID].length; i++) {
+            for (var i = 0; i < _Memory.processArray[_Memory.processID].length; i++) {
+                if (_Memory.processArray[_Memory.processID][i] == '') {
+                    _Memory.processArray[_Memory.processID][i] = "00";
+                   //_MemoryManager.printMemory();
+               }
+
                if (cellCount > 8) {
                    rowCount++;
                    cellCount = 1;
