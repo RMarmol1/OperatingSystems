@@ -96,6 +96,8 @@ var position2 = false;
 var position3 = false;
 
 
+var runPID = 0;
+
 //var blank = _DrawingContext.getImageData(0, 0, 500, 500);
 
 

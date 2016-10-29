@@ -86,7 +86,20 @@ var TSOS;
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             }
             else if (_CPU.isExecuting) {
-                _CPU.cycle();
+                //_CPU.cycle();
+                if (step == false && _CPU.isExecuting == true) {
+                    for (stepCounter; stepCounter < pid[pidNum].length; stepCounter++) {
+                        if (_CPU.isExecuting == true) {
+                            _CPU.cycle();
+                        }
+                    }
+                    _CPU.isExecuting = false;
+                    if (_CPU.isExecuting === false) {
+                        _PCB.finishedPCB();
+                        stepCounter = 0;
+                        _StdOut.putText("CPU is finished.");
+                    }
+                }
             }
             else {
                 this.krnTrace("Idle");
