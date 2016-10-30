@@ -107,8 +107,8 @@ module TSOS {
 
                         if (_CPU.isExecuting == true) {
 
-                            _CPU.cycle();
-                            // setTimeout(_CPU.cycle(), 5000);
+                             _CPU.cycle();
+                             //setTimeout(_CPU.cycle(), 10000);
 
                         }
 
@@ -121,6 +121,10 @@ module TSOS {
                         stepCounter = 0;
                         _StdOut.putText("CPU is finished.");
                     }
+                }
+                
+                if (step == true && _CPU.isExecuting == true) {
+                    _CPU.isExecuting = false;
                 }
                 
             } else {                      // If there are no interrupts and there is nothing being executed then just be idle. {

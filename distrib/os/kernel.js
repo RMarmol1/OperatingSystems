@@ -100,6 +100,9 @@ var TSOS;
                         _StdOut.putText("CPU is finished.");
                     }
                 }
+                if (step == true && _CPU.isExecuting == true) {
+                    _CPU.isExecuting = false;
+                }
             }
             else {
                 this.krnTrace("Idle");

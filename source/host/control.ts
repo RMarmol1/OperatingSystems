@@ -141,7 +141,7 @@ module TSOS {
 
         public static hostBtnNext_click(btn): void {
             pause = false;
-            _OsShell.stepEncode(pidNum);
+            _CPU.stepEncode(pidNum);
         }
     }
 }

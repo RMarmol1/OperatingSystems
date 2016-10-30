@@ -464,6 +464,10 @@ module TSOS {
             pid = _Memory.processArray;
             pidNum = _Memory.processID;
 
+            if (step == true) {
+                (<HTMLButtonElement>document.getElementById("btnNext")).disabled = false;
+            }
+
             if (pid[pidNum].length == 0) {
                 _StdOut.putText("Unrecognized process ID: " + pidNum);
             } else {
@@ -502,14 +506,14 @@ module TSOS {
             }*/
 
             //_CPU.isExecuting = false;
-
+            /*
             if (step == false) {
                 if (_CPU.isExecuting === false) {
                     _PCB.finishedPCB();
                     stepCounter = 0;
                     _StdOut.putText("CPU is finished.");
                 }
-            }
+            }*/
 
         }
 

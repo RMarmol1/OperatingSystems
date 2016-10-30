@@ -380,6 +380,9 @@ var TSOS;
             _Memory.processID = runPID;
             pid = _Memory.processArray;
             pidNum = _Memory.processID;
+            if (step == true) {
+                document.getElementById("btnNext").disabled = false;
+            }
             if (pid[pidNum].length == 0) {
                 _StdOut.putText("Unrecognized process ID: " + pidNum);
             }
@@ -409,13 +412,14 @@ var TSOS;
                 }
             }*/
             //_CPU.isExecuting = false;
+            /*
             if (step == false) {
                 if (_CPU.isExecuting === false) {
                     _PCB.finishedPCB();
                     stepCounter = 0;
                     _StdOut.putText("CPU is finished.");
                 }
-            }
+            }*/
         };
         Shell.prototype.shellLoad = function (args) {
             val = document.getElementById("taProgramInput").value;
