@@ -71,6 +71,7 @@ var posNum = 0; //position in memory 0 = 0, 1 = 256, 2 = 512
 var position1 = false; //is the position filled
 var position2 = false;
 var position3 = false;
+var emptyArray = [];
 var runPID = 0;
 //var blank = _DrawingContext.getImageData(0, 0, 500, 500);
 var capsLock = false; //boolean if caps lock is set or not

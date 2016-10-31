@@ -95,6 +95,8 @@ var position1 = false; //is the position filled
 var position2 = false;
 var position3 = false;
 
+var emptyArray = [];
+
 
 var runPID = 0;
 

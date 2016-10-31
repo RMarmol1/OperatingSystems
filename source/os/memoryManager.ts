@@ -128,6 +128,28 @@ module TSOS {
             
         }
 
+        public printClearedMem() {
+            for (var i = 0; i < 768; i++) {
+                emptyArray[i] = "00";
+            }
+
+            for (var i = 0; i < emptyArray.length; i++) {
+                
+
+                if (cellCount > 8) {
+                    rowCount++;
+                    cellCount = 1;
+                    i--;
+                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = emptyArray[i];
+                } else {
+                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = emptyArray[i];
+                    cellCount++;
+                }
+            }
+
+            rowCount = 0;
+            cellCount = 1;
+        }
     }
 
 
