@@ -478,7 +478,7 @@ module TSOS {
             if (pid.toString() == "") {
                 _StdOut.putText("Memory is empty. Nothing to run");
             } else {
-                if (runPID > (pidCounter - 1) || pid[runPID] == null) {
+                if (runPID > (pidCounter) || pid[runPID] == null) {
                     _StdOut.putText("Unrecognized process ID: " + pidNum);
                 } else {
                     _CPU.isExecuting = true;

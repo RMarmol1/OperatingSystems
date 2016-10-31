@@ -92,7 +92,7 @@ var TSOS;
                 storeLocString = ("0x" + pid[pidNum][stepCounter + 1]);
                 storeLocNum = parseInt(storeLocString);
                 pid[pidNum][storeLocNum] = _CPU.Acc.toString(16);
-                _MemoryManager.printMemory();
+                _MemoryManager.printMemoryAtLocation();
                 storeLocString = "";
                 //instruction reg
                 opCode = "8D";
@@ -291,7 +291,7 @@ var TSOS;
                 valNum = parseInt(valString);
                 incNum = parseInt("0x" + pid[pidNum][valNum]) + 1;
                 pid[pidNum][valNum] = incNum.toString(16);
-                _MemoryManager.printMemory();
+                _MemoryManager.printMemoryAtLocation();
                 //instruction reg
                 opCode = "EE";
                 document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;

@@ -116,7 +116,7 @@ module TSOS {
 
                             pid[pidNum][storeLocNum] = _CPU.Acc.toString(16);
 
-                            _MemoryManager.printMemory();
+                            _MemoryManager.printMemoryAtLocation();
                             storeLocString = "";
 
                             //instruction reg
@@ -396,7 +396,7 @@ module TSOS {
                             incNum = parseInt("0x" + pid[pidNum][valNum]) + 1;
                             pid[pidNum][valNum] = incNum.toString(16);
 
-                            _MemoryManager.printMemory();
+                            _MemoryManager.printMemoryAtLocation();
 
                             //instruction reg
                             opCode = "EE";
