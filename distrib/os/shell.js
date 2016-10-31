@@ -391,7 +391,7 @@ var TSOS;
                 _StdOut.putText("Memory is empty. Nothing to run");
             }
             else {
-                if (runPID > (pidCounter - 1)) {
+                if (runPID > (pidCounter - 1) || pid[runPID] == null) {
                     _StdOut.putText("Unrecognized process ID: " + pidNum);
                 }
                 else {
@@ -405,30 +405,6 @@ var TSOS;
                 _PCB.pcbPID = pidNum;
                 _PCB.printPCB();
             }
-            // _CPU.isExecuting = true;
-            /*
-            if (step == false && _CPU.isExecuting == true) {
-
-                for (stepCounter; stepCounter < pid[pidNum].length; stepCounter++) {
-
-                    if (_CPU.isExecuting == true) {
-
-                        _CPU.cycle();
-                       // setTimeout(_CPU.cycle(), 5000);
-                        
-                    }
-                    
-                }
-            }*/
-            //_CPU.isExecuting = false;
-            /*
-            if (step == false) {
-                if (_CPU.isExecuting === false) {
-                    _PCB.finishedPCB();
-                    stepCounter = 0;
-                    _StdOut.putText("CPU is finished.");
-                }
-            }*/
         };
         Shell.prototype.shellLoad = function (args) {
             val = document.getElementById("taProgramInput").value;
@@ -467,27 +443,34 @@ var TSOS;
                         i++;
                     }
                 }
-                //pid.push(arrayHex);
-                _Memory.processArray.push(arrayHex);
-                /*for (var i = 0; i < hexArray.length; i++) {
-                    _StdOut.putText(hexArray[i]);
-                }*/
-                /*
+                // _Memory.processArray.push(arrayHex);
                 if (_Memory.position1 == false) {
                     posNum = 0;
-                } else if (_Memory.position2 == false) {
+                    _Memory.position1 = true;
+                }
+                else if (_Memory.position2 == false) {
                     posNum = 1;
-                } else if (_Memory.position1 == false) {
+                    _Memory.position2 = true;
+                }
+                else if (_Memory.position3 == false) {
                     posNum = 2;
-                } else {
+                    _Memory.position3 = true;
+                }
+                else {
                     posNum = 99;
-                }*/
-                _MemoryManager.posArray.push(posNum);
-                _Memory.processID = pidCounter;
-                _StdOut.putText("PID[" + pidCounter + "] has been added.");
-                pidCounter++;
-                _Memory.formatSize(_Memory.processID);
-                _MemoryManager.printMemory();
+                }
+                if (posNum == 99) {
+                    _StdOut.putText("Memory is full. Cannot load anymore processes");
+                }
+                else {
+                    _Memory.processArray[pidCounter] = arrayHex;
+                    _MemoryManager.posArray[pidCounter] = posNum;
+                    _Memory.processID = pidCounter;
+                    _StdOut.putText("PID[" + pidCounter + "] has been added at location " + posNum);
+                    _Memory.formatSize(_Memory.processID);
+                    _MemoryManager.printMemory();
+                    pidCounter++;
+                }
             }
             else {
                 _StdOut.putText("Value is not in Hex!");
@@ -496,6 +479,9 @@ var TSOS;
         Shell.prototype.shellClearMem = function () {
             _Memory.processArray = [];
             _MemoryManager.printClearedMem();
+            _Memory.position1 = false;
+            _Memory.position2 = false;
+            _Memory.position3 = false;
             _StdOut.putText("Memory Cleared");
         };
         return Shell;
