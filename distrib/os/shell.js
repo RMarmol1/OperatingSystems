@@ -468,7 +468,8 @@ var TSOS;
                     _Memory.processID = pidCounter;
                     _StdOut.putText("PID[" + pidCounter + "] has been added at location " + posNum);
                     _Memory.formatSize(_Memory.processID);
-                    _MemoryManager.printMemory();
+                    //_MemoryManager.printMemory();
+                    _MemoryManager.printMemoryAtLocation();
                     pidCounter++;
                 }
             }
