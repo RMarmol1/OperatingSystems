@@ -94,14 +94,28 @@ var TSOS;
                         }
                     }
                     _CPU.isExecuting = false;
+                    if (step == true && _CPU.isExecuting == true) {
+                        _CPU.isExecuting = false;
+                    }
                     if (_CPU.isExecuting === false) {
                         _PCB.finishedPCB();
                         stepCounter = 0;
                         _StdOut.putText("CPU is finished.");
+                        _StdOut.advanceLine();
                     }
-                }
-                if (step == true && _CPU.isExecuting == true) {
-                    _CPU.isExecuting = false;
+                    //runall
+                    if (runAll == true && pidInMemNum < 2) {
+                        var argsArray = [];
+                        pidInMemNum++;
+                        argsArray[0] = currentPIDInMem[pidInMemNum];
+                        _OsShell.shellRun(argsArray);
+                    }
+                    else {
+                        runAll = false;
+                        pidInMemNum = 0;
+                        currentPIDInMem = [];
+                        _StdOut.putText("All processes are finished running.");
+                    }
                 }
             }
             else {

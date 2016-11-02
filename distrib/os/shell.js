@@ -79,6 +79,12 @@ var TSOS;
             //clearmem
             sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", " - clears all memory partitions");
             this.commandList[this.commandList.length] = sc;
+            //runall
+            sc = new TSOS.ShellCommand(this.shellRunAll, "runall", " - runs all processes in memory");
+            this.commandList[this.commandList.length] = sc;
+            //quantum
+            sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<int> - sets the quanta for Round Robin");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -383,7 +389,7 @@ var TSOS;
             _Memory.processID = runPID;
             pid = _Memory.processArray;
             pidNum = _Memory.processID;
-            var empty = [];
+            //var empty = [];
             if (step == true) {
                 document.getElementById("btnNext").disabled = false;
             }
@@ -400,6 +406,7 @@ var TSOS;
             }
             if (_CPU.isExecuting === true) {
                 _StdOut.putText("CPU is executing...");
+                _StdOut.advanceLine();
                 _MemoryManager.printMemory();
                 //PCB
                 _PCB.pcbPID = pidNum;
@@ -465,6 +472,8 @@ var TSOS;
                 else {
                     _Memory.processArray[pidCounter] = arrayHex;
                     _MemoryManager.posArray[pidCounter] = posNum;
+                    //runall
+                    currentPIDInMem.push(pidCounter);
                     _Memory.processID = pidCounter;
                     _StdOut.putText("PID[" + pidCounter + "] has been added at location " + posNum);
                     _Memory.formatSize(_Memory.processID);
@@ -484,6 +493,39 @@ var TSOS;
             _Memory.position2 = false;
             _Memory.position3 = false;
             _StdOut.putText("Memory Cleared");
+        };
+        Shell.prototype.shellRunAll = function () {
+            //this.shellRun(0);
+            //_StdOut.putText("Sure");
+            var argsArr = currentPIDInMem;
+            runAll = true;
+            _OsShell.shellRun(argsArr);
+            /*
+            _OsShell.shellRun(argsArray);
+            argsArray = [1];
+            while (_CPU.isExecuting == true) {
+                argsArray = [1];
+            }
+            _OsShell.shellRun(argsArray);*/
+            /* for (var i = 0; i < _Memory.processArray.length; i++) {
+                 if (_Memory.processArray[i] != null) {
+                     
+                     
+                     if (_CPU.isExecuting == false) {
+                         argsArray[0] = i;
+                         _OsShell.shellRun(argsArray);
+                     } else {
+                         i--;
+                     }
+                     
+ 
+                     
+                                    
+                 }
+                 
+             } */
+        };
+        Shell.prototype.shellQuantum = function (q) {
         };
         return Shell;
     }());

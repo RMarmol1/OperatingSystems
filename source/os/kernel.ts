@@ -108,24 +108,46 @@ module TSOS {
                         if (_CPU.isExecuting == true) {
 
                              _CPU.cycle();
-                             //setTimeout(_CPU.cycle(), 10000);
+                             
 
                         }
 
                     }
 
+                    
+
                     _CPU.isExecuting = false;
+
+                    if (step == true && _CPU.isExecuting == true) {
+                        _CPU.isExecuting = false;
+                    }
 
                     if (_CPU.isExecuting === false) {
                         _PCB.finishedPCB();
                         stepCounter = 0;
                         _StdOut.putText("CPU is finished.");
+                        _StdOut.advanceLine();
                     }
+
+
+                    //runall
+                    if (runAll == true && pidInMemNum < 2) {
+                        var argsArray = [];
+                        pidInMemNum++;
+                        argsArray[0] = currentPIDInMem[pidInMemNum];
+                        _OsShell.shellRun(argsArray);
+                    } else {
+                        runAll = false;
+                        pidInMemNum = 0;
+                        currentPIDInMem = [];
+                        _StdOut.putText("All processes are finished running.");
+                    }
+
+
+                    
                 }
                 
-                if (step == true && _CPU.isExecuting == true) {
-                    _CPU.isExecuting = false;
-                }
+                
                 
             } else {                      // If there are no interrupts and there is nothing being executed then just be idle. {
                 this.krnTrace("Idle");

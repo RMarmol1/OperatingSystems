@@ -140,6 +140,18 @@ module TSOS {
                 " - clears all memory partitions");
             this.commandList[this.commandList.length] = sc;
 
+            //runall
+            sc = new ShellCommand(this.shellRunAll,
+                "runall",
+                " - runs all processes in memory");
+            this.commandList[this.commandList.length] = sc;
+
+            //quantum
+            sc = new ShellCommand(this.shellQuantum,
+                "quantum",
+                "<int> - sets the quanta for Round Robin");
+            this.commandList[this.commandList.length] = sc;
+
             
 
             
@@ -205,6 +217,7 @@ module TSOS {
             if (_StdOut.currentXPosition > 0) {
                 _StdOut.advanceLine();
             }
+            
             // ... and finally write the prompt again.
             this.putPrompt();
         }
@@ -469,7 +482,7 @@ module TSOS {
 
             pid = _Memory.processArray;
             pidNum = _Memory.processID;
-            var empty = [];
+            //var empty = [];
 
             if (step == true) {
                 (<HTMLButtonElement>document.getElementById("btnNext")).disabled = false;
@@ -489,11 +502,13 @@ module TSOS {
 
             if (_CPU.isExecuting === true) {
                 _StdOut.putText("CPU is executing...");
+                _StdOut.advanceLine();
                 _MemoryManager.printMemory();
 
                 //PCB
                 _PCB.pcbPID = pidNum;
                 _PCB.printPCB();
+                
             }
 
 
@@ -568,6 +583,9 @@ module TSOS {
                     _Memory.processArray[pidCounter] = arrayHex;
                     _MemoryManager.posArray[pidCounter] = posNum;
 
+                    //runall
+                    currentPIDInMem.push(pidCounter);
+
                     _Memory.processID = pidCounter;
 
 
@@ -615,6 +633,49 @@ module TSOS {
            _Memory.position2 = false;
            _Memory.position3 = false;
             _StdOut.putText("Memory Cleared");
+        }
+
+
+        public shellRunAll() {
+            //this.shellRun(0);
+            //_StdOut.putText("Sure");
+            var argsArr = currentPIDInMem;
+            runAll = true;
+            _OsShell.shellRun(argsArr);
+
+            
+            
+            /*
+            _OsShell.shellRun(argsArray);
+            argsArray = [1];
+            while (_CPU.isExecuting == true) {
+                argsArray = [1];
+            }
+            _OsShell.shellRun(argsArray);*/
+            
+
+           /* for (var i = 0; i < _Memory.processArray.length; i++) {
+                if (_Memory.processArray[i] != null) {
+                    
+                    
+                    if (_CPU.isExecuting == false) {
+                        argsArray[0] = i;
+                        _OsShell.shellRun(argsArray);
+                    } else {
+                        i--;
+                    }
+                    
+
+                    
+                                   
+                }
+                
+            } */
+            
+
+        }
+
+        public shellQuantum(q) {
         }
 
 

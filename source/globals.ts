@@ -99,6 +99,9 @@ var emptyArray = [];
 
 
 var runPID = 0;
+var runAll = false;
+var currentPIDInMem = [];
+var pidInMemNum = 0;
 
 //var blank = _DrawingContext.getImageData(0, 0, 500, 500);
 
