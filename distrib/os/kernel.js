@@ -48,6 +48,9 @@ var TSOS;
             //Initialize mem manager
             _MemoryManager = new TSOS.MemoryManager();
             _MemoryManager.init();
+            //Initialize scheduler
+            _Scheduler = new TSOS.Scheduler();
+            _Scheduler.init();
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
             this.krnEnableInterrupts();
@@ -88,12 +91,33 @@ var TSOS;
             else if (_CPU.isExecuting) {
                 //_CPU.cycle();
                 if (step == false && _CPU.isExecuting == true) {
-                    for (stepCounter; stepCounter < pid[pidNum].length; stepCounter++) {
-                        if (_CPU.isExecuting == true) {
-                            _CPU.cycle();
-                        }
+                    _CPU.cycle();
+                    stepCounter++;
+                    _Scheduler.quantumCounter++;
+                    if (_Scheduler.quantumCounter > _Scheduler.quantum) {
+                        _StdOut.putText("Switch");
+                        _Scheduler.quantumCounter = 0;
+                        _StdOut.advanceLine();
                     }
-                    _CPU.isExecuting = false;
+                    /*for (stepCounter; stepCounter < pid[pidNum].length; stepCounter++) {
+
+                       if (_CPU.isExecuting == true) {
+
+                           _CPU.cycle();
+                           _Scheduler.quantumCounter++;
+                           if (_Scheduler.quantumCounter > _Scheduler.quantum) {
+                               _StdOut.putText("Switch");
+                               _Scheduler.quantumCounter = 0;
+                               _StdOut.advanceLine();
+                           }
+                            
+
+                       }
+
+                   }*/
+                    if (stepCounter >= pid[pidNum].length) {
+                        _CPU.isExecuting = false;
+                    }
                     if (step == true && _CPU.isExecuting == true) {
                         _CPU.isExecuting = false;
                     }
@@ -104,7 +128,7 @@ var TSOS;
                         _StdOut.advanceLine();
                     }
                     //runall
-                    if (runAll == true && pidInMemNum < 2) {
+                    if (runAll == true && pidInMemNum < currentPIDInMem.length - 1) {
                         var argsArray = [];
                         pidInMemNum++;
                         argsArray[0] = currentPIDInMem[pidInMemNum];
@@ -114,7 +138,6 @@ var TSOS;
                         runAll = false;
                         pidInMemNum = 0;
                         currentPIDInMem = [];
-                        _StdOut.putText("All processes are finished running.");
                     }
                 }
             }

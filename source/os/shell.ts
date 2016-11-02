@@ -152,6 +152,19 @@ module TSOS {
                 "<int> - sets the quanta for Round Robin");
             this.commandList[this.commandList.length] = sc;
 
+            //ps
+            sc = new ShellCommand(this.shellPs,
+                "ps",
+                " - lists all actively running processes");
+            this.commandList[this.commandList.length] = sc;
+
+            //kill
+            sc = new ShellCommand(this.shellKill,
+                "kill",
+                "<int> - kills active running process");
+            this.commandList[this.commandList.length] = sc;
+
+
             
 
             
@@ -675,7 +688,20 @@ module TSOS {
 
         }
 
-        public shellQuantum(q) {
+        public shellQuantum(args) {
+            _Scheduler.setQuantum(args[0]);
+            _StdOut.putText("Quantum is set to: " + _Scheduler.quantum);
+        }
+
+        public shellPs() {
+        }
+
+        public shellKill(args) {
+            if (_CPU.isExecuting == true) {
+                _CPU.isExecuting = false;
+                _Memory.processArray[args[0]] = null;
+                _StdOut.putText("Killed PID:" + args[0]);
+            }
         }
 
 
@@ -687,4 +713,4 @@ module TSOS {
         
 
     }
-}
+

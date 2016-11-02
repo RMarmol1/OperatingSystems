@@ -39,9 +39,9 @@ module TSOS {
 
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
-            if (step == false) {
+            /*if (step == false) {
                 _OSclock += 100;
-            }
+            }*/
             // TODO: Accumulate CPU usage and profiling statistics here.
             // Do the real work here. Be sure to set this.isExecuting appropriately.
 

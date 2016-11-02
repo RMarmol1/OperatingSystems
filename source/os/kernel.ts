@@ -56,6 +56,10 @@ module TSOS {
             _MemoryManager = new MemoryManager();
             _MemoryManager.init();
 
+            //Initialize scheduler
+            _Scheduler = new Scheduler();
+            _Scheduler.init();
+
 
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
@@ -103,20 +107,37 @@ module TSOS {
                 //_CPU.cycle();
                 if (step == false && _CPU.isExecuting == true) {
 
-                    for (stepCounter; stepCounter < pid[pidNum].length; stepCounter++) {
+                    _CPU.cycle();
+                    stepCounter++;
+                    _Scheduler.quantumCounter++;
+                    if (_Scheduler.quantumCounter > _Scheduler.quantum) {
+                        _StdOut.putText("Switch");
+                        _Scheduler.quantumCounter = 0;
+                        _StdOut.advanceLine();
+                    }
+
+                     /*for (stepCounter; stepCounter < pid[pidNum].length; stepCounter++) {
 
                         if (_CPU.isExecuting == true) {
 
-                             _CPU.cycle();
+                            _CPU.cycle();
+                            _Scheduler.quantumCounter++;
+                            if (_Scheduler.quantumCounter > _Scheduler.quantum) {
+                                _StdOut.putText("Switch");
+                                _Scheduler.quantumCounter = 0;
+                                _StdOut.advanceLine();
+                            }
                              
 
                         }
 
+                    }*/
+
+
+                    if (stepCounter >= pid[pidNum].length ){
+                        _CPU.isExecuting = false;
                     }
-
                     
-
-                    _CPU.isExecuting = false;
 
                     if (step == true && _CPU.isExecuting == true) {
                         _CPU.isExecuting = false;
@@ -131,7 +152,7 @@ module TSOS {
 
 
                     //runall
-                    if (runAll == true && pidInMemNum < 2) {
+                    if (runAll == true && pidInMemNum < currentPIDInMem.length-1) {
                         var argsArray = [];
                         pidInMemNum++;
                         argsArray[0] = currentPIDInMem[pidInMemNum];
@@ -140,7 +161,8 @@ module TSOS {
                         runAll = false;
                         pidInMemNum = 0;
                         currentPIDInMem = [];
-                        _StdOut.putText("All processes are finished running.");
+                        //_StdOut.putText("All processes are finished running.");
+                        //_OsShell.shellClearMem();
                     }
 
 

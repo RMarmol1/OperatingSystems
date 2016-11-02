@@ -85,6 +85,12 @@ var TSOS;
             //quantum
             sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<int> - sets the quanta for Round Robin");
             this.commandList[this.commandList.length] = sc;
+            //ps
+            sc = new TSOS.ShellCommand(this.shellPs, "ps", " - lists all actively running processes");
+            this.commandList[this.commandList.length] = sc;
+            //kill
+            sc = new TSOS.ShellCommand(this.shellKill, "kill", "<int> - kills active running process");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -525,7 +531,18 @@ var TSOS;
                  
              } */
         };
-        Shell.prototype.shellQuantum = function (q) {
+        Shell.prototype.shellQuantum = function (args) {
+            _Scheduler.setQuantum(args[0]);
+            _StdOut.putText("Quantum is set to: " + _Scheduler.quantum);
+        };
+        Shell.prototype.shellPs = function () {
+        };
+        Shell.prototype.shellKill = function (args) {
+            if (_CPU.isExecuting == true) {
+                _CPU.isExecuting = false;
+                _Memory.processArray[args[0]] = null;
+                _StdOut.putText("Killed PID:" + args[0]);
+            }
         };
         return Shell;
     }());
