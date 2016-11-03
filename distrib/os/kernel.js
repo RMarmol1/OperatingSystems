@@ -43,8 +43,8 @@ var TSOS;
             _Memory = new TSOS.Memory();
             _Memory.init();
             //Initialize PCB
-            _PCB = new TSOS.PCB();
-            _PCB.init();
+            //_PCB = new PCB();
+            //_PCB.init();
             //Initialize mem manager
             _MemoryManager = new TSOS.MemoryManager();
             _MemoryManager.init();
@@ -93,28 +93,17 @@ var TSOS;
                 if (step == false && _CPU.isExecuting == true) {
                     _CPU.cycle();
                     stepCounter++;
-                    _Scheduler.quantumCounter++;
-                    if (_Scheduler.quantumCounter > _Scheduler.quantum) {
-                        _StdOut.putText("Switch");
+                    if (runAll == true) {
+                        _Scheduler.quantumCounter++;
+                    }
+                    //RR scheduling
+                    if (_Scheduler.quantumCounter > _Scheduler.quantum && runAll == true) {
+                        // _MemoryManager.pcbArray[pidNum].pcbStepCounter = stepCounter;
+                        //_StdOut.putText((_MemoryManager.pcbArray[pidNum]).pcbStepCounter);
+                        _Scheduler.roundRobin();
                         _Scheduler.quantumCounter = 0;
                         _StdOut.advanceLine();
                     }
-                    /*for (stepCounter; stepCounter < pid[pidNum].length; stepCounter++) {
-
-                       if (_CPU.isExecuting == true) {
-
-                           _CPU.cycle();
-                           _Scheduler.quantumCounter++;
-                           if (_Scheduler.quantumCounter > _Scheduler.quantum) {
-                               _StdOut.putText("Switch");
-                               _Scheduler.quantumCounter = 0;
-                               _StdOut.advanceLine();
-                           }
-                            
-
-                       }
-
-                   }*/
                     if (stepCounter >= pid[pidNum].length) {
                         _CPU.isExecuting = false;
                     }
@@ -122,7 +111,7 @@ var TSOS;
                         _CPU.isExecuting = false;
                     }
                     if (_CPU.isExecuting === false) {
-                        _PCB.finishedPCB();
+                        _MemoryManager.pcbArray[pidNum].finishedPCB();
                         stepCounter = 0;
                         _StdOut.putText("CPU is finished.");
                         _StdOut.advanceLine();
@@ -134,9 +123,8 @@ var TSOS;
                             _OsShell.shellRun(argsArray);
                         }
                         else {
-                            runAll = false;
+                            //runAll = false;
                             pidInMemNum = 0;
-                            currentPIDInMem = [];
                         }
                     }
                 }

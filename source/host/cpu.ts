@@ -24,7 +24,8 @@ module TSOS {
                     public Xreg: number = 0,
                     public Yreg: number = 0,
                     public Zflag: number = 0,
-                    public isExecuting: boolean = false) {
+                    public isExecuting: boolean = false,
+                    public stillRunning: boolean = false) {
 
         }
 
@@ -35,6 +36,7 @@ module TSOS {
             this.Yreg = 0;
             this.Zflag = 0;
             this.isExecuting = false;
+            this.stillRunning = false;
         }
 
         public cycle(): void {
@@ -69,8 +71,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
 
                            
                         }
@@ -100,8 +102,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
 
                         }
 
@@ -129,8 +131,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
 
                             
 
@@ -157,8 +159,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
                         }
 
                         //A2 -- load X reg with a constant
@@ -177,8 +179,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
                         }
 
                         //AE -- loads X reg from memory
@@ -203,8 +205,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
 
                         }
 
@@ -224,8 +226,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
                         }
 
                         //AC -- loads Y reg from memory
@@ -250,8 +252,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
 
                         }
 
@@ -269,8 +271,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
                         }
 
                         //00
@@ -288,8 +290,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
 
 
                             if (pid[pidNum][stepCounter + 1] == "00") {
@@ -326,8 +328,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
                         }
 
                         //D0 -- branch n bytes if z flag = 0
@@ -360,8 +362,8 @@ module TSOS {
                                 }
 
                                 //PCB
-                                _PCB.setAllPCB();
-                                _PCB.printPCB();
+                                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                                _MemoryManager.pcbArray[pidNum].printPCB();
 
                             } else {
 
@@ -408,8 +410,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
                         }
 
                         //FF
@@ -451,8 +453,8 @@ module TSOS {
                             document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
 
                             //PCB
-                            _PCB.setAllPCB();
-                            _PCB.printPCB();
+                            _MemoryManager.pcbArray[pidNum].setAllPCB();
+                            _MemoryManager.pcbArray[pidNum].printPCB();
                         }
 
                         else {

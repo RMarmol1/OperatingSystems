@@ -516,11 +516,14 @@ module TSOS {
             if (_CPU.isExecuting === true) {
                 _StdOut.putText("CPU is executing...");
                 _StdOut.advanceLine();
-                _MemoryManager.printMemory();
+                _MemoryManager.printMemoryAtLocation();
 
                 //PCB
-                _PCB.pcbPID = pidNum;
-                _PCB.printPCB();
+               // _PCB.pcbPID = pidNum;
+                
+                _MemoryManager.pcbArray[pidNum].printPCB();
+
+                
                 
             }
 
@@ -607,6 +610,13 @@ module TSOS {
 
                     //_MemoryManager.printMemory();
                     _MemoryManager.printMemoryAtLocation();
+
+                    //PCB
+                    _MemoryManager.pcbArray[pidCounter] = new PCB();
+                    _MemoryManager.pcbArray[pidCounter].init();
+                    _MemoryManager.pcbArray[pidCounter].pcbPID = pidCounter;
+
+
                     pidCounter++;
                 }
                 /*
@@ -640,7 +650,8 @@ module TSOS {
         
 
         public shellClearMem() {
-           _Memory.processArray = [];
+            _Memory.processArray = [];
+            currentPIDInMem = [];
            _MemoryManager.printClearedMem();
            _Memory.position1 = false;
            _Memory.position2 = false;
@@ -655,36 +666,6 @@ module TSOS {
             var argsArr = currentPIDInMem;
             runAll = true;
             _OsShell.shellRun(argsArr);
-
-            
-            
-            /*
-            _OsShell.shellRun(argsArray);
-            argsArray = [1];
-            while (_CPU.isExecuting == true) {
-                argsArray = [1];
-            }
-            _OsShell.shellRun(argsArray);*/
-            
-
-           /* for (var i = 0; i < _Memory.processArray.length; i++) {
-                if (_Memory.processArray[i] != null) {
-                    
-                    
-                    if (_CPU.isExecuting == false) {
-                        argsArray[0] = i;
-                        _OsShell.shellRun(argsArray);
-                    } else {
-                        i--;
-                    }
-                    
-
-                    
-                                   
-                }
-                
-            } */
-            
 
         }
 

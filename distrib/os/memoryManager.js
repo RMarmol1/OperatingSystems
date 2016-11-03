@@ -4,12 +4,15 @@
 var TSOS;
 (function (TSOS) {
     var MemoryManager = (function () {
-        function MemoryManager(posArray) {
+        function MemoryManager(posArray, pcbArray) {
             if (posArray === void 0) { posArray = []; }
+            if (pcbArray === void 0) { pcbArray = []; }
             this.posArray = posArray;
+            this.pcbArray = pcbArray;
         }
         MemoryManager.prototype.init = function () {
             this.posArray = [];
+            this.pcbArray = [];
         };
         //to be used in next project -- prints memory at correct location
         MemoryManager.prototype.printMemoryAtLocation = function () {

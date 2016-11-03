@@ -4,7 +4,8 @@
 var TSOS;
 (function (TSOS) {
     var PCB = (function () {
-        function PCB(pcbPID, pcbpc, pcbOp, pcbAcc, pcbXReg, pcbYReg, pcbZReg, pcbState) {
+        function PCB(pcbPID, pcbpc, pcbOp, pcbAcc, pcbXReg, pcbYReg, pcbZReg, pcbState, pcbStepCounter) {
+            if (pcbPID === void 0) { pcbPID = 0; }
             if (pcbpc === void 0) { pcbpc = 0; }
             if (pcbOp === void 0) { pcbOp = ""; }
             if (pcbAcc === void 0) { pcbAcc = 0; }
@@ -12,6 +13,7 @@ var TSOS;
             if (pcbYReg === void 0) { pcbYReg = 0; }
             if (pcbZReg === void 0) { pcbZReg = 0; }
             if (pcbState === void 0) { pcbState = "Running"; }
+            if (pcbStepCounter === void 0) { pcbStepCounter = 0; }
             this.pcbPID = pcbPID;
             this.pcbpc = pcbpc;
             this.pcbOp = pcbOp;
@@ -20,6 +22,7 @@ var TSOS;
             this.pcbYReg = pcbYReg;
             this.pcbZReg = pcbZReg;
             this.pcbState = pcbState;
+            this.pcbStepCounter = pcbStepCounter;
         }
         PCB.prototype.init = function () {
             this.pcbPID = 0;
@@ -30,17 +33,18 @@ var TSOS;
             this.pcbYReg = 0;
             this.pcbZReg = 0;
             this.pcbState = "Running";
+            this.pcbStepCounter = 0;
         };
         //prints pcb contents in pcb html table
         PCB.prototype.printPCB = function () {
-            document.getElementById("pcbTable").rows[1].cells[0].innerHTML = _PCB.pcbPID;
-            document.getElementById("pcbTable").rows[1].cells[1].innerHTML = _PCB.pcbpc;
-            document.getElementById("pcbTable").rows[1].cells[2].innerHTML = _PCB.pcbOp;
-            document.getElementById("pcbTable").rows[1].cells[3].innerHTML = _PCB.pcbAcc;
-            document.getElementById("pcbTable").rows[1].cells[4].innerHTML = _PCB.pcbXReg;
-            document.getElementById("pcbTable").rows[1].cells[5].innerHTML = _PCB.pcbYReg;
-            document.getElementById("pcbTable").rows[1].cells[6].innerHTML = _PCB.pcbZReg;
-            document.getElementById("pcbTable").rows[1].cells[7].innerHTML = _PCB.pcbState;
+            document.getElementById("pcbTable").rows[1].cells[0].innerHTML = this.pcbPID;
+            document.getElementById("pcbTable").rows[1].cells[1].innerHTML = this.pcbpc;
+            document.getElementById("pcbTable").rows[1].cells[2].innerHTML = this.pcbOp;
+            document.getElementById("pcbTable").rows[1].cells[3].innerHTML = this.pcbAcc;
+            document.getElementById("pcbTable").rows[1].cells[4].innerHTML = this.pcbXReg;
+            document.getElementById("pcbTable").rows[1].cells[5].innerHTML = this.pcbYReg;
+            document.getElementById("pcbTable").rows[1].cells[6].innerHTML = this.pcbZReg;
+            document.getElementById("pcbTable").rows[1].cells[7].innerHTML = this.pcbState;
         };
         //set pcb contents
         PCB.prototype.setAllPCB = function () {
@@ -63,14 +67,14 @@ var TSOS;
             this.pcbYReg = 0;
             this.pcbZReg = 0;
             this.pcbState = "Finished";
-            document.getElementById("pcbTable").rows[1].cells[0].innerHTML = _PCB.pcbPID;
+            document.getElementById("pcbTable").rows[1].cells[0].innerHTML = this.pcbPID;
             document.getElementById("pcbTable").rows[1].cells[1].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[2].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[3].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[4].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[5].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[6].innerHTML = "--";
-            document.getElementById("pcbTable").rows[1].cells[7].innerHTML = _PCB.pcbState;
+            document.getElementById("pcbTable").rows[1].cells[7].innerHTML = this.pcbState;
         };
         return PCB;
     }());

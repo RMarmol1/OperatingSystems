@@ -16,19 +16,21 @@
 var TSOS;
 (function (TSOS) {
     var Cpu = (function () {
-        function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting) {
+        function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting, stillRunning) {
             if (PC === void 0) { PC = 0; }
             if (Acc === void 0) { Acc = 0; }
             if (Xreg === void 0) { Xreg = 0; }
             if (Yreg === void 0) { Yreg = 0; }
             if (Zflag === void 0) { Zflag = 0; }
             if (isExecuting === void 0) { isExecuting = false; }
+            if (stillRunning === void 0) { stillRunning = false; }
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
             this.Yreg = Yreg;
             this.Zflag = Zflag;
             this.isExecuting = isExecuting;
+            this.stillRunning = stillRunning;
         }
         Cpu.prototype.init = function () {
             this.PC = 0;
@@ -37,6 +39,7 @@ var TSOS;
             this.Yreg = 0;
             this.Zflag = 0;
             this.isExecuting = false;
+            this.stillRunning = false;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
@@ -62,8 +65,8 @@ var TSOS;
                 opCode = "A9";
                 document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else if (pid[pidNum][stepCounter] === "ad" || pid[pidNum][stepCounter] === "AD") {
                 // _CPU.cycle();
@@ -82,8 +85,8 @@ var TSOS;
                 opCode = "AD";
                 document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else if (pid[pidNum][stepCounter] === "8d" || pid[pidNum][stepCounter] === "8D") {
                 //i++;
@@ -102,8 +105,8 @@ var TSOS;
                 pc = stepCounter;
                 document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else if (pid[pidNum][stepCounter] === "6d" || pid[pidNum][stepCounter] === "6D") {
                 //     _CPU.cycle();
@@ -122,8 +125,8 @@ var TSOS;
                 pc = stepCounter;
                 document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else if (pid[pidNum][stepCounter] === "a2" || pid[pidNum][stepCounter] === "A2") {
                 //   _CPU.cycle();
@@ -137,8 +140,8 @@ var TSOS;
                 opCode = "A2";
                 document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else if (pid[pidNum][stepCounter] === "ae" || pid[pidNum][stepCounter] === "AE") {
                 //  _CPU.cycle();
@@ -156,8 +159,8 @@ var TSOS;
                 pc = stepCounter;
                 document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else if (pid[pidNum][stepCounter] === "a0" || pid[pidNum][stepCounter] === "A0") {
                 //   _CPU.cycle();
@@ -171,8 +174,8 @@ var TSOS;
                 opCode = "A0";
                 document.getElementById("cpuTable").rows[1].cells[1].innerHTML = opCode;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else if (pid[pidNum][stepCounter] === "ac" || pid[pidNum][stepCounter] === "AC") {
                 //     _CPU.cycle();
@@ -191,8 +194,8 @@ var TSOS;
                 pc = stepCounter;
                 document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else if (pid[pidNum][stepCounter] === "ea" || pid[pidNum][stepCounter] === "EA") {
                 //    _CPU.cycle();
@@ -204,8 +207,8 @@ var TSOS;
                 pc = stepCounter;
                 document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else if (pid[pidNum][stepCounter] === "00") {
                 //    _CPU.cycle();
@@ -218,8 +221,8 @@ var TSOS;
                 pc = stepCounter;
                 document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
                 if (pid[pidNum][stepCounter + 1] == "00") {
                     _CPU.isExecuting = false;
                 }
@@ -245,8 +248,8 @@ var TSOS;
                 pc = stepCounter;
                 document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else if (pid[pidNum][stepCounter] === "d0" || pid[pidNum][stepCounter] === "D0") {
                 if (_CPU.Zflag === 0) {
@@ -268,8 +271,8 @@ var TSOS;
                         stepCounter = stepCounter - 256;
                     }
                     //PCB
-                    _PCB.setAllPCB();
-                    _PCB.printPCB();
+                    _MemoryManager.pcbArray[pidNum].setAllPCB();
+                    _MemoryManager.pcbArray[pidNum].printPCB();
                 }
                 else {
                     //pause = true;
@@ -300,8 +303,8 @@ var TSOS;
                 pc = stepCounter;
                 document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else if (pid[pidNum][stepCounter] === "ff" || pid[pidNum][stepCounter] === "FF") {
                 //     _CPU.cycle();
@@ -335,8 +338,8 @@ var TSOS;
                 pc = stepCounter;
                 document.getElementById("cpuTable").rows[1].cells[0].innerHTML = pc;
                 //PCB
-                _PCB.setAllPCB();
-                _PCB.printPCB();
+                _MemoryManager.pcbArray[pidNum].setAllPCB();
+                _MemoryManager.pcbArray[pidNum].printPCB();
             }
             else {
             }

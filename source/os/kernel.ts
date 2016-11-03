@@ -49,8 +49,8 @@ module TSOS {
             _Memory.init();
 
             //Initialize PCB
-            _PCB = new PCB();
-            _PCB.init();
+            //_PCB = new PCB();
+            //_PCB.init();
 
             //Initialize mem manager
             _MemoryManager = new MemoryManager();
@@ -109,29 +109,23 @@ module TSOS {
 
                     _CPU.cycle();
                     stepCounter++;
-                    _Scheduler.quantumCounter++;
-                    if (_Scheduler.quantumCounter > _Scheduler.quantum) {
-                        _StdOut.putText("Switch");
+
+                    if (runAll == true) {
+                        _Scheduler.quantumCounter++;
+                    }
+                    
+
+                    //RR scheduling
+                    if (_Scheduler.quantumCounter > _Scheduler.quantum && runAll == true) {
+                       // _MemoryManager.pcbArray[pidNum].pcbStepCounter = stepCounter;
+                        //_StdOut.putText((_MemoryManager.pcbArray[pidNum]).pcbStepCounter);
+                        _Scheduler.roundRobin();
+
                         _Scheduler.quantumCounter = 0;
                         _StdOut.advanceLine();
                     }
 
-                     /*for (stepCounter; stepCounter < pid[pidNum].length; stepCounter++) {
-
-                        if (_CPU.isExecuting == true) {
-
-                            _CPU.cycle();
-                            _Scheduler.quantumCounter++;
-                            if (_Scheduler.quantumCounter > _Scheduler.quantum) {
-                                _StdOut.putText("Switch");
-                                _Scheduler.quantumCounter = 0;
-                                _StdOut.advanceLine();
-                            }
-                             
-
-                        }
-
-                    }*/
+                     
 
 
                     if (stepCounter >= pid[pidNum].length ){
@@ -144,7 +138,7 @@ module TSOS {
                     }
 
                     if (_CPU.isExecuting === false) {
-                        _PCB.finishedPCB();
+                        _MemoryManager.pcbArray[pidNum].finishedPCB();
                         stepCounter = 0;
                         _StdOut.putText("CPU is finished.");
                         _StdOut.advanceLine();
@@ -155,9 +149,9 @@ module TSOS {
                             argsArray[0] = currentPIDInMem[pidInMemNum];
                             _OsShell.shellRun(argsArray);
                         } else {
-                            runAll = false;
+                            //runAll = false;
                             pidInMemNum = 0;
-                            currentPIDInMem = [];
+                            //currentPIDInMem = [];
                             //_StdOut.putText("All processes are finished running.");
                             //_OsShell.shellClearMem();
                         }

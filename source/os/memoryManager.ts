@@ -6,13 +6,13 @@
 module TSOS {
     export class MemoryManager {
 
-        constructor(public posArray = []) {
+        constructor(public posArray = [], public pcbArray = []) {
 
         }
 
         public init(): void {
             this.posArray = [];
-            
+            this.pcbArray = [];
 
         }
 
