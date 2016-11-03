@@ -148,22 +148,23 @@ module TSOS {
                         stepCounter = 0;
                         _StdOut.putText("CPU is finished.");
                         _StdOut.advanceLine();
+                        //runall
+                        if (runAll == true && pidInMemNum < currentPIDInMem.length - 1) {
+                            var argsArray = [];
+                            pidInMemNum++;
+                            argsArray[0] = currentPIDInMem[pidInMemNum];
+                            _OsShell.shellRun(argsArray);
+                        } else {
+                            runAll = false;
+                            pidInMemNum = 0;
+                            currentPIDInMem = [];
+                            //_StdOut.putText("All processes are finished running.");
+                            //_OsShell.shellClearMem();
+                        }
                     }
 
 
-                    //runall
-                    if (runAll == true && pidInMemNum < currentPIDInMem.length-1) {
-                        var argsArray = [];
-                        pidInMemNum++;
-                        argsArray[0] = currentPIDInMem[pidInMemNum];
-                        _OsShell.shellRun(argsArray);
-                    } else {
-                        runAll = false;
-                        pidInMemNum = 0;
-                        currentPIDInMem = [];
-                        //_StdOut.putText("All processes are finished running.");
-                        //_OsShell.shellClearMem();
-                    }
+                   
 
 
                     

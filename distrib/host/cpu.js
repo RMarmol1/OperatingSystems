@@ -381,7 +381,7 @@ var TSOS;
                             storeLocNum = parseInt(storeLocString);
                             pid[pidNum][storeLocNum] = _CPU.Acc.toString(16);
                             //_StdOut.puText("test");
-                            _MemoryManager.printMemory();
+                            _MemoryManager.printMemoryAtLocation();
                             storeLocString = "";
                             stepCounter = i + 3;
                             pause = true;
@@ -605,7 +605,7 @@ var TSOS;
                             valNum = parseInt(valString);
                             incNum = parseInt("0x" + pid[pidNum][valNum]) + 1;
                             pid[pidNum][valNum] = incNum.toString(16);
-                            _MemoryManager.printMemory();
+                            _MemoryManager.printMemoryAtLocation();
                             stepCounter = i + 3;
                             pause = true;
                             //instruction reg

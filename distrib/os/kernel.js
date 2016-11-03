@@ -126,18 +126,18 @@ var TSOS;
                         stepCounter = 0;
                         _StdOut.putText("CPU is finished.");
                         _StdOut.advanceLine();
-                    }
-                    //runall
-                    if (runAll == true && pidInMemNum < currentPIDInMem.length - 1) {
-                        var argsArray = [];
-                        pidInMemNum++;
-                        argsArray[0] = currentPIDInMem[pidInMemNum];
-                        _OsShell.shellRun(argsArray);
-                    }
-                    else {
-                        runAll = false;
-                        pidInMemNum = 0;
-                        currentPIDInMem = [];
+                        //runall
+                        if (runAll == true && pidInMemNum < currentPIDInMem.length - 1) {
+                            var argsArray = [];
+                            pidInMemNum++;
+                            argsArray[0] = currentPIDInMem[pidInMemNum];
+                            _OsShell.shellRun(argsArray);
+                        }
+                        else {
+                            runAll = false;
+                            pidInMemNum = 0;
+                            currentPIDInMem = [];
+                        }
                     }
                 }
             }
