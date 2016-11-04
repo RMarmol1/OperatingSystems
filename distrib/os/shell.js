@@ -510,6 +510,8 @@ var TSOS;
             //_StdOut.putText("Sure");
             var argsArr = currentPIDInMem;
             runAll = true;
+            _Scheduler.quantumCounter = 0;
+            pidInMemNum = 0;
             //_CPU.stillRunning = true;
             _OsShell.shellRun(argsArr);
         };

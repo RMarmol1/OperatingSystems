@@ -212,6 +212,7 @@ module TSOS {
                                     _CPU.isExecuting == false;
                                     runAll = false;
                                     _StdOut.putText("Done");
+                                    
                                 }
 
                                 else {
