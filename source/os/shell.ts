@@ -665,6 +665,7 @@ module TSOS {
             //_StdOut.putText("Sure");
             var argsArr = currentPIDInMem;
             runAll = true;
+            //_CPU.stillRunning = true;
             _OsShell.shellRun(argsArr);
 
         }

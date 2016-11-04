@@ -510,6 +510,7 @@ var TSOS;
             //_StdOut.putText("Sure");
             var argsArr = currentPIDInMem;
             runAll = true;
+            //_CPU.stillRunning = true;
             _OsShell.shellRun(argsArr);
         };
         Shell.prototype.shellQuantum = function (args) {

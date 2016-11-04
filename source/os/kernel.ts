@@ -106,7 +106,7 @@ module TSOS {
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed. {
                 //_CPU.cycle();
                 if (step == false && _CPU.isExecuting == true) {
-
+                    
                     _CPU.cycle();
                     stepCounter++;
 
@@ -117,12 +117,11 @@ module TSOS {
 
                     //RR scheduling
                     if (_Scheduler.quantumCounter > _Scheduler.quantum && runAll == true) {
-                       // _MemoryManager.pcbArray[pidNum].pcbStepCounter = stepCounter;
-                        //_StdOut.putText((_MemoryManager.pcbArray[pidNum]).pcbStepCounter);
+                       
                         _Scheduler.roundRobin();
-
                         _Scheduler.quantumCounter = 0;
                         _StdOut.advanceLine();
+
                     }
 
                      
@@ -140,21 +139,151 @@ module TSOS {
                     if (_CPU.isExecuting === false) {
                         _MemoryManager.pcbArray[pidNum].finishedPCB();
                         stepCounter = 0;
+                        pidInMemNum = currentPIDInMem.indexOf(pidNum);
                         _StdOut.putText("CPU is finished.");
-                        _StdOut.advanceLine();
-                        //runall
-                        if (runAll == true && pidInMemNum < currentPIDInMem.length - 1) {
-                            var argsArray = [];
-                            pidInMemNum++;
-                            argsArray[0] = currentPIDInMem[pidInMemNum];
-                            _OsShell.shellRun(argsArray);
-                        } else {
-                            //runAll = false;
-                            pidInMemNum = 0;
-                            //currentPIDInMem = [];
-                            //_StdOut.putText("All processes are finished running.");
-                            //_OsShell.shellClearMem();
+
+                        for (var i = 0; i < 256; i++) {
+                            _Memory.processArray[pidNum][i] = "00";
+
                         }
+
+                        if (_MemoryManager.posArray[pidNum] == 0) {
+                            _Memory.position1 = false;
+                          //  _StdOut.putText("Cleared loc 0");
+                        }
+                        if (_MemoryManager.posArray[pidNum] == 1) {
+                            _Memory.position2 = false;
+                          //  _StdOut.putText("Cleared loc 1");
+                        }
+                        if (_MemoryManager.posArray[pidNum] == 2) {
+                            _Memory.position3 = false;
+                           // _StdOut.putText("Cleared loc 2");
+                        }
+
+                        _MemoryManager.printMemoryAtLocation();
+                        
+                        _StdOut.advanceLine();
+
+
+                         //runall
+                        if (runAll == true && pidInMemNum < currentPIDInMem.length - 1) {
+
+                          // _StdOut.putText("current pidinmemnum is "+pidInMemNum);
+                                var argsArray = [];
+                                // pidInMemNum++;
+
+                                //moving from 0 to 1 or 2
+                                if (_Memory.position2 == true && pidInMemNum == 0) {
+                                    pidInMemNum++;
+                                    argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
+                                    _OsShell.shellRun(argsArray);
+                                }
+
+                                else if (_Memory.position2 == false && _Memory.position3 == true && pidInMemNum == 0) {
+                                    pidInMemNum += 2;
+                                    argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
+                                    _OsShell.shellRun(argsArray);
+                                }
+
+                                else if (_Memory.position3 == false && pidInMemNum == 0) {
+                                    _CPU.isExecuting == false;
+                                    runAll = false;
+                                    _StdOut.putText("Done");
+                                }
+
+                                //moving from 1 to 2 or 0
+                                else if (_Memory.position3 == true && pidInMemNum == 1) {
+                                    pidInMemNum++;
+                                    argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
+                                    _OsShell.shellRun(argsArray);
+                                }
+
+                                else if (_Memory.position3 == false && _Memory.position1 == true && pidInMemNum == 1) {
+                                    pidInMemNum = 0;
+                                    argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
+                                    _OsShell.shellRun(argsArray);
+                                }
+
+                                else if (_Memory.position1 == false && pidInMemNum == 1) {
+                                    _CPU.isExecuting == false;
+                                    runAll = false;
+                                    _StdOut.putText("Done");
+                                }
+
+                                else {
+                                    _StdOut.putText("BITCH");
+                                }
+
+                                
+
+                                
+
+
+                            } else {  //if pidInMemNum = 2
+                                //runAll = false;
+                                var argsArray = [];
+                                //move from 2 to 0
+                                if (_Memory.position1 == true && pidInMemNum == 2) {
+                                    pidInMemNum = 0;
+                                    argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
+                                    _OsShell.shellRun(argsArray);
+
+                                } 
+
+                                //move from 2 to 1
+                                if (_Memory.position1 == false && _Memory.position2 == true && pidInMemNum == 2) {
+                                    pidInMemNum = 1;
+                                    argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
+                                    _OsShell.shellRun(argsArray);
+
+                                } 
+
+
+
+                                if (_Memory.position1 == false && _Memory.position2 == false && _Memory.position3 == false) {
+                                    _CPU.isExecuting = false;
+                                    runAll = false;
+                                    _CPU.stillRunning = false;
+                                    pidInMemNum = 100;
+                                    _MemoryManager.pcbArray[pidNum].finishedPCB();
+                                    stepCounter = 0;
+                                    _StdOut.putText("CPU is finished.");
+
+                                    for (var i = 0; i < 256; i++) {
+                                        _Memory.processArray[pidNum][i] = "00";
+
+                                    }
+
+                                    if (_MemoryManager.posArray[_Memory.processID] == 0) {
+                                        _Memory.position1 = false;
+                                    }
+                                    if (_MemoryManager.posArray[_Memory.processID] == 1) {
+                                        _Memory.position2 = false;
+                                    }
+                                    if (_MemoryManager.posArray[_Memory.processID] == 2) {
+                                        _Memory.position3 = false;
+                                    }
+
+                                    _MemoryManager.printMemoryAtLocation();
+
+                                    _StdOut.advanceLine();
+                                } 
+                                
+
+                                
+                               
+
+                            }
+                        
+
+
+                        
                     }
 
 

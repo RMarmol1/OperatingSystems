@@ -81,31 +81,7 @@ module TSOS {
 
 		//prints memory in html table
         public printMemory() {
-			/*
-            if (this.posArray[_Memory.processID] == 0) {
-                rowCount = 0;
-            }
-            if (this.posArray[_Memory.processID] == 1) {
-                rowCount = 256;
-            }
-            if (this.posArray[_Memory.processID] == 2) {
-                rowCount = 512;
-            }*/
-			/*
-            for (var i = 0; i < pid[pidNum].length; i++) {
-                if (cellCount > 8) {
-                    rowCount++;
-                    cellCount = 1;
-                    i--;
-                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][i];
-                } else {
-                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = pid[pidNum][i];
-                    cellCount++;
-                }
-            }
-
-           rowCount = 0;
-           cellCount = 1;*/
+			
             
 
             for (var i = 0; i < _Memory.processArray[_Memory.processID].length; i++) {
@@ -131,12 +107,46 @@ module TSOS {
         }
 
         public printClearedMem() {
-            for (var i = 0; i < 768; i++) {
+            for (var i = 0; i < 256; i++) {
                 emptyArray[i] = "00";
             }
 
             for (var i = 0; i < emptyArray.length; i++) {
                 
+
+                if (cellCount > 8) {
+                    rowCount++;
+                    cellCount = 1;
+                    i--;
+                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = emptyArray[i];
+                } else {
+                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = emptyArray[i];
+                    cellCount++;
+                }
+            }
+
+            rowCount = 32;
+            cellCount = 1;
+
+            for (var i = 0; i < emptyArray.length; i++) {
+
+
+                if (cellCount > 8) {
+                    rowCount++;
+                    cellCount = 1;
+                    i--;
+                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = emptyArray[i];
+                } else {
+                    document.getElementById("memoryTable").rows[rowCount].cells[cellCount].innerHTML = emptyArray[i];
+                    cellCount++;
+                }
+            }
+
+            rowCount = 64;
+            cellCount = 1;
+
+            for (var i = 0; i < emptyArray.length; i++) {
+
 
                 if (cellCount > 8) {
                     rowCount++;
