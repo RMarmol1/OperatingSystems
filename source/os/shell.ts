@@ -678,6 +678,13 @@ module TSOS {
         }
 
         public shellPs() {
+            //shows currently active pids
+            _StdOut.putText("Currently active PIDs:");
+            _StdOut.advanceLine();
+            for (var i = 0; i < currentPIDInMem.length; i++) {
+                _StdOut.putText("PID: " + currentPIDInMem[i]);
+                _StdOut.advanceLine();
+            }
         }
 
         public shellKill(args) {

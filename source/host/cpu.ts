@@ -112,9 +112,21 @@ module TSOS {
                             //i++;
 
                           //  _CPU.cycle();
-                pc = stepCounter;
-                storeLocString = ("0x" + pid[pidNum][stepCounter + 1]);
+                         pc = stepCounter;
+
+                           
+                            
+                            storeLocString = ("0x" + pid[pidNum][stepCounter + 1]);
                             storeLocNum = parseInt(storeLocString);
+
+                            //keeps within 256 size
+                            if (storeLocNum > 255) {
+
+                                storeLocNum = storeLocNum - 256;
+
+                            }
+
+                            
 
                             pid[pidNum][storeLocNum] = _CPU.Acc.toString(16);
 
@@ -426,20 +438,296 @@ module TSOS {
                             if (_CPU.Xreg == 2) {
 
                                 for (var t = _CPU.Yreg; t < pid[pidNum].length; t++) {
-                                    if (pid[pidNum][t] == "44") {
+                                    if (pid[pidNum][t] == "20") {
+                                        _StdOut.putText(" ");
+                                    }
+                                    else if (pid[pidNum][t] == "21") {
+                                        _StdOut.putText("!");
+                                    }
+                                    else if (pid[pidNum][t] == "22") {
+                                        _StdOut.putText("\"");
+                                    }
+                                    else if (pid[pidNum][t] == "23") {
+                                        _StdOut.putText("#");
+                                    }
+                                    else if (pid[pidNum][t] == "24") {
+                                        _StdOut.putText("$");
+                                    }
+                                    else if (pid[pidNum][t] == "25") {
+                                        _StdOut.putText("%");
+                                    }
+                                    else if (pid[pidNum][t] == "26") {
+                                        _StdOut.putText("&");
+                                    }
+                                    else if (pid[pidNum][t] == "27") {
+                                        _StdOut.putText("\'");
+                                    }
+                                    else if (pid[pidNum][t] == "28") {
+                                        _StdOut.putText("(");
+                                    }
+                                    else if (pid[pidNum][t] == "29") {
+                                        _StdOut.putText(")");
+                                    }
+                                    else if (pid[pidNum][t] == "2A" || pid[pidNum][t] == "2a") {
+                                        _StdOut.putText("*");
+                                    }
+                                    else if (pid[pidNum][t] == "2B" || pid[pidNum][t] == "2b") {
+                                        _StdOut.putText("+");
+                                    }
+                                    else if (pid[pidNum][t] == "2C" || pid[pidNum][t] == "2c") {
+                                        _StdOut.putText(",");
+                                    }
+                                    else if (pid[pidNum][t] == "2D" || pid[pidNum][t] == "2d") {
+                                        _StdOut.putText("-");
+                                    }
+                                    else if (pid[pidNum][t] == "2E" || pid[pidNum][t] == "2e") {
+                                        _StdOut.putText(".");
+                                    }
+                                    else if (pid[pidNum][t] == "2F" || pid[pidNum][t] == "2f") {
+                                        _StdOut.putText("/");
+                                    }
+                                    else if (pid[pidNum][t] == "30") {
+                                        _StdOut.putText("0");
+                                    }
+                                    else if (pid[pidNum][t] == "31") {
+                                        _StdOut.putText("1");
+                                    }
+                                    else if (pid[pidNum][t] == "32") {
+                                        _StdOut.putText("2");
+                                    }
+                                    else if (pid[pidNum][t] == "33") {
+                                        _StdOut.putText("3");
+                                    }
+                                    else if (pid[pidNum][t] == "34") {
+                                        _StdOut.putText("4");
+                                    }
+                                    else if (pid[pidNum][t] == "35") {
+                                        _StdOut.putText("5");
+                                    }
+                                    else if (pid[pidNum][t] == "36") {
+                                        _StdOut.putText("6");
+                                    }
+                                    else if (pid[pidNum][t] == "37") {
+                                        _StdOut.putText("7");
+                                    }
+                                    else if (pid[pidNum][t] == "38") {
+                                        _StdOut.putText("8");
+                                    }
+                                    else if (pid[pidNum][t] == "39") {
+                                        _StdOut.putText("9");
+                                    }
+                                    else if (pid[pidNum][t] == "3A" || pid[pidNum][t] == "3a") {
+                                        _StdOut.putText(":");
+                                    }
+                                    else if (pid[pidNum][t] == "3B" || pid[pidNum][t] == "3b") {
+                                        _StdOut.putText(";");
+                                    }
+                                    else if (pid[pidNum][t] == "3C" || pid[pidNum][t] == "3c") {
+                                        _StdOut.putText("<");
+                                    }
+                                    else if (pid[pidNum][t] == "3D" || pid[pidNum][t] == "3d") {
+                                        _StdOut.putText("=");
+                                    }
+                                    else if (pid[pidNum][t] == "3E" || pid[pidNum][t] == "3e") {
+                                        _StdOut.putText(">");
+                                    }
+                                    else if (pid[pidNum][t] == "3F" || pid[pidNum][t] == "3f") {
+                                        _StdOut.putText("?");
+                                    }
+                                    else if (pid[pidNum][t] == "40") {
+                                        _StdOut.putText("@");
+                                    }
+                                    else if (pid[pidNum][t] == "41") {
+                                        _StdOut.putText("A");
+                                    }
+                                    else if (pid[pidNum][t] == "42") {
+                                        _StdOut.putText("B");
+                                    }
+                                    else if (pid[pidNum][t] == "43") {
+                                        _StdOut.putText("C");
+                                    }
+                                    else if (pid[pidNum][t] == "44") {
                                         _StdOut.putText("D");
-                                    }
-                                    else if (pid[pidNum][t] == "4f" || pid[pidNum][t] == "4F") {
-                                        _StdOut.putText("O");
-                                    }
-                                    else if (pid[pidNum][t] == "4e" || pid[pidNum][t] == "4E") {
-                                        _StdOut.putText("N");
                                     }
                                     else if (pid[pidNum][t] == "45") {
                                         _StdOut.putText("E");
                                     }
+                                    else if (pid[pidNum][t] == "46") {
+                                        _StdOut.putText("F");
+                                    }
+                                    else if (pid[pidNum][t] == "47") {
+                                        _StdOut.putText("G");
+                                    }
+                                    else if (pid[pidNum][t] == "48") {
+                                        _StdOut.putText("H");
+                                    }
+                                    else if (pid[pidNum][t] == "49") {
+                                        _StdOut.putText("I");
+                                    }
+                                    else if (pid[pidNum][t] == "4A" || pid[pidNum][t] == "4a") {
+                                        _StdOut.putText("J");
+                                    }
+                                    else if (pid[pidNum][t] == "4B" || pid[pidNum][t] == "4b") {
+                                        _StdOut.putText("K");
+                                    }
+                                    else if (pid[pidNum][t] == "4C" || pid[pidNum][t] == "4c") {
+                                        _StdOut.putText("L");
+                                    }
+                                    else if (pid[pidNum][t] == "4D" || pid[pidNum][t] == "4d") {
+                                        _StdOut.putText("M");
+                                    }
+                                    else if (pid[pidNum][t] == "4E" || pid[pidNum][t] == "4e") {
+                                        _StdOut.putText("N");
+                                    }
+                                    else if (pid[pidNum][t] == "4F" || pid[pidNum][t] == "4f") {
+                                        _StdOut.putText("O");
+                                    }
+                                    else if (pid[pidNum][t] == "50") {
+                                        _StdOut.putText("P");
+                                    }
+                                    else if (pid[pidNum][t] == "51") {
+                                        _StdOut.putText("Q");
+                                    }
+                                    else if (pid[pidNum][t] == "52") {
+                                        _StdOut.putText("R");
+                                    }
+                                    else if (pid[pidNum][t] == "53") {
+                                        _StdOut.putText("S");
+                                    }
+                                    else if (pid[pidNum][t] == "54") {
+                                        _StdOut.putText("T");
+                                    }
+                                    else if (pid[pidNum][t] == "55") {
+                                        _StdOut.putText("U");
+                                    }
+                                    else if (pid[pidNum][t] == "56") {
+                                        _StdOut.putText("V");
+                                    }
+                                    else if (pid[pidNum][t] == "57") {
+                                        _StdOut.putText("W");
+                                    }
+                                    else if (pid[pidNum][t] == "58") {
+                                        _StdOut.putText("X");
+                                    }
+                                    else if (pid[pidNum][t] == "59") {
+                                        _StdOut.putText("Y");
+                                    }
+                                    else if (pid[pidNum][t] == "5A" || pid[pidNum][t] == "5a") {
+                                        _StdOut.putText("Z");
+                                    }
+                                    else if (pid[pidNum][t] == "5B" || pid[pidNum][t] == "5b") {
+                                        _StdOut.putText("[");
+                                    }
+                                    else if (pid[pidNum][t] == "5C" || pid[pidNum][t] == "5c") {
+                                        _StdOut.putText("\\");
+                                    }
+                                    else if (pid[pidNum][t] == "5D" || pid[pidNum][t] == "5d") {
+                                        _StdOut.putText("]");
+                                    }
+                                    else if (pid[pidNum][t] == "5E" || pid[pidNum][t] == "5e") {
+                                        _StdOut.putText("^");
+                                    }
+                                    else if (pid[pidNum][t] == "5F" || pid[pidNum][t] == "5f") {
+                                        _StdOut.putText("_");
+                                    }
+                                    else if (pid[pidNum][t] == "60") {
+                                        _StdOut.putText("\'");
+                                    }
+                                    else if (pid[pidNum][t] == "61") {
+                                        _StdOut.putText("a");
+                                    }
+                                    else if (pid[pidNum][t] == "62") {
+                                        _StdOut.putText("b");
+                                    }
+                                    else if (pid[pidNum][t] == "63") {
+                                        _StdOut.putText("c");
+                                    }
+                                    else if (pid[pidNum][t] == "64") {
+                                        _StdOut.putText("d");
+                                    }
+                                    else if (pid[pidNum][t] == "65") {
+                                        _StdOut.putText("e");
+                                    }
+                                    else if (pid[pidNum][t] == "66") {
+                                        _StdOut.putText("f");
+                                    }
+                                    else if (pid[pidNum][t] == "67") {
+                                        _StdOut.putText("g");
+                                    }
+                                    else if (pid[pidNum][t] == "68") {
+                                        _StdOut.putText("h");
+                                    }
+                                    else if (pid[pidNum][t] == "69") {
+                                        _StdOut.putText("i");
+                                    }
+                                    else if (pid[pidNum][t] == "6A" || pid[pidNum][t] == "6a") {
+                                        _StdOut.putText("j");
+                                    }
+                                    else if (pid[pidNum][t] == "6B" || pid[pidNum][t] == "6b") {
+                                        _StdOut.putText("k");
+                                    }
+                                    else if (pid[pidNum][t] == "6C" || pid[pidNum][t] == "6c") {
+                                        _StdOut.putText("l");
+                                    }
+                                    else if (pid[pidNum][t] == "6D" || pid[pidNum][t] == "6d") {
+                                        _StdOut.putText("m");
+                                    }
+                                    else if (pid[pidNum][t] == "6E" || pid[pidNum][t] == "6e") {
+                                        _StdOut.putText("n");
+                                    }
+                                    else if (pid[pidNum][t] == "6F" || pid[pidNum][t] == "6f") {
+                                        _StdOut.putText("o");
+                                    }
+                                    else if (pid[pidNum][t] == "70") {
+                                        _StdOut.putText("p");
+                                    }
+                                    else if (pid[pidNum][t] == "71") {
+                                        _StdOut.putText("q");
+                                    }
+                                    else if (pid[pidNum][t] == "72") {
+                                        _StdOut.putText("r");
+                                    }
+                                    else if (pid[pidNum][t] == "73") {
+                                        _StdOut.putText("s");
+                                    }
+                                    else if (pid[pidNum][t] == "74") {
+                                        _StdOut.putText("t");
+                                    }
+                                    else if (pid[pidNum][t] == "75") {
+                                        _StdOut.putText("u");
+                                    }
+                                    else if (pid[pidNum][t] == "76") {
+                                        _StdOut.putText("v");
+                                    }
+                                    else if (pid[pidNum][t] == "77") {
+                                        _StdOut.putText("w");
+                                    }
+                                    else if (pid[pidNum][t] == "78") {
+                                        _StdOut.putText("x");
+                                    }
+                                    else if (pid[pidNum][t] == "79") {
+                                        _StdOut.putText("y");
+                                    }
+                                    else if (pid[pidNum][t] == "7A" || pid[pidNum][t] == "7a") {
+                                        _StdOut.putText("z");
+                                    }
+                                    else if (pid[pidNum][t] == "7B" || pid[pidNum][t] == "7b") {
+                                        _StdOut.putText("{");
+                                    }
+                                    else if (pid[pidNum][t] == "7C" || pid[pidNum][t] == "7c") {
+                                        _StdOut.putText("|");
+                                    }
+                                    else if (pid[pidNum][t] == "7D" || pid[pidNum][t] == "7d") {
+                                        _StdOut.putText("}");
+                                    }
+                                    else if (pid[pidNum][t] == "7E" || pid[pidNum][t] == "7e") {
+                                        _StdOut.putText("~");
+                                    }
                                     else if (pid[pidNum][t] == "00") {
                                         t = 300;
+                                    }
+                                    if (_Console.currentXPosition > 490) {
+                                        _StdOut.advanceLine();
                                     }
                                 }
                             }
