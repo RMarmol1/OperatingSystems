@@ -25,7 +25,8 @@ module TSOS {
                     public Yreg: number = 0,
                     public Zflag: number = 0,
                     public isExecuting: boolean = false,
-                    public stillRunning: boolean = false) {
+                    public waitTime: number = 0
+                    ) {
 
         }
 
@@ -36,7 +37,8 @@ module TSOS {
             this.Yreg = 0;
             this.Zflag = 0;
             this.isExecuting = false;
-            this.stillRunning = false;
+            this.waitTime = 0;
+            
         }
 
         public cycle(): void {

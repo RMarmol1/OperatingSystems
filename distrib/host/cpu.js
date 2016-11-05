@@ -16,21 +16,21 @@
 var TSOS;
 (function (TSOS) {
     var Cpu = (function () {
-        function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting, stillRunning) {
+        function Cpu(PC, Acc, Xreg, Yreg, Zflag, isExecuting, waitTime) {
             if (PC === void 0) { PC = 0; }
             if (Acc === void 0) { Acc = 0; }
             if (Xreg === void 0) { Xreg = 0; }
             if (Yreg === void 0) { Yreg = 0; }
             if (Zflag === void 0) { Zflag = 0; }
             if (isExecuting === void 0) { isExecuting = false; }
-            if (stillRunning === void 0) { stillRunning = false; }
+            if (waitTime === void 0) { waitTime = 0; }
             this.PC = PC;
             this.Acc = Acc;
             this.Xreg = Xreg;
             this.Yreg = Yreg;
             this.Zflag = Zflag;
             this.isExecuting = isExecuting;
-            this.stillRunning = stillRunning;
+            this.waitTime = waitTime;
         }
         Cpu.prototype.init = function () {
             this.PC = 0;
@@ -39,7 +39,7 @@ var TSOS;
             this.Yreg = 0;
             this.Zflag = 0;
             this.isExecuting = false;
-            this.stillRunning = false;
+            this.waitTime = 0;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');

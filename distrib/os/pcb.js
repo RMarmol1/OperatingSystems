@@ -12,7 +12,7 @@ var TSOS;
             if (pcbXReg === void 0) { pcbXReg = 0; }
             if (pcbYReg === void 0) { pcbYReg = 0; }
             if (pcbZReg === void 0) { pcbZReg = 0; }
-            if (pcbState === void 0) { pcbState = "Running"; }
+            if (pcbState === void 0) { pcbState = "Ready"; }
             if (pcbStepCounter === void 0) { pcbStepCounter = 0; }
             this.pcbPID = pcbPID;
             this.pcbpc = pcbpc;
@@ -32,7 +32,7 @@ var TSOS;
             this.pcbXReg = 0;
             this.pcbYReg = 0;
             this.pcbZReg = 0;
-            this.pcbState = "Running";
+            this.pcbState = "Ready";
             this.pcbStepCounter = 0;
         };
         //prints pcb contents in pcb html table

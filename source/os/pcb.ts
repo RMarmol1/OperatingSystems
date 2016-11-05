@@ -13,7 +13,7 @@ module TSOS {
             public pcbXReg = 0,
             public pcbYReg = 0,
             public pcbZReg = 0,
-            public pcbState = "Running",
+            public pcbState = "Ready",
             public pcbStepCounter = 0) {
 
         }
@@ -26,7 +26,7 @@ module TSOS {
             this.pcbXReg = 0;
             this.pcbYReg = 0;
             this.pcbZReg = 0;
-            this.pcbState = "Running";
+            this.pcbState = "Ready";
             this.pcbStepCounter = 0;
 
         }
@@ -74,6 +74,8 @@ module TSOS {
             document.getElementById("pcbTable").rows[1].cells[5].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[6].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[7].innerHTML = this.pcbState;
+
+            
         }
 
     }

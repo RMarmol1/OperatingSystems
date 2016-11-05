@@ -60,6 +60,10 @@ module TSOS {
             _Scheduler = new Scheduler();
             _Scheduler.init();
 
+            //intialize ready queue
+            _ReadyQueue = new ReadyQueue();
+            _ReadyQueue.init();
+
 
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
@@ -106,8 +110,10 @@ module TSOS {
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed. {
                 //_CPU.cycle();
                 if (step == false && _CPU.isExecuting == true) {
-                    
+                    _MemoryManager.pcbArray[pidNum].pcbState = "Running";
                     _CPU.cycle();
+                    _ReadyQueue.setReadyQueue();
+                    _CPU.waitTime++;
                     stepCounter++;
 
                     if (runAll == true) {
@@ -117,8 +123,10 @@ module TSOS {
 
                     //RR scheduling
                     if (_Scheduler.quantumCounter > _Scheduler.quantum && runAll == true) {
-                       
+                        _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
+                        _ReadyQueue.setReadyQueue();
                         _Scheduler.roundRobin();
+                        
                         _Scheduler.quantumCounter = 0;
                         _StdOut.advanceLine();
 
@@ -140,7 +148,11 @@ module TSOS {
                         _MemoryManager.pcbArray[pidNum].finishedPCB();
                         stepCounter = 0;
                         pidInMemNum = currentPIDInMem.indexOf(pidNum);
-                        _StdOut.putText("CPU is finished.");
+                        _StdOut.advanceLine();
+                        _StdOut.putText("CPU is finished PID: " + pidNum + ". TT = " + _CPU.waitTime);
+                        //_CPU.waitTime = 0;
+                        _ReadyQueue.finishProcess();
+                        
 
                         for (var i = 0; i < 256; i++) {
                             _Memory.processArray[pidNum][i] = "00";
@@ -158,6 +170,11 @@ module TSOS {
                         if (_MemoryManager.posArray[pidNum] == 2) {
                             _Memory.position3 = false;
                            // _StdOut.putText("Cleared loc 2");
+                        }
+
+                        if (_Memory.position1 == false && _Memory.position2 == false && _Memory.position3 == false) {
+                            _Memory.processArray = [];
+                            currentPIDInMem = [];
                         }
 
                         _MemoryManager.printMemoryAtLocation();
@@ -216,7 +233,7 @@ module TSOS {
                                 }
 
                                 else {
-                                    _StdOut.putText("BITCH");
+                                    _StdOut.putText("What?");
                                 }
 
                                 
@@ -246,11 +263,11 @@ module TSOS {
                                 } 
 
 
-
+                            /*
                                 if (_Memory.position1 == false && _Memory.position2 == false && _Memory.position3 == false) {
                                     _CPU.isExecuting = false;
                                     runAll = false;
-                                    _CPU.stillRunning = false;
+                                    
                                     pidInMemNum = 100;
                                     _MemoryManager.pcbArray[pidNum].finishedPCB();
                                     stepCounter = 0;
@@ -274,7 +291,7 @@ module TSOS {
                                     _MemoryManager.printMemoryAtLocation();
 
                                     _StdOut.advanceLine();
-                                } 
+                                } */
                                 
 
                                 

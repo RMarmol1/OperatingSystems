@@ -393,6 +393,9 @@ var TSOS;
         Shell.prototype.shellRun = function (args) {
             runPID = args[0];
             _Memory.processID = runPID;
+            if (runAll == false) {
+                _CPU.waitTime = 0;
+            }
             pid = _Memory.processArray;
             pidNum = _Memory.processID;
             //var empty = [];
@@ -410,13 +413,24 @@ var TSOS;
                     _CPU.isExecuting = true;
                 }
             }
-            if (_CPU.isExecuting === true) {
-                _StdOut.putText("CPU is executing...");
-                _StdOut.advanceLine();
-                _MemoryManager.printMemoryAtLocation();
-                //PCB
-                // _PCB.pcbPID = pidNum;
-                _MemoryManager.pcbArray[pidNum].printPCB();
+            if (currentPIDInMem.indexOf(pidNum) == 0 && _Memory.position1 == false) {
+                _StdOut.putText("Unrecognized PID: " + pidNum);
+            }
+            else if (currentPIDInMem.indexOf(pidNum) == 1 && _Memory.position2 == false) {
+                _StdOut.putText("Unrecognized PID: " + pidNum);
+            }
+            else if (currentPIDInMem.indexOf(pidNum) == 2 && _Memory.position3 == false) {
+                _StdOut.putText("Unrecognized PID: " + pidNum);
+            }
+            else {
+                if (_CPU.isExecuting === true) {
+                    _StdOut.putText("CPU is executing...");
+                    _StdOut.advanceLine();
+                    _MemoryManager.printMemoryAtLocation();
+                    //PCB
+                    // _PCB.pcbPID = pidNum;
+                    _MemoryManager.pcbArray[pidNum].printPCB();
+                }
             }
         };
         Shell.prototype.shellLoad = function (args) {
@@ -489,6 +503,7 @@ var TSOS;
                     _MemoryManager.pcbArray[pidCounter] = new TSOS.PCB();
                     _MemoryManager.pcbArray[pidCounter].init();
                     _MemoryManager.pcbArray[pidCounter].pcbPID = pidCounter;
+                    _ReadyQueue.loadReadyQueue();
                     pidCounter++;
                 }
             }
@@ -512,6 +527,7 @@ var TSOS;
             runAll = true;
             _Scheduler.quantumCounter = 0;
             pidInMemNum = 0;
+            _CPU.waitTime = 0;
             //_CPU.stillRunning = true;
             _OsShell.shellRun(argsArr);
         };

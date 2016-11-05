@@ -12,7 +12,7 @@
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
 const APP_NAME: string    = "OS-MARMOLADE";   // 'cause Bob and I were at a loss for a better name.
-const APP_VERSION: string = "2.00";   // What did you expect?
+const APP_VERSION: string = "2.75";   // What did you expect?
 
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
 
@@ -30,6 +30,7 @@ var _Memory: TSOS.Memory;
 var _PCB: TSOS.PCB;
 var _MemoryManager: TSOS.MemoryManager;
 var _Scheduler: TSOS.Scheduler;
+var _ReadyQueue: TSOS.ReadyQueue;
 
 var _OSclock: number = 0;  // Page 23.
 
