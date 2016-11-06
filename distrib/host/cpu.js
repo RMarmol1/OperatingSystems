@@ -41,6 +41,18 @@ var TSOS;
             this.isExecuting = false;
             this.waitTime = 0;
         };
+        Cpu.prototype.clearCPU = function () {
+            this.PC = 0;
+            this.Acc = 0;
+            this.Xreg = 0;
+            this.Yreg = 0;
+            this.Zflag = 0;
+            document.getElementById("cpuTable").rows[1].cells[0].innerHTML = _CPU.PC;
+            document.getElementById("cpuTable").rows[1].cells[1].innerHTML = _CPU.Acc;
+            document.getElementById("cpuTable").rows[1].cells[2].innerHTML = _CPU.Xreg;
+            document.getElementById("cpuTable").rows[1].cells[3].innerHTML = _CPU.Yreg;
+            document.getElementById("cpuTable").rows[1].cells[4].innerHTML = _CPU.Zflag;
+        };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
             /*if (step == false) {

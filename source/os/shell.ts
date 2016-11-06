@@ -569,14 +569,14 @@ module TSOS {
 
             }
             if (hexBoolean == true) {
-               
+                
                 arrayHex = [];
                 for (var i = 0; i < hexArray.length; i++) {
                     if (hexArray[i] === " " || hexArray[i] === "," || hexArray[i] === "\n" || hexArray[i].length == 0) {
                         hexArray.splice(i, 1);
                     }
                 }
-               // _StdOut.putText(hexArray);
+                // _StdOut.putText(hexArray);
                 for (var i = 0; i < hexArray.length; i++) {
                     if (hexArray[i] === " ") {
                         hexArray.splice(i, 1);
@@ -589,11 +589,13 @@ module TSOS {
                         i++;
                     }
                 }
-                
-               // _Memory.processArray.push(arrayHex);
 
                 
-                
+
+                // _Memory.processArray.push(arrayHex);
+
+
+
                 if (_Memory.position1 == false) {
                     posNum = 0;
                     _Memory.position1 = true;
@@ -624,7 +626,7 @@ module TSOS {
 
                     //_MemoryManager.printMemory();
                     _MemoryManager.printMemoryAtLocation();
-                    
+
 
                     //PCB
                     _MemoryManager.pcbArray[pidCounter] = new PCB();
@@ -643,21 +645,21 @@ module TSOS {
 
                 _StdOut.putText("PID[" + pidCounter + "] has been added at location " + posNum);
                 */
-                
-                
 
-               // pidCounter++;
 
-               // _Memory.formatSize(_Memory.processID);
 
-               // _MemoryManager.printMemory();
+                // pidCounter++;
 
-                
+                // _Memory.formatSize(_Memory.processID);
+
+                // _MemoryManager.printMemory();
+
+            
                 
 
                 
             } else {
-                _StdOut.putText("Value is not in Hex!");
+                _StdOut.putText("Invalid Value!");
                 
             }
 

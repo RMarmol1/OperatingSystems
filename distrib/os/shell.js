@@ -508,7 +508,7 @@ var TSOS;
                 }
             }
             else {
-                _StdOut.putText("Value is not in Hex!");
+                _StdOut.putText("Invalid Value!");
             }
         };
         Shell.prototype.shellClearMem = function () {

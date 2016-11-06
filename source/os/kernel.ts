@@ -125,7 +125,8 @@ module TSOS {
                     if (_Scheduler.quantumCounter > _Scheduler.quantum && runAll == true) {
                         _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
                         _ReadyQueue.setReadyQueue();
-                        _Scheduler.roundRobin();
+                        _Scheduler.roundRobin(); //intiialzes context switch with rr scheduling and uses system call
+                        _Mode = 1; //sets back to user mode
                         
                         _Scheduler.quantumCounter = 0;
                         _StdOut.advanceLine();
@@ -147,11 +148,13 @@ module TSOS {
                     if (_CPU.isExecuting === false) {
                         _MemoryManager.pcbArray[pidNum].finishedPCB();
                         stepCounter = 0;
+                        _Scheduler.quantumCounter = 0;
                         pidInMemNum = currentPIDInMem.indexOf(pidNum);
                         _StdOut.advanceLine();
                         _StdOut.putText("CPU is finished PID: " + pidNum + ". TT = " + _CPU.waitTime);
                         //_CPU.waitTime = 0;
                         _ReadyQueue.finishProcess();
+                        _CPU.clearCPU();
                         
 
                         for (var i = 0; i < 256; i++) {
@@ -350,6 +353,9 @@ module TSOS {
                 case KEYBOARD_IRQ:
                     _krnKeyboardDriver.isr(params);   // Kernel mode device driver
                     _StdIn.handleInput();
+                    break;
+                case SOFTWARE_IRQ:
+                    _Mode = 0; //sets to kernel mode
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");

@@ -19,6 +19,10 @@ var TSOS;
             this.quantum = q;
         };
         Scheduler.prototype.roundRobin = function () {
+            //interrupt
+            //_CPU.isExecuting = false;
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SOFTWARE_IRQ, 1));
+            //_CPU.isExecuting = true;
             _MemoryManager.pcbArray[pidNum].pcbStepCounter = stepCounter;
             _StdOut.putText("Switching from " + pidNum);
             if (pidInMemNum < currentPIDInMem.length - 1) {
