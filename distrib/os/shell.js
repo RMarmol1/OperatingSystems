@@ -596,7 +596,7 @@ var TSOS;
                     _Memory.position3 = false;
                 }
                 currentPIDInMem[args[0]] = null;
-                _StdOut.putText("Killed PID:" + args[0] + currentPIDInMem.toString());
+                _StdOut.putText("Killed PID:" + args[0]);
             }
         };
         return Shell;
