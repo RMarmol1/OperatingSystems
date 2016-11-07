@@ -109,7 +109,8 @@ module TSOS {
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed. {
                 //_CPU.cycle();
-                if (step == false && _CPU.isExecuting == true) {
+                if (_CPU.isExecuting == true) {
+                    
                     _MemoryManager.pcbArray[pidNum].pcbState = "Running";
                     _CPU.cycle();
                     _ReadyQueue.setReadyQueue();
@@ -133,11 +134,13 @@ module TSOS {
 
                     }
 
-                     
+                    
 
 
                     if (stepCounter >= pid[pidNum].length ){
                         _CPU.isExecuting = false;
+                        step = false;
+
                     }
                     
 
@@ -145,7 +148,7 @@ module TSOS {
                         _CPU.isExecuting = false;
                     }
 
-                    if (_CPU.isExecuting === false) {
+                    if (_CPU.isExecuting === false && step == false) {
                         _MemoryManager.pcbArray[pidNum].finishedPCB();
                         stepCounter = 0;
                         _Scheduler.quantumCounter = 0;

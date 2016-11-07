@@ -115,7 +115,7 @@ var TSOS;
         };
         Control.hostBtnNext_click = function (btn) {
             pause = false;
-            _CPU.stepEncode(pidNum);
+            _CPU.isExecuting = true;
         };
         return Control;
     }());

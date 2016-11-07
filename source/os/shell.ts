@@ -682,11 +682,40 @@ module TSOS {
             //this.shellRun(0);
             //_StdOut.putText("Sure");
             var argsArr = currentPIDInMem;
+            var newArr = [];
             runAll = true;
             _Scheduler.quantumCounter = 0;
             pidInMemNum = 0;
             _CPU.waitTime = 0;
             //_CPU.stillRunning = true;
+            /*if (_Memory.position1 == false) {
+                if (_Memory.position2 == true) {
+                    currentPIDInMem[0] == argsArr[1];
+
+                }
+                if (_Memory.position3 == true) {
+                    currentPIDInMem[1] == argsArr[2];
+                }
+
+            }
+            if (_Memory.position2 == false) {
+                if (_Memory.position3 == true) {
+                    currentPIDInMem[0] == argsArr[0];
+                    currentPIDInMem[1] == argsArr[2];
+                }
+                
+
+            }
+            if (_Memory.position3 == false) {
+                if (_Memory.position3 == true) {
+                    currentPIDInMem[0] == argsArr[0];
+                    currentPIDInMem[1] == argsArr[1];
+
+                }
+
+
+            }*/
+
             _OsShell.shellRun(argsArr);
 
         }
@@ -700,17 +729,40 @@ module TSOS {
             //shows currently active pids
             _StdOut.putText("Currently active PIDs:");
             _StdOut.advanceLine();
-            for (var i = 0; i < currentPIDInMem.length; i++) {
-                _StdOut.putText("PID: " + currentPIDInMem[i]);
+            if (_CPU.isExecuting == true && runAll == true) {
+                for (var i = 0; i < currentPIDInMem.length; i++) {
+                    _StdOut.putText("PID: " + currentPIDInMem[i]);
+                    _StdOut.advanceLine();
+                }
+            } else if (_CPU.isExecuting == true && runAll == false) {
+                _StdOut.putText("PID: " + pidNum);
+                _StdOut.advanceLine();
+            } else {
+                _StdOut.putText("No PIDs currently running");
                 _StdOut.advanceLine();
             }
+            
         }
 
         public shellKill(args) {
             if (_CPU.isExecuting == true) {
                 _CPU.isExecuting = false;
                 _Memory.processArray[args[0]] = null;
-                _StdOut.putText("Killed PID:" + args[0]);
+                if (_MemoryManager.posArray[args[0]] == 0) {
+                    _Memory.position1 = false;
+                    
+                } else if (_MemoryManager.posArray[args[0]] == 1) {
+                    _Memory.position2 = false;
+                    
+                } else if (_MemoryManager.posArray[args[0]] == 2) {
+                    _Memory.position3 = false;
+                   
+
+                }
+                
+                
+                currentPIDInMem[args[0]] = null;
+                _StdOut.putText("Killed PID:" + args[0] + currentPIDInMem.toString());
             }
         }
 

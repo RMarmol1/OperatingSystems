@@ -93,7 +93,7 @@ var TSOS;
             }
             else if (_CPU.isExecuting) {
                 //_CPU.cycle();
-                if (step == false && _CPU.isExecuting == true) {
+                if (_CPU.isExecuting == true) {
                     _MemoryManager.pcbArray[pidNum].pcbState = "Running";
                     _CPU.cycle();
                     _ReadyQueue.setReadyQueue();
@@ -113,11 +113,12 @@ var TSOS;
                     }
                     if (stepCounter >= pid[pidNum].length) {
                         _CPU.isExecuting = false;
+                        step = false;
                     }
                     if (step == true && _CPU.isExecuting == true) {
                         _CPU.isExecuting = false;
                     }
-                    if (_CPU.isExecuting === false) {
+                    if (_CPU.isExecuting === false && step == false) {
                         _MemoryManager.pcbArray[pidNum].finishedPCB();
                         stepCounter = 0;
                         _Scheduler.quantumCounter = 0;
