@@ -570,15 +570,17 @@ var TSOS;
         };
         Shell.prototype.shellPs = function () {
             //shows currently active pids
-            _StdOut.putText("Currently active PIDs:");
-            _StdOut.advanceLine();
             if (_CPU.isExecuting == true && runAll == true) {
+                _StdOut.putText("Currently active PIDs:");
+                _StdOut.advanceLine();
                 for (var i = 0; i < currentPIDInMem.length; i++) {
                     _StdOut.putText("PID: " + currentPIDInMem[i]);
                     _StdOut.advanceLine();
                 }
             }
             else if (_CPU.isExecuting == true && runAll == false) {
+                _StdOut.putText("Currently active PIDs:");
+                _StdOut.advanceLine();
                 _StdOut.putText("PID: " + pidNum);
                 _StdOut.advanceLine();
             }
@@ -590,6 +592,7 @@ var TSOS;
         Shell.prototype.shellKill = function (args) {
             if (_CPU.isExecuting == true) {
                 _CPU.isExecuting = false;
+                runAll = false;
                 // _Memory.processArray[args[0]] = null;
                 if (_MemoryManager.posArray[args[0]] == 0) {
                     _Memory.position1 = false;
