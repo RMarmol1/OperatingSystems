@@ -637,24 +637,6 @@ module TSOS {
 
                     pidCounter++;
                 }
-                /*
-                _MemoryManager.posArray.push(posNum);
-
-                _Memory.processID = pidCounter;
-                
-
-                _StdOut.putText("PID[" + pidCounter + "] has been added at location " + posNum);
-                */
-
-
-
-                // pidCounter++;
-
-                // _Memory.formatSize(_Memory.processID);
-
-                // _MemoryManager.printMemory();
-
-            
                 
 
                 
@@ -666,7 +648,7 @@ module TSOS {
         }
 
         
-
+        // clears all mem partitions
         public shellClearMem() {
            for (var i = 0; i < currentPIDInMem.length; i++) {
                 pidNum = currentPIDInMem[i];
@@ -683,7 +665,7 @@ module TSOS {
             _StdOut.putText("Memory Cleared");
         }
 
-
+        //runs all pids currently in mem
         public shellRunAll() {
             //this.shellRun(0);
             //_StdOut.putText("Sure");
@@ -726,11 +708,13 @@ module TSOS {
 
         }
 
+        //sets the quantum
         public shellQuantum(args) {
             _Scheduler.setQuantum(args[0]);
             _StdOut.putText("Quantum is set to: " + _Scheduler.quantum);
         }
 
+        //lists all currently running PIDs
         public shellPs() {
             //shows currently active pids
             
@@ -754,6 +738,7 @@ module TSOS {
             
         }
 
+        //kills a PID
         public shellKill(args) {
             if (_CPU.isExecuting == true) {
                 _CPU.isExecuting = false;

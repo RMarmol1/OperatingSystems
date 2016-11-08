@@ -15,13 +15,15 @@ var TSOS;
             this.quantum = 6;
             this.quantumCounter = 0;
         };
+        //sets the quantum
         Scheduler.prototype.setQuantum = function (q) {
             this.quantum = q;
         };
+        //schedules processes with round robin scheduling and performs a context switch via a software interrupt
         Scheduler.prototype.roundRobin = function () {
             //interrupt
             //_CPU.isExecuting = false;
-            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SOFTWARE_IRQ, 1));
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SOFTWARE_IRQ, 1)); //software interrupt
             //_CPU.isExecuting = true;
             _MemoryManager.pcbArray[pidNum].pcbStepCounter = stepCounter;
             _StdOut.putText("Switching from " + pidNum);

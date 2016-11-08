@@ -14,7 +14,7 @@ var TSOS;
             this.posArray = [];
             this.pcbArray = [];
         };
-        //to be used in next project -- prints memory at correct location
+        //prints memory at correct location
         MemoryManager.prototype.printMemoryAtLocation = function () {
             //pidNum = _Memory.processID;
             if (_MemoryManager.posArray[_Memory.processID] == 0) {
@@ -94,6 +94,7 @@ var TSOS;
             rowCount = 0;
             cellCount = 1;
         };
+        //prints cleared mem
         MemoryManager.prototype.printClearedMem = function () {
             for (var i = 0; i < 256; i++) {
                 emptyArray[i] = "00";

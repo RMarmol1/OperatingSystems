@@ -41,6 +41,7 @@ var TSOS;
             this.isExecuting = false;
             this.waitTime = 0;
         };
+        //clears CPU
         Cpu.prototype.clearCPU = function () {
             this.PC = 0;
             this.Acc = 0;

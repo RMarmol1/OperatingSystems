@@ -11,12 +11,12 @@
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
 var APP_NAME = "OS-MARMOLADE"; // 'cause Bob and I were at a loss for a better name.
-var APP_VERSION = "2.75"; // What did you expect?
+var APP_VERSION = "3.00"; // What did you expect?
 var CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
 var TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 var KEYBOARD_IRQ = 1;
-var SOFTWARE_IRQ = 2;
+var SOFTWARE_IRQ = 2; //number for software interruot
 //
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
@@ -76,9 +76,9 @@ var position2 = false;
 var position3 = false;
 var emptyArray = [];
 var runPID = 0;
-var runAll = false;
-var currentPIDInMem = [];
-var pidInMemNum = 0;
+var runAll = false; //used with runall command
+var currentPIDInMem = []; //array to store all pids in mem
+var pidInMemNum = 0; //keeps track which pid in locations
 //var blank = _DrawingContext.getImageData(0, 0, 500, 500);
 var capsLock = false; //boolean if caps lock is set or not
 var val = "AA"; //helps with value in checking load function

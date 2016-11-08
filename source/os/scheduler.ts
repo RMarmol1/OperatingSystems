@@ -15,14 +15,16 @@ module TSOS {
             
         }
 
+        //sets the quantum
         public setQuantum(q) {
             this.quantum = q;
         }
 
+        //schedules processes with round robin scheduling and performs a context switch via a software interrupt
         public roundRobin() {//remember to check if loactions are filled
             //interrupt
             //_CPU.isExecuting = false;
-            _KernelInterruptQueue.enqueue(new Interrupt(SOFTWARE_IRQ, 1));
+            _KernelInterruptQueue.enqueue(new Interrupt(SOFTWARE_IRQ, 1)); //software interrupt
             //_CPU.isExecuting = true;
 
 

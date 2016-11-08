@@ -117,6 +117,7 @@ module TSOS {
                     _CPU.waitTime++;
                     stepCounter++;
 
+                    //if all processes running add to quantum counter
                     if (runAll == true) {
                         _Scheduler.quantumCounter++;
                     }
@@ -268,40 +269,6 @@ module TSOS {
 
                                 } 
 
-
-                            /*
-                                if (_Memory.position1 == false && _Memory.position2 == false && _Memory.position3 == false) {
-                                    _CPU.isExecuting = false;
-                                    runAll = false;
-                                    
-                                    pidInMemNum = 100;
-                                    _MemoryManager.pcbArray[pidNum].finishedPCB();
-                                    stepCounter = 0;
-                                    _StdOut.putText("CPU is finished.");
-
-                                    for (var i = 0; i < 256; i++) {
-                                        _Memory.processArray[pidNum][i] = "00";
-
-                                    }
-
-                                    if (_MemoryManager.posArray[_Memory.processID] == 0) {
-                                        _Memory.position1 = false;
-                                    }
-                                    if (_MemoryManager.posArray[_Memory.processID] == 1) {
-                                        _Memory.position2 = false;
-                                    }
-                                    if (_MemoryManager.posArray[_Memory.processID] == 2) {
-                                        _Memory.position3 = false;
-                                    }
-
-                                    _MemoryManager.printMemoryAtLocation();
-
-                                    _StdOut.advanceLine();
-                                } */
-                                
-
-                                
-                               
 
                             }
                         

@@ -511,6 +511,7 @@ var TSOS;
                 _StdOut.putText("Invalid Value!");
             }
         };
+        // clears all mem partitions
         Shell.prototype.shellClearMem = function () {
             for (var i = 0; i < currentPIDInMem.length; i++) {
                 pidNum = currentPIDInMem[i];
@@ -525,6 +526,7 @@ var TSOS;
             _Memory.position3 = false;
             _StdOut.putText("Memory Cleared");
         };
+        //runs all pids currently in mem
         Shell.prototype.shellRunAll = function () {
             //this.shellRun(0);
             //_StdOut.putText("Sure");
@@ -564,10 +566,12 @@ var TSOS;
             }*/
             _OsShell.shellRun(argsArr);
         };
+        //sets the quantum
         Shell.prototype.shellQuantum = function (args) {
             _Scheduler.setQuantum(args[0]);
             _StdOut.putText("Quantum is set to: " + _Scheduler.quantum);
         };
+        //lists all currently running PIDs
         Shell.prototype.shellPs = function () {
             //shows currently active pids
             if (_CPU.isExecuting == true && runAll == true) {
@@ -589,6 +593,7 @@ var TSOS;
                 _StdOut.advanceLine();
             }
         };
+        //kills a PID
         Shell.prototype.shellKill = function (args) {
             if (_CPU.isExecuting == true) {
                 _CPU.isExecuting = false;

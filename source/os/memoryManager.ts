@@ -16,7 +16,7 @@ module TSOS {
 
         }
 
-		//to be used in next project -- prints memory at correct location
+		//prints memory at correct location
         public printMemoryAtLocation() {
             //pidNum = _Memory.processID;
             if (_MemoryManager.posArray[_Memory.processID] == 0) {
@@ -106,6 +106,7 @@ module TSOS {
             
         }
 
+        //prints cleared mem
         public printClearedMem() {
             for (var i = 0; i < 256; i++) {
                 emptyArray[i] = "00";

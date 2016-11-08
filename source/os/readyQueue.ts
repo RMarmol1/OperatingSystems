@@ -1,5 +1,5 @@
 /*
-	CPU Scheduler
+	Ready Queue
 
 */
 
@@ -13,6 +13,7 @@ module TSOS {
             this.pidInQueue = currentPIDInMem;
         }
 
+        //loads pcb data into ready queue for loaded PID
         public loadReadyQueue() {
             if (_MemoryManager.posArray[pidCounter] == 0 && _Memory.position1 == true) {
                 document.getElementById("queueTable").rows[1].cells[0].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbPID;
@@ -49,7 +50,8 @@ module TSOS {
             }
 
         }
-		
+
+        //updates pcb of PID in ready queue
         public setReadyQueue() {
             if (_MemoryManager.posArray[pidNum] == 0 && _Memory.position1 == true) {
                 document.getElementById("queueTable").rows[1].cells[0].innerHTML = _MemoryManager.pcbArray[pidNum].pcbPID;
@@ -87,6 +89,7 @@ module TSOS {
 			
         }
 
+        //sets finished pcb in ready queue
         public finishProcess() {
             if (_MemoryManager.posArray[pidNum] == 0) {
                 document.getElementById("queueTable").rows[1].cells[0].innerHTML = "--";
