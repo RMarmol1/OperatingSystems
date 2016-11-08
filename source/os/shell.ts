@@ -758,7 +758,7 @@ module TSOS {
             if (_CPU.isExecuting == true) {
                 _CPU.isExecuting = false;
                 runAll = false;
-               // _Memory.processArray[args[0]] = null;
+               _Memory.processArray[args[0]] = null;
                 if (_MemoryManager.posArray[args[0]] == 0) {
                     _Memory.position1 = false;
 
@@ -779,7 +779,7 @@ module TSOS {
                 _StdOut.putText("Killed PID:" + args[0]);
                 //_CPU.isExecuting = true;
             } else {
-               // _Memory.processArray[args[0]] = null;
+               _Memory.processArray[args[0]] = null;
                 if (_MemoryManager.posArray[args[0]] == 0) {
                     _Memory.position1 = false;
 

@@ -593,7 +593,7 @@ var TSOS;
             if (_CPU.isExecuting == true) {
                 _CPU.isExecuting = false;
                 runAll = false;
-                // _Memory.processArray[args[0]] = null;
+                _Memory.processArray[args[0]] = null;
                 if (_MemoryManager.posArray[args[0]] == 0) {
                     _Memory.position1 = false;
                 }
@@ -610,7 +610,7 @@ var TSOS;
                 _StdOut.putText("Killed PID:" + args[0]);
             }
             else {
-                // _Memory.processArray[args[0]] = null;
+                _Memory.processArray[args[0]] = null;
                 if (_MemoryManager.posArray[args[0]] == 0) {
                     _Memory.position1 = false;
                 }
