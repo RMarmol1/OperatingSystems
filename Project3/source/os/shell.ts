@@ -743,7 +743,8 @@ module TSOS {
             if (_CPU.isExecuting == true) {
                 _CPU.isExecuting = false;
                 runAll = false;
-               _Memory.processArray[args[0]] = null;
+                _Memory.processArray[args[0]] = null;
+                _CPU.clearCPU();
                 if (_MemoryManager.posArray[args[0]] == 0) {
                     _Memory.position1 = false;
 
@@ -761,6 +762,7 @@ module TSOS {
                 _MemoryManager.pcbArray[args[0]].pcbStepCounter = 9999;
                 pidNum = args[0];
                 _ReadyQueue.finishProcess();
+                
                 _StdOut.putText("Killed PID:" + args[0]);
                 //_CPU.isExecuting = true;
             } else {
