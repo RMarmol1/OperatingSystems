@@ -32,7 +32,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
             this.commandList[this.commandList.length] = sc;
             // shutdown
-            sc = new TSOS.ShellCommand(this.shellShutdown, "shutdown", "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running.");
+            sc = new TSOS.ShellCommand(this.shellShutdown, "shutdown", "- Shuts down the virtual OS.");
             this.commandList[this.commandList.length] = sc;
             // cls
             sc = new TSOS.ShellCommand(this.shellCls, "cls", "- Clears the screen and resets the cursor position.");
@@ -56,7 +56,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellWhereAmI, "whereami", " - Shows the current location of user.");
             this.commandList[this.commandList.length] = sc;
             //gamble
-            sc = new TSOS.ShellCommand(this.shellGamble, "gamble", " - randomly either dislpays congrats message or closes OS.");
+            sc = new TSOS.ShellCommand(this.shellGamble, "gamble", " - randomly displays congrats message or closes OS.");
             this.commandList[this.commandList.length] = sc;
             //add user
             sc = new TSOS.ShellCommand(this.shellAddUser, "adduser", "<string> - adds user");
@@ -68,7 +68,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string> - sets status message in Host Display");
             this.commandList[this.commandList.length] = sc;
             //load
-            sc = new TSOS.ShellCommand(this.shellLoad, "load", " - validates user code in the HTML5 text area by checking for hex digits and spaces");
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", " - validates user code and adds into memory");
             this.commandList[this.commandList.length] = sc;
             //run
             sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - runs CPU code from given PID");
@@ -512,6 +512,11 @@ var TSOS;
             }
         };
         Shell.prototype.shellClearMem = function () {
+            for (var i = 0; i < currentPIDInMem.length; i++) {
+                pidNum = currentPIDInMem[i];
+                _ReadyQueue.finishProcess();
+            }
+            //_PCB.finishedPCB();
             _Memory.processArray = [];
             currentPIDInMem = [];
             _MemoryManager.printClearedMem();
@@ -524,7 +529,7 @@ var TSOS;
             //this.shellRun(0);
             //_StdOut.putText("Sure");
             var argsArr = currentPIDInMem;
-            var newArr = [];
+            // var newArr = [];
             runAll = true;
             _Scheduler.quantumCounter = 0;
             pidInMemNum = 0;
@@ -585,7 +590,7 @@ var TSOS;
         Shell.prototype.shellKill = function (args) {
             if (_CPU.isExecuting == true) {
                 _CPU.isExecuting = false;
-                _Memory.processArray[args[0]] = null;
+                // _Memory.processArray[args[0]] = null;
                 if (_MemoryManager.posArray[args[0]] == 0) {
                     _Memory.position1 = false;
                 }
@@ -595,7 +600,27 @@ var TSOS;
                 else if (_MemoryManager.posArray[args[0]] == 2) {
                     _Memory.position3 = false;
                 }
-                currentPIDInMem[args[0]] = null;
+                //currentPIDInMem[args[0]] = null;
+                _MemoryManager.pcbArray[args[0]].pcbStepCounter = 9999;
+                pidNum = args[0];
+                _ReadyQueue.finishProcess();
+                _StdOut.putText("Killed PID:" + args[0]);
+            }
+            else {
+                // _Memory.processArray[args[0]] = null;
+                if (_MemoryManager.posArray[args[0]] == 0) {
+                    _Memory.position1 = false;
+                }
+                else if (_MemoryManager.posArray[args[0]] == 1) {
+                    _Memory.position2 = false;
+                }
+                else if (_MemoryManager.posArray[args[0]] == 2) {
+                    _Memory.position3 = false;
+                }
+                _MemoryManager.pcbArray[args[0]].pcbStepCounter = 9999;
+                //currentPIDInMem[args[0]] = null;
+                pidNum = args[0];
+                _ReadyQueue.finishProcess();
                 _StdOut.putText("Killed PID:" + args[0]);
             }
         };

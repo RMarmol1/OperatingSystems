@@ -66,14 +66,14 @@ module TSOS {
             this.pcbZReg = 0;
             this.pcbState = "Finished";
 
-            document.getElementById("pcbTable").rows[1].cells[0].innerHTML = this.pcbPID;
+            document.getElementById("pcbTable").rows[1].cells[0].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[1].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[2].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[3].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[4].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[5].innerHTML = "--";
             document.getElementById("pcbTable").rows[1].cells[6].innerHTML = "--";
-            document.getElementById("pcbTable").rows[1].cells[7].innerHTML = this.pcbState;
+            document.getElementById("pcbTable").rows[1].cells[7].innerHTML = "--";
 
             
         }
