@@ -12,7 +12,7 @@
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
 const APP_NAME: string    = "OS-MARMOLADE";   // 'cause Bob and I were at a loss for a better name.
-const APP_VERSION: string = "2.75";   // What did you expect?
+const APP_VERSION: string = "3.00";   // What did you expect?
 
 const CPU_CLOCK_INTERVAL: number = 100;   // This is in ms (milliseconds) so 1000 = 1 second.
 
@@ -20,7 +20,7 @@ const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (inte
                               // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ: number = 1;
 
-const SOFTWARE_IRQ: number = 2;
+const SOFTWARE_IRQ: number = 2; //number for software interruot
 
 
 //
@@ -103,9 +103,9 @@ var emptyArray = [];
 
 
 var runPID = 0;
-var runAll = false;
-var currentPIDInMem = [];
-var pidInMemNum = 0;
+var runAll = false;  //used with runall command
+var currentPIDInMem = []; //array to store all pids in mem
+var pidInMemNum = 0; //keeps track which pid in locations
 
 //var blank = _DrawingContext.getImageData(0, 0, 500, 500);
 

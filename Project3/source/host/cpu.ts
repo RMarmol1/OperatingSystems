@@ -41,6 +41,7 @@ module TSOS {
             
         }
 
+        //clears CPU
         public clearCPU() {
             this.PC = 0;
             this.Acc = 0;

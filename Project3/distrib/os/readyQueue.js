@@ -1,5 +1,5 @@
 /*
-    CPU Scheduler
+    Ready Queue
 
 */
 var TSOS;
@@ -12,6 +12,7 @@ var TSOS;
         ReadyQueue.prototype.init = function () {
             this.pidInQueue = currentPIDInMem;
         };
+        //loads pcb data into ready queue for loaded PID
         ReadyQueue.prototype.loadReadyQueue = function () {
             if (_MemoryManager.posArray[pidCounter] == 0 && _Memory.position1 == true) {
                 document.getElementById("queueTable").rows[1].cells[0].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbPID;
@@ -47,6 +48,7 @@ var TSOS;
                 document.getElementById("queueTable").rows[3].cells[7].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbState;
             }
         };
+        //updates pcb of PID in ready queue
         ReadyQueue.prototype.setReadyQueue = function () {
             if (_MemoryManager.posArray[pidNum] == 0 && _Memory.position1 == true) {
                 document.getElementById("queueTable").rows[1].cells[0].innerHTML = _MemoryManager.pcbArray[pidNum].pcbPID;
@@ -82,6 +84,7 @@ var TSOS;
                 document.getElementById("queueTable").rows[3].cells[7].innerHTML = _MemoryManager.pcbArray[pidNum].pcbState;
             }
         };
+        //sets finished pcb in ready queue
         ReadyQueue.prototype.finishProcess = function () {
             if (_MemoryManager.posArray[pidNum] == 0) {
                 document.getElementById("queueTable").rows[1].cells[0].innerHTML = "--";

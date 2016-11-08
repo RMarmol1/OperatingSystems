@@ -99,6 +99,7 @@ var TSOS;
                     _ReadyQueue.setReadyQueue();
                     _CPU.waitTime++;
                     stepCounter++;
+                    //if all processes running add to quantum counter
                     if (runAll == true) {
                         _Scheduler.quantumCounter++;
                     }
