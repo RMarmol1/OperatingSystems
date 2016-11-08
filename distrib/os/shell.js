@@ -599,6 +599,7 @@ var TSOS;
                 _CPU.isExecuting = false;
                 runAll = false;
                 _Memory.processArray[args[0]] = null;
+                _CPU.clearCPU();
                 if (_MemoryManager.posArray[args[0]] == 0) {
                     _Memory.position1 = false;
                 }
