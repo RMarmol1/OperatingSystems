@@ -24,12 +24,16 @@ module TSOS {
         public roundRobin() {//remember to check if loactions are filled
             //interrupt
             //_CPU.isExecuting = false;
+
+            var traceNum = 0;
+            traceNum = pidNum;
             _KernelInterruptQueue.enqueue(new Interrupt(SOFTWARE_IRQ, 1)); //software interrupt
             //_CPU.isExecuting = true;
 
 
             _MemoryManager.pcbArray[pidNum].pcbStepCounter = stepCounter;
-            _StdOut.putText("Switching from " + pidNum);
+           // _StdOut.putText("Switching from " + pidNum);
+           // _Kernel.krnTrace("Context Switch from PID " + pidNum);
             if (pidInMemNum < currentPIDInMem.length - 1) {
                 //from 0 to 1 or 2
                 if (_Memory.position2 == true && pidInMemNum == 0) {
@@ -40,6 +44,7 @@ module TSOS {
                     pidNum = currentPIDInMem[pidInMemNum + 1];
                 } else if (_Memory.position3 == false && _Memory.position1 == true && pidInMemNum == 1) {
                     pidNum = currentPIDInMem[0];
+                    
                 } else {
 					//nothing
                 }
@@ -52,10 +57,12 @@ module TSOS {
                     pidNum = currentPIDInMem[0];
                 } else if (_Memory.position1 == false && _Memory.position2 == true && pidInMemNum == 2) {
                     pidNum = currentPIDInMem[1];
+                } else if (_Memory.position1 == true && pidInMemNum == 1) {
+                   // _StdOut.putText("hi");
+                    pidNum = currentPIDInMem[0];
                 } else {
-					//nothing
                 }
-                pidNum = currentPIDInMem[0];
+                
             }
             pidInMemNum++;
             if (pidInMemNum >= currentPIDInMem.length) {
@@ -72,7 +79,8 @@ module TSOS {
             }
             
 			
-            _StdOut.putText(" to " + pidNum);
+            // _StdOut.putText(" to " + pidNum);
+            _Kernel.krnTrace("Context Switch: PID " + traceNum + " to PID " + pidNum);
             _Kernel.krnTrace('Round Robin');
             stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
             _CPU.PC = _MemoryManager.pcbArray[pidNum].pcbpc;
