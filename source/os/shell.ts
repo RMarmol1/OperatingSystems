@@ -499,6 +499,7 @@ module TSOS {
 
             pid = _Memory.processArray;
             pidNum = _Memory.processID;
+            //_StdOut.putText("hi" + pidNum);
             //var empty = [];
 
             if (step == true) {

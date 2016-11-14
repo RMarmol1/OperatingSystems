@@ -112,6 +112,14 @@ module TSOS {
                 if (_CPU.isExecuting == true) {
                     
                     _MemoryManager.pcbArray[pidNum].pcbState = "Running";
+                    _CPU.PC = _MemoryManager.pcbArray[pidNum].pcbpc;
+                    _CPU.Acc = _MemoryManager.pcbArray[pidNum].pcbAcc;
+                    _CPU.Xreg = _MemoryManager.pcbArray[pidNum].pcbXReg;
+                    _CPU.Yreg = _MemoryManager.pcbArray[pidNum].pcbYReg;
+                    _CPU.Zflag = _MemoryManager.pcbArray[pidNum].pcbZReg;
+                    //stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
+                    //_StdOut.putText("step is " + stepCounter);
+                    //_StdOut.advanceLine();
                     _CPU.cycle();
                     _ReadyQueue.setReadyQueue();
                     _CPU.waitTime++;
@@ -129,14 +137,15 @@ module TSOS {
                         _ReadyQueue.setReadyQueue();
                         _Scheduler.roundRobin(); //intiialzes context switch with rr scheduling and uses system call
                         _Mode = 1; //sets back to user mode
-                        
+                        //_StdOut.putText("step is " + stepCounter);
+                        //_StdOut.advanceLine();
                         _Scheduler.quantumCounter = 0;
-                        _StdOut.advanceLine();
+                       // _StdOut.advanceLine();
 
                     }
 
-                    
 
+                  
 
                     if (stepCounter >= pid[pidNum].length ){
                         _CPU.isExecuting = false;
@@ -151,9 +160,9 @@ module TSOS {
 
                     if (_CPU.isExecuting === false && step == false) {
                         _MemoryManager.pcbArray[pidNum].finishedPCB();
-                        stepCounter = 0;
+                       // stepCounter = 0;
                         _Scheduler.quantumCounter = 0;
-                        pidInMemNum = currentPIDInMem.indexOf(pidNum);
+                       // pidInMemNum = currentPIDInMem.indexOf(pidNum);
                         _StdOut.advanceLine();
                         _StdOut.putText("CPU is finished PID: " + pidNum + ". TT = " + _CPU.waitTime);
                         //_CPU.waitTime = 0;
@@ -199,14 +208,18 @@ module TSOS {
                                 //moving from 0 to 1 or 2
                                 if (_Memory.position2 == true && pidInMemNum == 0) {
                                     pidInMemNum++;
+                                    
                                     argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    pidNum = currentPIDInMem[pidInMemNum];
                                     stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
+                                    //_StdOut.putText("step" + stepCounter);
                                     _OsShell.shellRun(argsArray);
                                 }
 
                                 else if (_Memory.position2 == false && _Memory.position3 == true && pidInMemNum == 0) {
                                     pidInMemNum += 2;
                                     argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    pidNum = currentPIDInMem[pidInMemNum];
                                     stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
                                     _OsShell.shellRun(argsArray);
                                 }
@@ -221,6 +234,7 @@ module TSOS {
                                 else if (_Memory.position3 == true && pidInMemNum == 1) {
                                     pidInMemNum++;
                                     argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    pidNum = currentPIDInMem[pidInMemNum];
                                     stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
                                     _OsShell.shellRun(argsArray);
                                 }
@@ -228,6 +242,7 @@ module TSOS {
                                 else if (_Memory.position3 == false && _Memory.position1 == true && pidInMemNum == 1) {
                                     pidInMemNum = 0;
                                     argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    pidNum = currentPIDInMem[pidInMemNum];
                                     stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
                                     _OsShell.shellRun(argsArray);
                                 }
@@ -255,6 +270,7 @@ module TSOS {
                                 if (_Memory.position1 == true && pidInMemNum == 2) {
                                     pidInMemNum = 0;
                                     argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    pidNum = currentPIDInMem[pidInMemNum];
                                     stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
                                     _OsShell.shellRun(argsArray);
 
@@ -264,6 +280,7 @@ module TSOS {
                                 if (_Memory.position1 == false && _Memory.position2 == true && pidInMemNum == 2) {
                                     pidInMemNum = 1;
                                     argsArray[0] = currentPIDInMem[pidInMemNum];
+                                    pidNum = currentPIDInMem[pidInMemNum];
                                     stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
                                     _OsShell.shellRun(argsArray);
 
