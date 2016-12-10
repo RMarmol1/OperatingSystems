@@ -4,15 +4,18 @@
 var TSOS;
 (function (TSOS) {
     var MemoryManager = (function () {
-        function MemoryManager(posArray, pcbArray) {
+        function MemoryManager(posArray, pcbArray, priorityArray) {
             if (posArray === void 0) { posArray = []; }
             if (pcbArray === void 0) { pcbArray = []; }
+            if (priorityArray === void 0) { priorityArray = []; }
             this.posArray = posArray;
             this.pcbArray = pcbArray;
+            this.priorityArray = priorityArray;
         }
         MemoryManager.prototype.init = function () {
             this.posArray = [];
             this.pcbArray = [];
+            this.priorityArray = [];
         };
         //prints memory at correct location
         MemoryManager.prototype.printMemoryAtLocation = function () {
@@ -71,7 +74,6 @@ var TSOS;
                 position3 = true;
             }
             else {
-                _StdOut.putText("Memory is full");
             }
         };
         //prints memory in html table

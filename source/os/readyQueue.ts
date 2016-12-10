@@ -25,6 +25,7 @@ module TSOS {
                 document.getElementById("queueTable").rows[1].cells[6].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbZReg;
                 // _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
                 document.getElementById("queueTable").rows[1].cells[7].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbState;
+                document.getElementById("queueTable").rows[1].cells[8].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbLocation;
             }
             if (_MemoryManager.posArray[pidCounter] == 1 && _Memory.position2 == true) {
                 document.getElementById("queueTable").rows[2].cells[0].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbPID;
@@ -36,6 +37,7 @@ module TSOS {
                 document.getElementById("queueTable").rows[2].cells[6].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbZReg;
                 // _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
                 document.getElementById("queueTable").rows[2].cells[7].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbState;
+                document.getElementById("queueTable").rows[2].cells[8].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbLocation;
             }
             if (_MemoryManager.posArray[pidCounter] == 2 && _Memory.position3 == true) {
                 document.getElementById("queueTable").rows[3].cells[0].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbPID;
@@ -47,6 +49,7 @@ module TSOS {
                 document.getElementById("queueTable").rows[3].cells[6].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbZReg;
                 // _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
                 document.getElementById("queueTable").rows[3].cells[7].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbState;
+                document.getElementById("queueTable").rows[3].cells[8].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbLocation;
             }
 
         }
@@ -63,6 +66,7 @@ module TSOS {
                 document.getElementById("queueTable").rows[1].cells[6].innerHTML = _MemoryManager.pcbArray[pidNum].pcbZReg;
                // _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
                 document.getElementById("queueTable").rows[1].cells[7].innerHTML = _MemoryManager.pcbArray[pidNum].pcbState;
+                document.getElementById("queueTable").rows[1].cells[8].innerHTML = _MemoryManager.pcbArray[pidNum].pcbLocation;
             }
             if (_MemoryManager.posArray[pidNum] == 1 && _Memory.position2 == true) {
                 document.getElementById("queueTable").rows[2].cells[0].innerHTML = _MemoryManager.pcbArray[pidNum].pcbPID;
@@ -74,6 +78,7 @@ module TSOS {
                 document.getElementById("queueTable").rows[2].cells[6].innerHTML = _MemoryManager.pcbArray[pidNum].pcbZReg;
                // _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
                 document.getElementById("queueTable").rows[2].cells[7].innerHTML = _MemoryManager.pcbArray[pidNum].pcbState;
+                document.getElementById("queueTable").rows[2].cells[8].innerHTML = _MemoryManager.pcbArray[pidNum].pcbLocation;
             }
             if (_MemoryManager.posArray[pidNum] == 2 && _Memory.position3 == true) {
                 document.getElementById("queueTable").rows[3].cells[0].innerHTML = _MemoryManager.pcbArray[pidNum].pcbPID;
@@ -85,6 +90,7 @@ module TSOS {
                 document.getElementById("queueTable").rows[3].cells[6].innerHTML = _MemoryManager.pcbArray[pidNum].pcbZReg;
                // _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
                 document.getElementById("queueTable").rows[3].cells[7].innerHTML = _MemoryManager.pcbArray[pidNum].pcbState;
+                document.getElementById("queueTable").rows[3].cells[8].innerHTML = _MemoryManager.pcbArray[pidNum].pcbLocation;
             }
 			
         }
@@ -100,6 +106,7 @@ module TSOS {
                 document.getElementById("queueTable").rows[1].cells[5].innerHTML = "--";
                 document.getElementById("queueTable").rows[1].cells[6].innerHTML = "--";
                 document.getElementById("queueTable").rows[1].cells[7].innerHTML = "--";
+                document.getElementById("queueTable").rows[1].cells[8].innerHTML = "--";
             }
             if (_MemoryManager.posArray[pidNum] == 1) {
                 document.getElementById("queueTable").rows[2].cells[0].innerHTML = "--";
@@ -110,6 +117,7 @@ module TSOS {
                 document.getElementById("queueTable").rows[2].cells[5].innerHTML = "--";
                 document.getElementById("queueTable").rows[2].cells[6].innerHTML = "--";
                 document.getElementById("queueTable").rows[2].cells[7].innerHTML = "--";
+                document.getElementById("queueTable").rows[2].cells[8].innerHTML = "--";
             }
             if (_MemoryManager.posArray[pidNum] == 2) {
                 document.getElementById("queueTable").rows[3].cells[0].innerHTML = "--";
@@ -120,6 +128,7 @@ module TSOS {
                 document.getElementById("queueTable").rows[3].cells[5].innerHTML = "--";
                 document.getElementById("queueTable").rows[3].cells[6].innerHTML = "--";
                 document.getElementById("queueTable").rows[3].cells[7].innerHTML = "--";
+                document.getElementById("queueTable").rows[3].cells[8].innerHTML = "--";
             }
         }
 

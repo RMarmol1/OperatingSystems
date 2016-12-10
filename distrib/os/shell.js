@@ -91,6 +91,30 @@ var TSOS;
             //kill
             sc = new TSOS.ShellCommand(this.shellKill, "kill", "<int> - kills active running process");
             this.commandList[this.commandList.length] = sc;
+            //create
+            sc = new TSOS.ShellCommand(this.shellCreate, "create", "<filename> - creates filename");
+            this.commandList[this.commandList.length] = sc;
+            //read
+            sc = new TSOS.ShellCommand(this.shellRead, "read", "<filename> - reads filename");
+            this.commandList[this.commandList.length] = sc;
+            //write
+            sc = new TSOS.ShellCommand(this.shellWrite, "write", "<filename> - writes to filename");
+            this.commandList[this.commandList.length] = sc;
+            //delete
+            sc = new TSOS.ShellCommand(this.shellDelete, "delete", "<filename> - deletes filename");
+            this.commandList[this.commandList.length] = sc;
+            //format
+            sc = new TSOS.ShellCommand(this.shellFormat, "format", " - formats blocks and sectors");
+            this.commandList[this.commandList.length] = sc;
+            //ls
+            sc = new TSOS.ShellCommand(this.shellLs, "ls", " - lists files currently running");
+            this.commandList[this.commandList.length] = sc;
+            //setschedule
+            sc = new TSOS.ShellCommand(this.shellSetSchedule, "setschedule", "[rr, fcfs, priority] - sets scheduling algorithm");
+            this.commandList[this.commandList.length] = sc;
+            //getschedule
+            sc = new TSOS.ShellCommand(this.shellGetSchedule, "getschedule", " - returns currently running scheduling algorithm");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -159,8 +183,8 @@ var TSOS;
             var retVal = new TSOS.UserCommand();
             // 1. Remove leading and trailing spaces.
             buffer = TSOS.Utils.trim(buffer);
-            // 2. Lower-case it.
-            buffer = buffer.toLowerCase();
+            // 2. Lower-case it. //I TOOK OUT THE LOWER CASE
+            // buffer = buffer.toLowerCase();
             // 3. Separate on spaces so we can determine the command and command-line args, if any.
             var tempList = buffer.split(" ");
             // 4. Take the first (zeroth) element and use that as the command.
@@ -488,7 +512,33 @@ var TSOS;
                     posNum = 99;
                 }
                 if (posNum == 99) {
-                    _StdOut.putText("Memory is full. Cannot load anymore processes");
+                    if (formatted == false) {
+                        _StdOut.putText("Memory is full. File system needs to be formatted to load more");
+                    }
+                    else {
+                        var fileName = pidCounter.toString();
+                        var data = "";
+                        _StdOut.putText("Memory is full. Loaded into File System.");
+                        _StdOut.advanceLine();
+                        _FileSystemDeviceDriver.createFile(fileName);
+                        _StdOut.advanceLine();
+                        for (var i = 0; i < arrayHex.length; i++) {
+                            data += arrayHex[i];
+                        }
+                        _FileSystemDeviceDriver.writeToFile(fileName, data);
+                        // _Memory.processID = pidCounter;
+                        _StdOut.advanceLine();
+                        _StdOut.putText("PID[" + pidCounter + "] has been added into the hard drive.");
+                        // _Memory.formatSize(_Memory.processID);
+                        _Memory.processArray[pidCounter] = arrayHex;
+                        _MemoryManager.posArray[pidCounter] = posNum;
+                        //PCB
+                        _MemoryManager.pcbArray[pidCounter] = new TSOS.PCB();
+                        _MemoryManager.pcbArray[pidCounter].init();
+                        _MemoryManager.pcbArray[pidCounter].pcbPID = pidCounter;
+                        // _ReadyQueue.loadReadyQueue();
+                        pidCounter++;
+                    }
                 }
                 else {
                     _Memory.processArray[pidCounter] = arrayHex;
@@ -632,6 +682,68 @@ var TSOS;
                 pidNum = args[0];
                 _ReadyQueue.finishProcess();
                 _StdOut.putText("Killed PID:" + args[0]);
+            }
+        };
+        //create
+        Shell.prototype.shellCreate = function (args) {
+            _FileSystemDeviceDriver.createFile(args[0]);
+        };
+        //read
+        Shell.prototype.shellRead = function (args) {
+            _FileSystemDeviceDriver.readFile(args[0]);
+        };
+        Shell.prototype.shellWrite = function (args) {
+            _FileSystemDeviceDriver.writeToFile(args[0], args[1]);
+        };
+        //delete
+        Shell.prototype.shellDelete = function (args) {
+            _FileSystemDeviceDriver.deleteFile(args[0]);
+        };
+        //format
+        Shell.prototype.shellFormat = function () {
+            _FileSystemDeviceDriver.fileSystemFormat();
+        };
+        //ls
+        Shell.prototype.shellLs = function () {
+            _FileSystemDeviceDriver.ls();
+        };
+        //setschedule
+        Shell.prototype.shellSetSchedule = function (args) {
+            if (args[0] == "rr") {
+                roundRobin = true;
+                fcfs = false;
+                priority = false;
+                _StdOut.putText("Scheduling set to: Round Robin");
+            }
+            else if (args[0] == "fcfs") {
+                roundRobin = false;
+                fcfs = true;
+                priority = false;
+                _StdOut.putText("Scheduling set to: FCFS");
+            }
+            else if (args[0] == "priority") {
+                roundRobin = false;
+                fcfs = false;
+                priority = true;
+                _StdOut.putText("Scheduling set to: Priority");
+            }
+            else {
+                _StdOut.putText("Unknown scheduling. Please try again.");
+            }
+        };
+        //getschedule
+        Shell.prototype.shellGetSchedule = function () {
+            if (roundRobin == true) {
+                _StdOut.putText("Scheduling is set to: Round Robin");
+            }
+            else if (fcfs == true) {
+                _StdOut.putText("Scheduling is set to: FCFS");
+            }
+            else if (priority == true) {
+                _StdOut.putText("Scheduling is set to: Priority");
+            }
+            else {
+                _StdOut.putText("Unknown scheduling: ERROR");
             }
         };
         return Shell;

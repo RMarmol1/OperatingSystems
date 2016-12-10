@@ -6,13 +6,14 @@
 module TSOS {
     export class MemoryManager {
 
-        constructor(public posArray = [], public pcbArray = []) {
+        constructor(public posArray = [], public pcbArray = [], public priorityArray = []) {
 
         }
 
         public init(): void {
             this.posArray = [];
             this.pcbArray = [];
+            this.priorityArray = [];
 
         }
 
@@ -71,7 +72,8 @@ module TSOS {
 					cellCount = 1;
 					position3 = true;
 			} else {
-				_StdOut.putText("Memory is full");
+                
+                //_StdOut.putText("Memory is full");
 			}
 
 

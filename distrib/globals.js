@@ -27,6 +27,7 @@ var _PCB;
 var _MemoryManager;
 var _Scheduler;
 var _ReadyQueue;
+var _FileSystemDeviceDriver;
 var _OSclock = 0; // Page 23.
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.
 var _Canvas; // Initialized in Control.hostInit().
@@ -86,6 +87,13 @@ var validChar = "0123456789ABCDEFabcdef "; //valid hex characters
 var shifted = false;
 var accString = ""; //string used for accumulator
 var accNum = 0; //num used for accumulator
+var files = [];
+var address = [];
+var data = [];
+var roundRobin = true;
+var fcfs = false;
+var priority = false;
+var formatted = false;
 //var imageData = new ImageData(100, 100);
 //   image = _DrawingContext.getImageData(0, 0, 1000, 10000);
 // The OS Kernel and its queues.

@@ -33,6 +33,7 @@ var _PCB: TSOS.PCB;
 var _MemoryManager: TSOS.MemoryManager;
 var _Scheduler: TSOS.Scheduler;
 var _ReadyQueue: TSOS.ReadyQueue;
+var _FileSystemDeviceDriver: TSOS.FileSystemDeviceDriver;
 
 var _OSclock: number = 0;  // Page 23.
 
@@ -121,6 +122,16 @@ var shifted = false;
 
 var accString = ""; //string used for accumulator
 var accNum = 0; //num used for accumulator
+
+var files = [];
+var address = [];
+var data = [];
+
+var roundRobin = true;
+var fcfs = false;
+var priority = false;
+
+var formatted = false;
 
 
 //var imageData = new ImageData(100, 100);

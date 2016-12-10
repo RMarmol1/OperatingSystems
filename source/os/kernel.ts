@@ -64,6 +64,9 @@ module TSOS {
             _ReadyQueue = new ReadyQueue();
             _ReadyQueue.init();
 
+            //intializes file system device driver
+            _FileSystemDeviceDriver = new FileSystemDeviceDriver();
+
 
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");
@@ -127,21 +130,47 @@ module TSOS {
 
                     //if all processes running add to quantum counter
                     if (runAll == true) {
-                        _Scheduler.quantumCounter++;
+                        if (roundRobin == true) {
+                            _Scheduler.quantumCounter++;
+                        }
                     }
                     
 
                     //RR scheduling
-                    if (_Scheduler.quantumCounter > _Scheduler.quantum && runAll == true) {
-                        _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
-                        _ReadyQueue.setReadyQueue();
-                        _Scheduler.roundRobin(); //intiialzes context switch with rr scheduling and uses system call
-                        _Mode = 1; //sets back to user mode
-                        //_StdOut.putText("step is " + stepCounter);
-                        //_StdOut.advanceLine();
-                        _Scheduler.quantumCounter = 0;
-                       // _StdOut.advanceLine();
+                    if (roundRobin == true) {
+                        if (_Scheduler.quantumCounter > _Scheduler.quantum && runAll == true) {
+                            _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
+                            _ReadyQueue.setReadyQueue();
+                            _Scheduler.roundRobin(); //intiialzes context switch with rr scheduling and uses system call
+                            _Mode = 1; //sets back to user mode
+                            //_StdOut.putText("step is " + stepCounter);
+                            //_StdOut.advanceLine();
+                            _Scheduler.quantumCounter = 0;
+                            // _StdOut.advanceLine();
 
+                        }
+                    }
+
+                    //FCFS scheduling
+                    if (fcfs == true) {
+                        _Scheduler.quantum = 999999;
+                        if (_Scheduler.quantumCounter > _Scheduler.quantum && runAll == true) {
+                            _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
+                            _ReadyQueue.setReadyQueue();
+                            _Scheduler.roundRobin(); //intiialzes context switch with rr scheduling and uses system call
+                            _Mode = 1; //sets back to user mode
+                            //_StdOut.putText("step is " + stepCounter);
+                            //_StdOut.advanceLine();
+                            _Scheduler.quantumCounter = 0;
+                            // _StdOut.advanceLine();
+
+                        }
+
+                    }
+
+                    //Priority Scheduling
+                    if (priority == true) {
+                        _Scheduler.priorityScheduling();
                     }
 
 
@@ -189,8 +218,20 @@ module TSOS {
                         }
 
                         if (_Memory.position1 == false && _Memory.position2 == false && _Memory.position3 == false) {
+                            //_Memory.processArray = [];
+                            //currentPIDInMem = [];
+                            for (var i = 0; i < currentPIDInMem.length; i++) {
+                                pidNum = currentPIDInMem[i];
+                                _ReadyQueue.finishProcess();
+                            }
+                            //_PCB.finishedPCB();
                             _Memory.processArray = [];
                             currentPIDInMem = [];
+                            _MemoryManager.printClearedMem();
+                            _Memory.position1 = false;
+                            _Memory.position2 = false;
+                            _Memory.position3 = false;
+                            
                         }
 
                         _MemoryManager.printMemoryAtLocation();

@@ -14,6 +14,7 @@ module TSOS {
             public pcbYReg = 0,
             public pcbZReg = 0,
             public pcbState = "Ready",
+            public pcbLocation = "Memory",
             public pcbStepCounter = 0) {
 
         }
@@ -27,6 +28,7 @@ module TSOS {
             this.pcbYReg = 0;
             this.pcbZReg = 0;
             this.pcbState = "Ready";
+            this.pcbLocation = "Memory";
             this.pcbStepCounter = 0;
 
         }
@@ -41,6 +43,7 @@ module TSOS {
             document.getElementById("pcbTable").rows[1].cells[5].innerHTML = this.pcbYReg;
             document.getElementById("pcbTable").rows[1].cells[6].innerHTML = this.pcbZReg;
             document.getElementById("pcbTable").rows[1].cells[7].innerHTML = this.pcbState;
+            //document.getElementById("pcbTable").rows[1].cells[8].innerHTML = this.pcbLocation;
         }
 
 		//set pcb contents
@@ -53,6 +56,7 @@ module TSOS {
             this.pcbYReg = _CPU.Yreg;
             this.pcbZReg = _CPU.Zflag;
             this.pcbState = "Running";
+            
         }
 
 		//resets all pcb contents
