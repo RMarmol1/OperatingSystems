@@ -132,7 +132,7 @@ var fcfs = false;
 var priority = false;
 
 var formatted = false;
-
+var fileCreated = false;
 
 //var imageData = new ImageData(100, 100);
  //   image = _DrawingContext.getImageData(0, 0, 1000, 10000);

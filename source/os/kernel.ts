@@ -113,7 +113,7 @@ module TSOS {
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed. {
                 //_CPU.cycle();
                 if (_CPU.isExecuting == true) {
-                    
+
 
 
 
@@ -137,7 +137,7 @@ module TSOS {
                             _Scheduler.quantumCounter++;
                         }
                     }
-                    
+
 
                     //RR scheduling
                     if (roundRobin == true) {
@@ -173,14 +173,14 @@ module TSOS {
 
 
 
-                  
 
-                    if (stepCounter >= pid[pidNum].length ){
+
+                    if (stepCounter >= pid[pidNum].length) {
                         _CPU.isExecuting = false;
                         step = false;
 
                     }
-                    
+
 
                     if (step == true && _CPU.isExecuting == true) {
                         _CPU.isExecuting = false;
@@ -188,9 +188,9 @@ module TSOS {
 
                     if (_CPU.isExecuting === false && step == false) {
                         _MemoryManager.pcbArray[pidNum].finishedPCB();
-                       // stepCounter = 0;
+                        // stepCounter = 0;
                         _Scheduler.quantumCounter = 0;
-                       // pidInMemNum = currentPIDInMem.indexOf(pidNum);
+                        // pidInMemNum = currentPIDInMem.indexOf(pidNum);
                         _StdOut.advanceLine();
                         _StdOut.putText("CPU is finished PID: " + pidNum + ". TT = " + _CPU.waitTime);
                         //_CPU.waitTime = 0;
@@ -198,6 +198,8 @@ module TSOS {
                         _CPU.clearCPU();
                         _MemoryManager.priorityArray[pidNum] = 99999999999999999999999999999999999999999;
                         stepCounter = 0;
+
+                        
                         
 
                         for (var i = 0; i < 256; i++) {
@@ -217,6 +219,48 @@ module TSOS {
                             _Memory.position3 = false;
                            // _StdOut.putText("Cleared loc 2");
                         }
+
+                        //swap
+                        if (_ReadyQueue.position4 == true) {
+                            var swapInPID = _MemoryManager.posArray.indexOf(99);
+                            if (_Memory.position1 == false) {
+                                _ReadyQueue.position4 = false;
+                                _Memory.position1 = true;
+                                _MemoryManager.posArray[swapInPID] = 0;
+                                _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
+                                currentPIDInMem[0] = swapInPID;
+                                pidNum = swapInPID;
+                                _Memory.formatSize(swapInPID);
+                                _ReadyQueue.setReadyQueue();
+                                _MemoryManager.printMemoryAtLocation();
+                                _ReadyQueue.clearHardDrivePCB();
+                            } else if (_Memory.position2 == false) {
+                                _ReadyQueue.position4 = false;
+                                _Memory.position2 = true;
+                                _MemoryManager.posArray[swapInPID] = 1;
+                                _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
+                                currentPIDInMem[1] = swapInPID;
+                                pidNum = swapInPID;
+                                _Memory.formatSize(swapInPID);
+                                _ReadyQueue.setReadyQueue();
+                                _MemoryManager.printMemoryAtLocation();
+                                _ReadyQueue.clearHardDrivePCB();
+
+                            } else if (_Memory.position3 == false) {
+                                _ReadyQueue.position4 = false;
+                                _Memory.position3 = true;
+                                _MemoryManager.posArray[swapInPID] = 2;
+                                _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
+                                currentPIDInMem[2] = swapInPID;
+                                pidNum = swapInPID;
+                                _Memory.formatSize(swapInPID);
+                                _ReadyQueue.setReadyQueue();
+                                _MemoryManager.printMemoryAtLocation();
+                                _ReadyQueue.clearHardDrivePCB();
+                            } else {
+                            }
+                        }
+
 
                         if (_Memory.position1 == false && _Memory.position2 == false && _Memory.position3 == false) {
                             //_Memory.processArray = [];

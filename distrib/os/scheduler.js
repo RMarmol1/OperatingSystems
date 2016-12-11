@@ -49,6 +49,31 @@ var TSOS;
             }
             else {
                 //2 to 0 or 1
+                if (_ReadyQueue.position4 == true && pidInMemNum == 2) {
+                    //swap out/in
+                    var swapOutPID = currentPIDInMem[2];
+                    var swapInPID = _MemoryManager.posArray.indexOf(99);
+                    if (fileCreated == false) {
+                        fileCreated = true;
+                        _FileSystemDeviceDriver.createFile(currentPIDInMem[2].toString());
+                        _StdOut.advanceLine();
+                        _FileSystemDeviceDriver.writeToFile(currentPIDInMem[2].toString(), _Memory.processArray[currentPIDInMem[2]].toString());
+                        _StdOut.advanceLine();
+                    }
+                    // _StdOut.putText(swapInPID.toString());
+                    _FileSystemDeviceDriver.writeToFile(currentPIDInMem[2].toString(), _Memory.processArray[currentPIDInMem[2]].toString());
+                    _StdOut.advanceLine();
+                    _MemoryManager.posArray[swapOutPID] = 99;
+                    _MemoryManager.pcbArray[swapOutPID].pcbLocation = "Hard Drive";
+                    _ReadyQueue.setReadyQueue();
+                    _MemoryManager.posArray[swapInPID] = 2;
+                    _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
+                    currentPIDInMem[2] = swapInPID;
+                    pidNum = swapInPID;
+                    _Memory.formatSize(swapInPID);
+                    _ReadyQueue.setReadyQueue();
+                    _MemoryManager.printMemoryAtLocation();
+                }
                 if (_Memory.position1 == true && pidInMemNum == 2) {
                     pidNum = currentPIDInMem[0];
                 }

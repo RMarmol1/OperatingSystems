@@ -171,6 +171,48 @@ var TSOS;
                         if (_MemoryManager.posArray[pidNum] == 2) {
                             _Memory.position3 = false;
                         }
+                        //swap
+                        if (_ReadyQueue.position4 == true) {
+                            var swapInPID = _MemoryManager.posArray.indexOf(99);
+                            if (_Memory.position1 == false) {
+                                _ReadyQueue.position4 = false;
+                                _Memory.position1 = true;
+                                _MemoryManager.posArray[swapInPID] = 0;
+                                _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
+                                currentPIDInMem[0] = swapInPID;
+                                pidNum = swapInPID;
+                                _Memory.formatSize(swapInPID);
+                                _ReadyQueue.setReadyQueue();
+                                _MemoryManager.printMemoryAtLocation();
+                                _ReadyQueue.clearHardDrivePCB();
+                            }
+                            else if (_Memory.position2 == false) {
+                                _ReadyQueue.position4 = false;
+                                _Memory.position2 = true;
+                                _MemoryManager.posArray[swapInPID] = 1;
+                                _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
+                                currentPIDInMem[1] = swapInPID;
+                                pidNum = swapInPID;
+                                _Memory.formatSize(swapInPID);
+                                _ReadyQueue.setReadyQueue();
+                                _MemoryManager.printMemoryAtLocation();
+                                _ReadyQueue.clearHardDrivePCB();
+                            }
+                            else if (_Memory.position3 == false) {
+                                _ReadyQueue.position4 = false;
+                                _Memory.position3 = true;
+                                _MemoryManager.posArray[swapInPID] = 2;
+                                _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
+                                currentPIDInMem[2] = swapInPID;
+                                pidNum = swapInPID;
+                                _Memory.formatSize(swapInPID);
+                                _ReadyQueue.setReadyQueue();
+                                _MemoryManager.printMemoryAtLocation();
+                                _ReadyQueue.clearHardDrivePCB();
+                            }
+                            else {
+                            }
+                        }
                         if (_Memory.position1 == false && _Memory.position2 == false && _Memory.position3 == false) {
                             //_Memory.processArray = [];
                             //currentPIDInMem = [];

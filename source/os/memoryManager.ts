@@ -71,7 +71,7 @@ module TSOS {
 					rowCount = 0;
 					cellCount = 1;
 					position3 = true;
-			} else {
+            } else {
                 
                 //_StdOut.putText("Memory is full");
 			}

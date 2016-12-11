@@ -104,6 +104,18 @@ var TSOS;
                 document.getElementById("queueTable").rows[3].cells[7].innerHTML = _MemoryManager.pcbArray[pidNum].pcbState;
                 document.getElementById("queueTable").rows[3].cells[8].innerHTML = _MemoryManager.pcbArray[pidNum].pcbLocation;
             }
+            if (_MemoryManager.posArray[pidNum] == 99 && _ReadyQueue.position4 == true) {
+                document.getElementById("queueTable").rows[4].cells[0].innerHTML = _MemoryManager.pcbArray[pidNum].pcbPID;
+                document.getElementById("queueTable").rows[4].cells[1].innerHTML = _MemoryManager.pcbArray[pidNum].pcbpc;
+                document.getElementById("queueTable").rows[4].cells[2].innerHTML = _MemoryManager.pcbArray[pidNum].pcbOp;
+                document.getElementById("queueTable").rows[4].cells[3].innerHTML = _MemoryManager.pcbArray[pidNum].pcbAcc;
+                document.getElementById("queueTable").rows[4].cells[4].innerHTML = _MemoryManager.pcbArray[pidNum].pcbXReg;
+                document.getElementById("queueTable").rows[4].cells[5].innerHTML = _MemoryManager.pcbArray[pidNum].pcbYReg;
+                document.getElementById("queueTable").rows[4].cells[6].innerHTML = _MemoryManager.pcbArray[pidNum].pcbZReg;
+                // _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
+                document.getElementById("queueTable").rows[4].cells[7].innerHTML = _MemoryManager.pcbArray[pidNum].pcbState;
+                document.getElementById("queueTable").rows[4].cells[8].innerHTML = _MemoryManager.pcbArray[pidNum].pcbLocation;
+            }
         };
         //sets finished pcb in ready queue
         ReadyQueue.prototype.finishProcess = function () {
@@ -140,6 +152,17 @@ var TSOS;
                 document.getElementById("queueTable").rows[3].cells[7].innerHTML = "--";
                 document.getElementById("queueTable").rows[3].cells[8].innerHTML = "--";
             }
+        };
+        ReadyQueue.prototype.clearHardDrivePCB = function () {
+            document.getElementById("queueTable").rows[4].cells[0].innerHTML = "--";
+            document.getElementById("queueTable").rows[4].cells[1].innerHTML = "--";
+            document.getElementById("queueTable").rows[4].cells[2].innerHTML = "--";
+            document.getElementById("queueTable").rows[4].cells[3].innerHTML = "--";
+            document.getElementById("queueTable").rows[4].cells[4].innerHTML = "--";
+            document.getElementById("queueTable").rows[4].cells[5].innerHTML = "--";
+            document.getElementById("queueTable").rows[4].cells[6].innerHTML = "--";
+            document.getElementById("queueTable").rows[4].cells[7].innerHTML = "--";
+            document.getElementById("queueTable").rows[4].cells[8].innerHTML = "--";
         };
         return ReadyQueue;
     }());

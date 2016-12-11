@@ -133,6 +133,7 @@ module TSOS {
             var dataSubStringF = "";
             var dataSubString10 = "";
             var dataSubString11 = "";
+            var dataSubstring12 = "";
             var subArray = [];
             var tsb = 0;
             var availTSB = 0;
@@ -252,6 +253,15 @@ module TSOS {
                                                                                 dataSubString11 = dataString.substring(1024, 1088);
                                                                             }
                                                                             subArray.push(dataSubString11);
+                                                                            if (dataString.length > 1088) {
+                                                                                if (dataString.length < 1152) {
+                                                                                    dataSubstring12 = dataString.substring(1088, dataString.length);
+                                                                                } else {
+                                                                                    dataSubstring12 = dataString.substring(1088, 1152);
+                                                                                }
+                                                                                subArray.push(dataSubstring12);
+                                                                            }
+
                                                                         }
                                                                     }
                                                                 }
