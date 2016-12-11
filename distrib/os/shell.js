@@ -266,59 +266,45 @@ var TSOS;
                         _StdOut.putText("Ver displays the current OS version you are working with. This includes name and version number of OS");
                         break;
                     case "shutdown":
-                        ;
                         _StdOut.putText("Shutdown will turn off MARMOLADE-OS but keeps the host and hardware going. It's basically abandoning the OS while the host and hardware carry on");
                         break;
                     case "cls":
-                        ;
                         _StdOut.putText("cls will clear everything (except your own existence from this Earth) on the shell input/output screen and bring the cursor (where you begin to type) back to the top");
                         break;
                     case "man":
-                        ;
                         _StdOut.putText("Man brings up a basic manual on how to use shell functions and what they do");
                         break;
                     case "trace":
-                        ;
                         _StdOut.putText("Trace ON keeps the host log...logging and trace OFF will stop it from doing so.");
                         break;
                     case "rot13":
-                        ;
                         _StdOut.putText("rot13 will put a simple letter substitution cipher replacing every letter with the letter 13 letters after it.");
                         break;
                     case "prompt":
-                        ;
                         _StdOut.putText("Prompt will output the desired string, no matter how weird, every time a new line is outputted");
                         break;
                     case "date":
-                        ;
                         _StdOut.putText("Shows you the date and time in case you were wondering");
                         break;
                     case "whereami":
-                        ;
                         _StdOut.putText("Lost? Just check here.");
                         break;
                     case "gamble":
-                        ;
                         _StdOut.putText("Feeling lucky? Gamble randomly either turns off the OS or you get a nice message");
                         break;
                     case "adduser":
-                        ;
                         _StdOut.putText("Adds a user according to username inputted");
                         break;
                     case "addpass":
-                        ;
                         _StdOut.putText("Adds passowrd for last added user so be careful!");
                         break;
                     case "status":
-                        ;
                         _StdOut.putText("Sets a cool (or boring) status message in the Host Log.");
                         break;
                     case "load":
-                        ;
                         _StdOut.putText("Tests user program input to see if its in Hex or not and assigns it a process ID (PID)");
                         break;
                     case "run":
-                        ;
                         _StdOut.putText("runs given PID");
                         break;
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
