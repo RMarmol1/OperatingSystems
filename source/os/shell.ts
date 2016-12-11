@@ -654,11 +654,14 @@ module TSOS {
                 } else if (_Memory.position3 == false) {
                     posNum = 2;
                     _Memory.position3 = true;
-                } else {
+                } else if (_ReadyQueue.position4 == false) {
                     posNum = 99;
+                    _ReadyQueue.position4 = true;
+                } else {
+                    posNum = 100;
                 }
 
-                if (posNum == 99) {
+                if (posNum == 99 || posNum == 100) {
                     if (formatted == false) {
                         _StdOut.putText("Memory is full. Format Hard Drive to add more.");
                     } else {
@@ -702,7 +705,8 @@ module TSOS {
                         _MemoryManager.pcbArray[pidCounter] = new PCB();
                         _MemoryManager.pcbArray[pidCounter].init();
                         _MemoryManager.pcbArray[pidCounter].pcbPID = pidCounter;
-                        // _ReadyQueue.loadReadyQueue();
+                        _MemoryManager.pcbArray[pidCounter].pcbLocation = "Hard Drive";
+                        _ReadyQueue.loadReadyQueue();
 
                         pidCounter++;
                     }

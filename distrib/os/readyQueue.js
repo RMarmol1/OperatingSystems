@@ -5,12 +5,15 @@
 var TSOS;
 (function (TSOS) {
     var ReadyQueue = (function () {
-        function ReadyQueue(pidInQueue) {
+        function ReadyQueue(pidInQueue, position4) {
             if (pidInQueue === void 0) { pidInQueue = []; }
+            if (position4 === void 0) { position4 = false; }
             this.pidInQueue = pidInQueue;
+            this.position4 = position4;
         }
         ReadyQueue.prototype.init = function () {
             this.pidInQueue = currentPIDInMem;
+            this.position4 = false;
         };
         //loads pcb data into ready queue for loaded PID
         ReadyQueue.prototype.loadReadyQueue = function () {
@@ -49,6 +52,18 @@ var TSOS;
                 // _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
                 document.getElementById("queueTable").rows[3].cells[7].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbState;
                 document.getElementById("queueTable").rows[3].cells[8].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbLocation;
+            }
+            if (_MemoryManager.posArray[pidCounter] == 99 && _ReadyQueue.position4 == true) {
+                document.getElementById("queueTable").rows[4].cells[0].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbPID;
+                document.getElementById("queueTable").rows[4].cells[1].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbpc;
+                document.getElementById("queueTable").rows[4].cells[2].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbOp;
+                document.getElementById("queueTable").rows[4].cells[3].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbAcc;
+                document.getElementById("queueTable").rows[4].cells[4].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbXReg;
+                document.getElementById("queueTable").rows[4].cells[5].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbYReg;
+                document.getElementById("queueTable").rows[4].cells[6].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbZReg;
+                // _MemoryManager.pcbArray[pidNum].pcbState = "Ready";
+                document.getElementById("queueTable").rows[4].cells[7].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbState;
+                document.getElementById("queueTable").rows[4].cells[8].innerHTML = _MemoryManager.pcbArray[pidCounter].pcbLocation;
             }
         };
         //updates pcb of PID in ready queue

@@ -494,10 +494,14 @@ var TSOS;
                     posNum = 2;
                     _Memory.position3 = true;
                 }
-                else {
+                else if (_ReadyQueue.position4 == false) {
                     posNum = 99;
+                    _ReadyQueue.position4 = true;
                 }
-                if (posNum == 99) {
+                else {
+                    posNum = 100;
+                }
+                if (posNum == 99 || posNum == 100) {
                     if (formatted == false) {
                         _StdOut.putText("Memory is full. Format Hard Drive to add more.");
                     }
@@ -537,7 +541,8 @@ var TSOS;
                         _MemoryManager.pcbArray[pidCounter] = new TSOS.PCB();
                         _MemoryManager.pcbArray[pidCounter].init();
                         _MemoryManager.pcbArray[pidCounter].pcbPID = pidCounter;
-                        // _ReadyQueue.loadReadyQueue();
+                        _MemoryManager.pcbArray[pidCounter].pcbLocation = "Hard Drive";
+                        _ReadyQueue.loadReadyQueue();
                         pidCounter++;
                     }
                 }
