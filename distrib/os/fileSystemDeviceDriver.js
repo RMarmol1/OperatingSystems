@@ -348,9 +348,17 @@ var TSOS;
             }
             for (var x = 64; x < 256; x++) {
                 if (files[x][0] == metaT && files[x][1] == metaS && files[x][2] == metaB) {
-                    dataRead = this.convertHexToText(files[x][7]);
-                    _StdOut.putText(dataRead);
-                    x = 999;
+                    if (metaT == "0" && metaS == "0" && metaB == "0") {
+                    }
+                    else {
+                        dataRead = this.convertHexToText(files[x][7]);
+                        _StdOut.putText(dataRead);
+                        _StdOut.advanceLine();
+                        metaT = files[x][4];
+                        metaS = files[x][5];
+                        metaB = files[x][6];
+                        x = 64;
+                    }
                 }
             }
         };

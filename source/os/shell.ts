@@ -660,7 +660,7 @@ module TSOS {
 
                 if (posNum == 99) {
                     if (formatted == false) {
-                        _StdOut.putText("Memory is full. File system needs to be formatted to load more");
+                        _StdOut.putText("Memory is full. Format Hard Drive to add more.");
                     } else {
                         var fileName = pidCounter.toString();
                         var data = "";
