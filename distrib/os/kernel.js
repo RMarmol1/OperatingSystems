@@ -140,10 +140,6 @@ var TSOS;
                             _Scheduler.quantumCounter = 0;
                         }
                     }
-                    //Priority Scheduling
-                    if (priority == true) {
-                        _Scheduler.priorityScheduling();
-                    }
                     if (stepCounter >= pid[pidNum].length) {
                         _CPU.isExecuting = false;
                         step = false;
@@ -161,6 +157,8 @@ var TSOS;
                         //_CPU.waitTime = 0;
                         _ReadyQueue.finishProcess();
                         _CPU.clearCPU();
+                        _MemoryManager.priorityArray[pidNum] = 99999999999999999999999999999999999999999;
+                        stepCounter = 0;
                         for (var i = 0; i < 256; i++) {
                             _Memory.processArray[pidNum][i] = "00";
                         }
@@ -198,6 +196,10 @@ var TSOS;
                             //moving from 0 to 1 or 2
                             if (_Memory.position2 == true && pidInMemNum == 0) {
                                 pidInMemNum++;
+                                //priority
+                                if (priority == true) {
+                                    _Scheduler.priorityScheduling();
+                                }
                                 argsArray[0] = currentPIDInMem[pidInMemNum];
                                 pidNum = currentPIDInMem[pidInMemNum];
                                 stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
@@ -206,6 +208,10 @@ var TSOS;
                             }
                             else if (_Memory.position2 == false && _Memory.position3 == true && pidInMemNum == 0) {
                                 pidInMemNum += 2;
+                                //priority
+                                if (priority == true) {
+                                    _Scheduler.priorityScheduling();
+                                }
                                 argsArray[0] = currentPIDInMem[pidInMemNum];
                                 pidNum = currentPIDInMem[pidInMemNum];
                                 stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
@@ -218,6 +224,10 @@ var TSOS;
                             }
                             else if (_Memory.position3 == true && pidInMemNum == 1) {
                                 pidInMemNum++;
+                                //priority
+                                if (priority == true) {
+                                    _Scheduler.priorityScheduling();
+                                }
                                 argsArray[0] = currentPIDInMem[pidInMemNum];
                                 pidNum = currentPIDInMem[pidInMemNum];
                                 stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
@@ -225,6 +235,10 @@ var TSOS;
                             }
                             else if (_Memory.position3 == false && _Memory.position1 == true && pidInMemNum == 1) {
                                 pidInMemNum = 0;
+                                //priority
+                                if (priority == true) {
+                                    _Scheduler.priorityScheduling();
+                                }
                                 argsArray[0] = currentPIDInMem[pidInMemNum];
                                 pidNum = currentPIDInMem[pidInMemNum];
                                 stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
@@ -245,6 +259,10 @@ var TSOS;
                             //move from 2 to 0
                             if (_Memory.position1 == true && pidInMemNum == 2) {
                                 pidInMemNum = 0;
+                                //priority
+                                if (priority == true) {
+                                    _Scheduler.priorityScheduling();
+                                }
                                 argsArray[0] = currentPIDInMem[pidInMemNum];
                                 pidNum = currentPIDInMem[pidInMemNum];
                                 stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
@@ -253,6 +271,10 @@ var TSOS;
                             //move from 2 to 1
                             if (_Memory.position1 == false && _Memory.position2 == true && pidInMemNum == 2) {
                                 pidInMemNum = 1;
+                                //priority
+                                if (priority == true) {
+                                    _Scheduler.priorityScheduling();
+                                }
                                 argsArray[0] = currentPIDInMem[pidInMemNum];
                                 pidNum = currentPIDInMem[pidInMemNum];
                                 stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;

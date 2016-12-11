@@ -68,7 +68,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string> - sets status message in Host Display");
             this.commandList[this.commandList.length] = sc;
             //load
-            sc = new TSOS.ShellCommand(this.shellLoad, "load", " - validates user code and adds into memory");
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "<priority> - adds code into memory (priority optional)");
             this.commandList[this.commandList.length] = sc;
             //run
             sc = new TSOS.ShellCommand(this.shellRun, "run", "<pid> - runs CPU code from given PID");
@@ -532,6 +532,21 @@ var TSOS;
                         // _Memory.formatSize(_Memory.processID);
                         _Memory.processArray[pidCounter] = arrayHex;
                         _MemoryManager.posArray[pidCounter] = posNum;
+                        //priority
+                        if (priority == true) {
+                            if (args[0] == null) {
+                                _MemoryManager.priorityArray[pidCounter] = 32;
+                            }
+                            else {
+                                var priorityNum = 0;
+                                priorityNum = parseInt(args[0]);
+                                _MemoryManager.priorityArray[pidCounter] = priorityNum;
+                            }
+                        }
+                        else {
+                            //default
+                            _MemoryManager.priorityArray[pidCounter] = 32;
+                        }
                         //PCB
                         _MemoryManager.pcbArray[pidCounter] = new TSOS.PCB();
                         _MemoryManager.pcbArray[pidCounter].init();
@@ -546,7 +561,22 @@ var TSOS;
                     //runall
                     currentPIDInMem.push(pidCounter);
                     _Memory.processID = pidCounter;
-                    _StdOut.putText("PID[" + pidCounter + "] has been added at location " + posNum);
+                    //priority
+                    if (priority == true) {
+                        if (args[0] == null) {
+                            _MemoryManager.priorityArray[pidCounter] = 32;
+                        }
+                        else {
+                            var priorityNum = 0;
+                            priorityNum = parseInt(args[0]);
+                            _MemoryManager.priorityArray[pidCounter] = priorityNum;
+                        }
+                    }
+                    else {
+                        //default
+                        _MemoryManager.priorityArray[pidCounter] = 32;
+                    }
+                    _StdOut.putText("PID[" + pidCounter + "] has been added at location " + posNum + " Priority: " + _MemoryManager.priorityArray[pidCounter]);
                     _Memory.formatSize(_Memory.processID);
                     //_MemoryManager.printMemory();
                     _MemoryManager.printMemoryAtLocation();
@@ -581,40 +611,19 @@ var TSOS;
         Shell.prototype.shellRunAll = function () {
             //this.shellRun(0);
             //_StdOut.putText("Sure");
-            var argsArr = currentPIDInMem;
+            var argsArr = [];
+            if (priority == true) {
+                _Scheduler.prioritySetUp();
+            }
+            else {
+                pidInMemNum = 0;
+            }
+            argsArr[0] = currentPIDInMem[pidInMemNum];
             // var newArr = [];
             runAll = true;
             _Scheduler.quantumCounter = 0;
-            pidInMemNum = 0;
             _CPU.waitTime = 0;
             //_CPU.stillRunning = true;
-            /*if (_Memory.position1 == false) {
-                if (_Memory.position2 == true) {
-                    currentPIDInMem[0] == argsArr[1];
-
-                }
-                if (_Memory.position3 == true) {
-                    currentPIDInMem[1] == argsArr[2];
-                }
-
-            }
-            if (_Memory.position2 == false) {
-                if (_Memory.position3 == true) {
-                    currentPIDInMem[0] == argsArr[0];
-                    currentPIDInMem[1] == argsArr[2];
-                }
-                
-
-            }
-            if (_Memory.position3 == false) {
-                if (_Memory.position3 == true) {
-                    currentPIDInMem[0] == argsArr[0];
-                    currentPIDInMem[1] == argsArr[1];
-
-                }
-
-
-            }*/
             _OsShell.shellRun(argsArr);
         };
         //sets the quantum
@@ -692,6 +701,7 @@ var TSOS;
         Shell.prototype.shellRead = function (args) {
             _FileSystemDeviceDriver.readFile(args[0]);
         };
+        //write to a file
         Shell.prototype.shellWrite = function (args) {
             var dataBefore = _Console.buffer;
             var dataAfter = "";

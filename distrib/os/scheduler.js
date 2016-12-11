@@ -176,6 +176,18 @@ var TSOS;
                 _CPU.Zflag = _MemoryManager.pcbArray[pidNum].pcbZReg;
             }
         };
+        Scheduler.prototype.prioritySetUp = function () {
+            //find pid with largest priority
+            var highestPriority = 999;
+            var priorityPID = 0;
+            for (var i = 0; i < currentPIDInMem.length; i++) {
+                if (_MemoryManager.priorityArray[currentPIDInMem[i]] < highestPriority) {
+                    highestPriority = _MemoryManager.priorityArray[currentPIDInMem[i]];
+                    priorityPID = currentPIDInMem[i];
+                }
+            }
+            pidInMemNum = currentPIDInMem.indexOf(priorityPID);
+        };
         return Scheduler;
     }());
     TSOS.Scheduler = Scheduler;

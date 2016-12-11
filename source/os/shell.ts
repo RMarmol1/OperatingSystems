@@ -119,7 +119,7 @@ module TSOS {
             //load
             sc = new ShellCommand(this.shellLoad,
                 "load",
-                " - validates user code and adds into memory");
+                "<priority> - adds code into memory (priority optional)");
             this.commandList[this.commandList.length] = sc;
 
             //run
@@ -672,22 +672,37 @@ module TSOS {
                         for (var i = 0; i < arrayHex.length; i++) {
                             data += arrayHex[i];
                         }
-                        
+
                         _FileSystemDeviceDriver.writeToFile(fileName, data);
-                        
-                       // _Memory.processID = pidCounter;
+
+                        // _Memory.processID = pidCounter;
 
                         _StdOut.advanceLine();
                         _StdOut.putText("PID[" + pidCounter + "] has been added into the hard drive.");
-                       // _Memory.formatSize(_Memory.processID);
+                        // _Memory.formatSize(_Memory.processID);
                         _Memory.processArray[pidCounter] = arrayHex;
                         _MemoryManager.posArray[pidCounter] = posNum;
+
+                        //priority
+                        if (priority == true) {
+                            if (args[0] == null) {
+                                _MemoryManager.priorityArray[pidCounter] = 32;
+                            } else {
+
+                                var priorityNum = 0;
+                                priorityNum = parseInt(args[0]);
+                                _MemoryManager.priorityArray[pidCounter] = priorityNum;
+                            }
+                        } else {
+                            //default
+                            _MemoryManager.priorityArray[pidCounter] = 32;
+                        }
 
                         //PCB
                         _MemoryManager.pcbArray[pidCounter] = new PCB();
                         _MemoryManager.pcbArray[pidCounter].init();
                         _MemoryManager.pcbArray[pidCounter].pcbPID = pidCounter;
-                       // _ReadyQueue.loadReadyQueue();
+                        // _ReadyQueue.loadReadyQueue();
 
                         pidCounter++;
                     }
@@ -700,14 +715,31 @@ module TSOS {
 
                     _Memory.processID = pidCounter;
 
+                    //priority
+                    if (priority == true) {
+                        if (args[0] == null) {
+                            _MemoryManager.priorityArray[pidCounter] = 32;
+                        } else {
 
-                    _StdOut.putText("PID[" + pidCounter + "] has been added at location " + posNum);
+                            var priorityNum = 0;
+                            priorityNum = parseInt(args[0]);
+                            _MemoryManager.priorityArray[pidCounter] = priorityNum;
+                        }
+                    } else {
+                        //default
+                        _MemoryManager.priorityArray[pidCounter] = 32;
+                    }
+
+
+                    _StdOut.putText("PID[" + pidCounter + "] has been added at location " + posNum + " Priority: " + _MemoryManager.priorityArray[pidCounter]);
                     _Memory.formatSize(_Memory.processID);
 
                     //_MemoryManager.printMemory();
                     _MemoryManager.printMemoryAtLocation();
 
+                    
 
+                    
                     //PCB
                     _MemoryManager.pcbArray[pidCounter] = new PCB();
                     _MemoryManager.pcbArray[pidCounter].init();
@@ -749,40 +781,21 @@ module TSOS {
         public shellRunAll() {
             //this.shellRun(0);
             //_StdOut.putText("Sure");
-            var argsArr = currentPIDInMem;
+            var argsArr = [];
+            if (priority == true) {
+                _Scheduler.prioritySetUp();
+            } else {
+                pidInMemNum = 0;
+            }
+
+            argsArr[0] = currentPIDInMem[pidInMemNum];
            // var newArr = [];
             runAll = true;
             _Scheduler.quantumCounter = 0;
-            pidInMemNum = 0;
+            
             _CPU.waitTime = 0;
             //_CPU.stillRunning = true;
-            /*if (_Memory.position1 == false) {
-                if (_Memory.position2 == true) {
-                    currentPIDInMem[0] == argsArr[1];
-
-                }
-                if (_Memory.position3 == true) {
-                    currentPIDInMem[1] == argsArr[2];
-                }
-
-            }
-            if (_Memory.position2 == false) {
-                if (_Memory.position3 == true) {
-                    currentPIDInMem[0] == argsArr[0];
-                    currentPIDInMem[1] == argsArr[2];
-                }
-                
-
-            }
-            if (_Memory.position3 == false) {
-                if (_Memory.position3 == true) {
-                    currentPIDInMem[0] == argsArr[0];
-                    currentPIDInMem[1] == argsArr[1];
-
-                }
-
-
-            }*/
+           
 
             _OsShell.shellRun(argsArr);
 
@@ -879,6 +892,7 @@ module TSOS {
             _FileSystemDeviceDriver.readFile(args[0]);
         }
 
+        //write to a file
         public shellWrite(args) {
             var dataBefore = _Console.buffer;
             var dataAfter = "";
