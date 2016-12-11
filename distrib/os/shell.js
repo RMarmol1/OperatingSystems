@@ -693,7 +693,12 @@ var TSOS;
             _FileSystemDeviceDriver.readFile(args[0]);
         };
         Shell.prototype.shellWrite = function (args) {
-            _FileSystemDeviceDriver.writeToFile(args[0], args[1]);
+            var dataBefore = _Console.buffer;
+            var dataAfter = "";
+            var substr1 = dataBefore.indexOf('"');
+            var substr2 = dataBefore.lastIndexOf('"');
+            dataAfter = dataBefore.substring(substr1 + 1, substr2);
+            _FileSystemDeviceDriver.writeToFile(args[0], dataAfter);
         };
         //delete
         Shell.prototype.shellDelete = function (args) {

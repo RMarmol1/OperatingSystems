@@ -139,6 +139,9 @@ module TSOS {
                         chr = String.fromCharCode(63);
                     }
 
+                    
+                    
+
 
                 }
                 
@@ -151,6 +154,18 @@ module TSOS {
                 _KernelInputQueue.enqueue(chr);
 
             }
+
+            else if (keyCode == 222) { //single quote
+                if (isShifted == true) {
+                    chr = String.fromCharCode(34);
+                    _KernelInputQueue.enqueue(chr);
+                } else {
+                    chr = String.fromCharCode(222);
+                    _KernelInputQueue.enqueue(chr);
+                }
+
+            }
+            
 
             else if (keyCode == 38) { //up key
                 //arrow keys

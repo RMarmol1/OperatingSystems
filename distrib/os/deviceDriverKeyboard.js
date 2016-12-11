@@ -132,6 +132,16 @@ var TSOS;
                 chr = String.fromCharCode(8);
                 _KernelInputQueue.enqueue(chr);
             }
+            else if (keyCode == 222) {
+                if (isShifted == true) {
+                    chr = String.fromCharCode(34);
+                    _KernelInputQueue.enqueue(chr);
+                }
+                else {
+                    chr = String.fromCharCode(222);
+                    _KernelInputQueue.enqueue(chr);
+                }
+            }
             else if (keyCode == 38) {
                 //arrow keys
                 chr = String.fromCharCode(38);

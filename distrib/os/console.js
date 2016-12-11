@@ -75,6 +75,10 @@ var TSOS;
                     this.putText(logText);
                     this.buffer += logText;
                 }
+                else if (chr === String.fromCharCode(222)) {
+                    this.putText("'");
+                    this.buffer += "'";
+                }
                 else if (shifted == true) {
                     if (chr === String.fromCharCode(55)) {
                         this.putText("&");

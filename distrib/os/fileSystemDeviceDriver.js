@@ -112,6 +112,8 @@ var TSOS;
             var dataSubStringD = "";
             var dataSubStringE = "";
             var dataSubStringF = "";
+            var dataSubString10 = "";
+            var dataSubString11 = "";
             var subArray = [];
             var tsb = 0;
             var availTSB = 0;
@@ -230,6 +232,24 @@ var TSOS;
                                                                         dataSubStringF = dataString.substring(896, 960);
                                                                     }
                                                                     subArray.push(dataSubStringF);
+                                                                    if (dataString.length > 960) {
+                                                                        if (dataString.length < 1024) {
+                                                                            dataSubString10 = dataString.substring(960, dataString.length);
+                                                                        }
+                                                                        else {
+                                                                            dataSubString10 = dataString.substring(960, 1024);
+                                                                        }
+                                                                        subArray.push(dataSubString10);
+                                                                        if (dataString.length > 1024) {
+                                                                            if (dataString.length < 1088) {
+                                                                                dataSubString11 = dataString.substring(1024, dataString.length);
+                                                                            }
+                                                                            else {
+                                                                                dataSubString11 = dataString.substring(1024, 1088);
+                                                                            }
+                                                                            subArray.push(dataSubString11);
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         }
