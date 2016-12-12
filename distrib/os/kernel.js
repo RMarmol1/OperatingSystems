@@ -177,6 +177,7 @@ var TSOS;
                             if (_Memory.position1 == false) {
                                 _ReadyQueue.position4 = false;
                                 _Memory.position1 = true;
+                                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SOFTWARE_IRQ, 1)); //software interrupt
                                 _MemoryManager.posArray[swapInPID] = 0;
                                 _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
                                 currentPIDInMem[0] = swapInPID;
@@ -190,6 +191,7 @@ var TSOS;
                             else if (_Memory.position2 == false) {
                                 _ReadyQueue.position4 = false;
                                 _Memory.position2 = true;
+                                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SOFTWARE_IRQ, 1)); //software interrupt
                                 _MemoryManager.posArray[swapInPID] = 1;
                                 _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
                                 currentPIDInMem[1] = swapInPID;
@@ -203,6 +205,7 @@ var TSOS;
                             else if (_Memory.position3 == false) {
                                 _ReadyQueue.position4 = false;
                                 _Memory.position3 = true;
+                                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SOFTWARE_IRQ, 1)); //software interrupt
                                 _MemoryManager.posArray[swapInPID] = 2;
                                 _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
                                 currentPIDInMem[2] = swapInPID;

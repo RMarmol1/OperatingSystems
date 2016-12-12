@@ -61,12 +61,14 @@ var TSOS;
                         _StdOut.advanceLine();
                     }
                     // _StdOut.putText(swapInPID.toString());
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SOFTWARE_IRQ, 1)); //software interrupt
                     _FileSystemDeviceDriver.writeToFile(currentPIDInMem[2].toString(), _Memory.processArray[currentPIDInMem[2]].toString());
                     _StdOut.advanceLine();
                     _MemoryManager.posArray[swapOutPID] = 99;
                     _MemoryManager.pcbArray[swapOutPID].pcbLocation = "Hard Drive";
                     _ReadyQueue.setReadyQueue();
                     _Kernel.krnTrace('SwapOut: to Hard Drive');
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SOFTWARE_IRQ, 1)); //software interrupt
                     _MemoryManager.posArray[swapInPID] = 2;
                     _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
                     currentPIDInMem[2] = swapInPID;
@@ -226,6 +228,7 @@ var TSOS;
                 swapOutPID = lowestPID;
                 swapOutPIDLoc = _MemoryManager.posArray[swapOutPID];
                 if (_MemoryManager.priorityArray[swapInPID] < _MemoryManager.priorityArray[swapOutPID]) {
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SOFTWARE_IRQ, 1)); //software interrupt
                     _FileSystemDeviceDriver.createFile(swapOutPID.toString());
                     _StdOut.advanceLine();
                     _FileSystemDeviceDriver.writeToFile(swapOutPID.toString(), _Memory.processArray[swapOutPID].toString());
@@ -235,6 +238,7 @@ var TSOS;
                     pidNum = swapOutPID;
                     _ReadyQueue.setReadyQueue();
                     _Kernel.krnTrace('SwapOut: to Hard Drive');
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SOFTWARE_IRQ, 1)); //software interrupt
                     _MemoryManager.posArray[swapInPID] = swapOutPIDLoc;
                     _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
                     currentPIDInMem[swapOutPIDLoc] = swapInPID;
