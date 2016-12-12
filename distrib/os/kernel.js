@@ -183,6 +183,7 @@ var TSOS;
                                 pidNum = swapInPID;
                                 _Memory.formatSize(swapInPID);
                                 _ReadyQueue.setReadyQueue();
+                                _Kernel.krnTrace('SwapIn: to Memory');
                                 _MemoryManager.printMemoryAtLocation();
                                 _ReadyQueue.clearHardDrivePCB();
                             }
@@ -195,6 +196,7 @@ var TSOS;
                                 pidNum = swapInPID;
                                 _Memory.formatSize(swapInPID);
                                 _ReadyQueue.setReadyQueue();
+                                _Kernel.krnTrace('SwapIn: to Memory');
                                 _MemoryManager.printMemoryAtLocation();
                                 _ReadyQueue.clearHardDrivePCB();
                             }
@@ -207,6 +209,7 @@ var TSOS;
                                 pidNum = swapInPID;
                                 _Memory.formatSize(swapInPID);
                                 _ReadyQueue.setReadyQueue();
+                                _Kernel.krnTrace('SwapIn: to Memory');
                                 _MemoryManager.printMemoryAtLocation();
                                 _ReadyQueue.clearHardDrivePCB();
                             }

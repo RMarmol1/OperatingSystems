@@ -74,6 +74,7 @@ module TSOS {
                     _MemoryManager.posArray[swapOutPID] = 99;
                     _MemoryManager.pcbArray[swapOutPID].pcbLocation = "Hard Drive";
                     _ReadyQueue.setReadyQueue();
+                    _Kernel.krnTrace('SwapOut: to Hard Drive');
                     _MemoryManager.posArray[swapInPID] = 2;
                     _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
                     currentPIDInMem[2] = swapInPID;
@@ -81,6 +82,7 @@ module TSOS {
                     _Memory.formatSize(swapInPID);
                     _ReadyQueue.setReadyQueue(); 
                     _MemoryManager.printMemoryAtLocation();
+                    _Kernel.krnTrace('SwapIn: to Memory');
                     
                     
 
@@ -220,6 +222,9 @@ module TSOS {
 
                 pidInMemNum = currentPIDInMem.indexOf(priorityPID);
 
+                _Kernel.krnTrace('Context Switch');
+                _Kernel.krnTrace('Priority');
+
                 stepCounter = _MemoryManager.pcbArray[pidNum].pcbStepCounter;
                 _CPU.PC = _MemoryManager.pcbArray[pidNum].pcbpc;
                 _CPU.Acc = _MemoryManager.pcbArray[pidNum].pcbAcc;
@@ -268,13 +273,17 @@ module TSOS {
                     _MemoryManager.pcbArray[swapOutPID].pcbLocation = "Hard Drive";
                     pidNum = swapOutPID;
                     _ReadyQueue.setReadyQueue();
+                    _Kernel.krnTrace('SwapOut: to Hard Drive');
                     _MemoryManager.posArray[swapInPID] = swapOutPIDLoc;
                     _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
                     currentPIDInMem[swapOutPIDLoc] = swapInPID;
                     pidNum = swapInPID;
                     _Memory.formatSize(swapInPID);
                     _ReadyQueue.setReadyQueue();
+                    _Kernel.krnTrace('SwapIn: to Memory');
                     _MemoryManager.printMemoryAtLocation();
+
+                    
 
                     //priorityPID = swapInPID;
                 }

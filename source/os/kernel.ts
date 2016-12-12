@@ -232,6 +232,7 @@ module TSOS {
                                 pidNum = swapInPID;
                                 _Memory.formatSize(swapInPID);
                                 _ReadyQueue.setReadyQueue();
+                                _Kernel.krnTrace('SwapIn: to Memory');
                                 _MemoryManager.printMemoryAtLocation();
                                 _ReadyQueue.clearHardDrivePCB();
                             } else if (_Memory.position2 == false) {
@@ -243,6 +244,7 @@ module TSOS {
                                 pidNum = swapInPID;
                                 _Memory.formatSize(swapInPID);
                                 _ReadyQueue.setReadyQueue();
+                                _Kernel.krnTrace('SwapIn: to Memory');
                                 _MemoryManager.printMemoryAtLocation();
                                 _ReadyQueue.clearHardDrivePCB();
 
@@ -255,6 +257,7 @@ module TSOS {
                                 pidNum = swapInPID;
                                 _Memory.formatSize(swapInPID);
                                 _ReadyQueue.setReadyQueue();
+                                _Kernel.krnTrace('SwapIn: to Memory');
                                 _MemoryManager.printMemoryAtLocation();
                                 _ReadyQueue.clearHardDrivePCB();
                             } else {
