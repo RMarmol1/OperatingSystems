@@ -204,7 +204,41 @@ var TSOS;
         Scheduler.prototype.prioritySetUp = function () {
             //find pid with largest priority
             var highestPriority = 999;
+            var lowestPriority = 0;
+            var lowestPID = 0;
             var priorityPID = 0;
+            if (_ReadyQueue.position4 == true) {
+                //swap out/in
+                var swapOutPID = 0;
+                var swapInPID = _MemoryManager.posArray.indexOf(99);
+                var swapOutPIDLoc = 0;
+                //find lowest and swap
+                for (var i = 0; i < currentPIDInMem.length; i++) {
+                    if (_MemoryManager.priorityArray[currentPIDInMem[i]] > lowestPriority) {
+                        lowestPriority = _MemoryManager.priorityArray[currentPIDInMem[i]];
+                        lowestPID = currentPIDInMem[i];
+                    }
+                }
+                swapOutPID = lowestPID;
+                swapOutPIDLoc = _MemoryManager.posArray[swapOutPID];
+                if (_MemoryManager.priorityArray[swapInPID] < _MemoryManager.priorityArray[swapOutPID]) {
+                    _FileSystemDeviceDriver.createFile(swapOutPID.toString());
+                    _StdOut.advanceLine();
+                    _FileSystemDeviceDriver.writeToFile(swapOutPID.toString(), _Memory.processArray[swapOutPID].toString());
+                    _StdOut.advanceLine();
+                    _MemoryManager.posArray[swapOutPID] = 99;
+                    _MemoryManager.pcbArray[swapOutPID].pcbLocation = "Hard Drive";
+                    pidNum = swapOutPID;
+                    _ReadyQueue.setReadyQueue();
+                    _MemoryManager.posArray[swapInPID] = swapOutPIDLoc;
+                    _MemoryManager.pcbArray[swapInPID].pcbLocation = "Memory";
+                    currentPIDInMem[swapOutPIDLoc] = swapInPID;
+                    pidNum = swapInPID;
+                    _Memory.formatSize(swapInPID);
+                    _ReadyQueue.setReadyQueue();
+                    _MemoryManager.printMemoryAtLocation();
+                }
+            }
             for (var i = 0; i < currentPIDInMem.length; i++) {
                 if (_MemoryManager.priorityArray[currentPIDInMem[i]] < highestPriority) {
                     highestPriority = _MemoryManager.priorityArray[currentPIDInMem[i]];

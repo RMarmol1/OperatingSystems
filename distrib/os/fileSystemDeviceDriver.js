@@ -37,226 +37,260 @@ var TSOS;
         };
         //creates a file in the file system
         FileSystemDeviceDriver.prototype.createFile = function (val) {
-            var fileName = val;
-            var availTSB = 0;
-            var row = 0;
-            for (var i = 1; i < 63; i++) {
-                if (files[i][3] == "0") {
-                    availTSB = i;
-                    row = i + 1;
-                    files[i][3] = "1";
-                    files[i][7] = this.convertTextToHex(fileName);
-                    i = 999;
-                    _StdOut.putText("Successfully created file: " + fileName);
+            if (formatted == true) {
+                var fileName = val;
+                var availTSB = 0;
+                var row = 0;
+                for (var i = 1; i < 63; i++) {
+                    if (files[i][3] == "0") {
+                        availTSB = i;
+                        row = i + 1;
+                        files[i][3] = "1";
+                        files[i][7] = this.convertTextToHex(fileName);
+                        i = 999;
+                        _StdOut.putText("Successfully created file: " + fileName);
+                    }
+                    else {
+                    }
                 }
-                else {
-                }
+                document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[availTSB][3];
+                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[availTSB][7];
+                sessionStorage["files"] = JSON.stringify(files);
             }
-            document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[availTSB][3];
-            document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[availTSB][7];
-            sessionStorage["files"] = JSON.stringify(files);
+            else {
+                _StdOut.putText("Need to format Hard Drive to create files.");
+            }
         };
         //deletes file and data that accompanies it
         FileSystemDeviceDriver.prototype.deleteFile = function (val) {
-            var fileName = val;
-            var row = 0;
-            var tsb = 0;
-            var metaT = "";
-            var metaS = "";
-            var metaB = "";
-            for (var i = 1; i < 63; i++) {
-                if (files[i][7] == this.convertTextToHex(fileName)) {
-                    files[i][7] = "";
-                    row = i + 1;
-                    tsb = i;
-                    metaT = files[i][4];
-                    metaS = files[i][5];
-                    metaB = files[i][6];
-                    for (var x = 64; x < 256; x++) {
-                        if (files[x][0] == metaT && files[x][1] == metaS && files[x][2] == metaB) {
-                            files[x][3] = "0";
-                            files[x][7] = "";
-                            metaT = files[x][4];
-                            metaS = files[x][5];
-                            metaB = files[x][6];
+            if (formatted == true) {
+                var fileName = val;
+                var row = 0;
+                var tsb = 0;
+                var metaT = "";
+                var metaS = "";
+                var metaB = "";
+                var found = false;
+                for (var i = 1; i < 63; i++) {
+                    if (files[i][7] == this.convertTextToHex(fileName)) {
+                        files[i][7] = "";
+                        row = i + 1;
+                        tsb = i;
+                        metaT = files[i][4];
+                        metaS = files[i][5];
+                        metaB = files[i][6];
+                        for (var x = 64; x < 256; x++) {
+                            if (files[x][0] == metaT && files[x][1] == metaS && files[x][2] == metaB) {
+                                files[x][3] = "0";
+                                files[x][7] = "";
+                                metaT = files[x][4];
+                                metaS = files[x][5];
+                                metaB = files[x][6];
+                            }
                         }
+                        files[i][3] = "0";
+                        files[i][4] = "0";
+                        files[i][5] = "0";
+                        files[i][6] = "0";
+                        i = 999;
+                        _StdOut.putText("Successfully deleted file: " + fileName);
+                        found = true;
                     }
-                    files[i][3] = "0";
-                    files[i][4] = "0";
-                    files[i][5] = "0";
-                    files[i][6] = "0";
-                    i = 999;
-                    _StdOut.putText("Successfully deleted file: " + fileName);
                 }
+                if (found == false) {
+                    _StdOut.putText("Error file not found.");
+                }
+                document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[tsb][3];
+                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[tsb][7];
+                sessionStorage["files"] = JSON.stringify(files);
             }
-            document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[tsb][3];
-            document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[tsb][7];
-            sessionStorage["files"] = JSON.stringify(files);
+            else {
+                _StdOut.putText("Need to format Hard Drive to delete files.");
+            }
         };
         //finds available space, writes in data, and connects to filename
         FileSystemDeviceDriver.prototype.writeToFile = function (file, data) {
-            var fileName = this.convertTextToHex(file);
-            var dataString = this.convertTextToHex(data);
-            var dataSubString1 = "";
-            var dataSubString2 = "";
-            var dataSubString3 = "";
-            var dataSubString4 = "";
-            var dataSubString5 = "";
-            var dataSubString6 = "";
-            var dataSubString7 = "";
-            var dataSubString8 = "";
-            var dataSubString9 = "";
-            var dataSubStringA = "";
-            var dataSubStringB = "";
-            var dataSubStringC = "";
-            var dataSubStringD = "";
-            var dataSubStringE = "";
-            var dataSubStringF = "";
-            var dataSubString10 = "";
-            var dataSubString11 = "";
-            var dataSubstring12 = "";
-            var subArray = [];
-            var tsb = 0;
-            var availTSB = 0;
-            var row = 0;
-            if (dataString.length > 64) {
-                dataSubString1 = dataString.substring(0, 64);
-                subArray.push(dataSubString1);
-                if (dataString.length < 128) {
-                    dataSubString2 = dataString.substring(64, dataString.length);
-                }
-                else {
-                    dataSubString2 = dataString.substring(64, 128);
-                }
-                subArray.push(dataSubString2);
-                if (dataString.length > 128) {
-                    if (dataString.length < 192) {
-                        dataSubString3 = dataString.substring(128, dataString.length);
+            if (formatted == true) {
+                var fileName = this.convertTextToHex(file);
+                var dataString = this.convertTextToHex(data);
+                var dataSubString1 = "";
+                var dataSubString2 = "";
+                var dataSubString3 = "";
+                var dataSubString4 = "";
+                var dataSubString5 = "";
+                var dataSubString6 = "";
+                var dataSubString7 = "";
+                var dataSubString8 = "";
+                var dataSubString9 = "";
+                var dataSubStringA = "";
+                var dataSubStringB = "";
+                var dataSubStringC = "";
+                var dataSubStringD = "";
+                var dataSubStringE = "";
+                var dataSubStringF = "";
+                var dataSubString10 = "";
+                var dataSubString11 = "";
+                var dataSubstring12 = "";
+                var subArray = [];
+                var tsb = 0;
+                var availTSB = 0;
+                var row = 0;
+                if (dataString.length > 64) {
+                    dataSubString1 = dataString.substring(0, 64);
+                    subArray.push(dataSubString1);
+                    if (dataString.length < 128) {
+                        dataSubString2 = dataString.substring(64, dataString.length);
+                        dataSubString2 += this.addZeros(dataSubString2);
                     }
                     else {
-                        dataSubString3 = dataString.substring(128, 192);
+                        dataSubString2 = dataString.substring(64, 128);
                     }
-                    subArray.push(dataSubString3);
-                    if (dataString.length > 192) {
-                        if (dataString.length < 256) {
-                            dataSubString4 = dataString.substring(192, dataString.length);
+                    subArray.push(dataSubString2);
+                    if (dataString.length > 128) {
+                        if (dataString.length < 192) {
+                            dataSubString3 = dataString.substring(128, dataString.length);
+                            dataSubString3 += this.addZeros(dataSubString3);
                         }
                         else {
-                            dataSubString4 = dataString.substring(192, 256);
+                            dataSubString3 = dataString.substring(128, 192);
                         }
-                        subArray.push(dataSubString4);
-                        if (dataString.length > 256) {
-                            if (dataString.length < 320) {
-                                dataSubString5 = dataString.substring(256, dataString.length);
+                        subArray.push(dataSubString3);
+                        if (dataString.length > 192) {
+                            if (dataString.length < 256) {
+                                dataSubString4 = dataString.substring(192, dataString.length);
+                                dataSubString4 += this.addZeros(dataSubString4);
                             }
                             else {
-                                dataSubString5 = dataString.substring(256, 320);
+                                dataSubString4 = dataString.substring(192, 256);
                             }
-                            subArray.push(dataSubString5);
-                            if (dataString.length > 320) {
-                                if (dataString.length < 384) {
-                                    dataSubString6 = dataString.substring(320, dataString.length);
+                            subArray.push(dataSubString4);
+                            if (dataString.length > 256) {
+                                if (dataString.length < 320) {
+                                    dataSubString5 = dataString.substring(256, dataString.length);
+                                    dataSubString5 += this.addZeros(dataSubString5);
                                 }
                                 else {
-                                    dataSubString6 = dataString.substring(320, 384);
+                                    dataSubString5 = dataString.substring(256, 320);
                                 }
-                                subArray.push(dataSubString6);
-                                if (dataString.length > 384) {
-                                    if (dataString.length < 448) {
-                                        dataSubString7 = dataString.substring(384, dataString.length);
+                                subArray.push(dataSubString5);
+                                if (dataString.length > 320) {
+                                    if (dataString.length < 384) {
+                                        dataSubString6 = dataString.substring(320, dataString.length);
+                                        dataSubString6 += this.addZeros(dataSubString6);
                                     }
                                     else {
-                                        dataSubString7 = dataString.substring(384, 448);
+                                        dataSubString6 = dataString.substring(320, 384);
                                     }
-                                    subArray.push(dataSubString7);
-                                    if (dataString.length > 448) {
-                                        if (dataString.length < 512) {
-                                            dataSubString8 = dataString.substring(448, dataString.length);
+                                    subArray.push(dataSubString6);
+                                    if (dataString.length > 384) {
+                                        if (dataString.length < 448) {
+                                            dataSubString7 = dataString.substring(384, dataString.length);
+                                            dataSubString7 += this.addZeros(dataSubString7);
                                         }
                                         else {
-                                            dataSubString8 = dataString.substring(448, 512);
+                                            dataSubString7 = dataString.substring(384, 448);
                                         }
-                                        subArray.push(dataSubString8);
-                                        if (dataString.length > 512) {
-                                            if (dataString.length < 576) {
-                                                dataSubString9 = dataString.substring(512, dataString.length);
+                                        subArray.push(dataSubString7);
+                                        if (dataString.length > 448) {
+                                            if (dataString.length < 512) {
+                                                dataSubString8 = dataString.substring(448, dataString.length);
+                                                dataSubString8 += this.addZeros(dataSubString8);
                                             }
                                             else {
-                                                dataSubString9 = dataString.substring(512, 576);
+                                                dataSubString8 = dataString.substring(448, 512);
                                             }
-                                            subArray.push(dataSubString9);
-                                            if (dataString.length > 576) {
-                                                if (dataString.length < 640) {
-                                                    dataSubStringA = dataString.substring(576, dataString.length);
+                                            subArray.push(dataSubString8);
+                                            if (dataString.length > 512) {
+                                                if (dataString.length < 576) {
+                                                    dataSubString9 = dataString.substring(512, dataString.length);
+                                                    dataSubString9 += this.addZeros(dataSubString9);
                                                 }
                                                 else {
-                                                    dataSubStringA = dataString.substring(576, 640);
+                                                    dataSubString9 = dataString.substring(512, 576);
                                                 }
-                                                subArray.push(dataSubStringA);
-                                                if (dataString.length > 640) {
-                                                    if (dataString.length < 704) {
-                                                        dataSubStringB = dataString.substring(640, dataString.length);
+                                                subArray.push(dataSubString9);
+                                                if (dataString.length > 576) {
+                                                    if (dataString.length < 640) {
+                                                        dataSubStringA = dataString.substring(576, dataString.length);
+                                                        dataSubStringA += this.addZeros(dataSubStringA);
                                                     }
                                                     else {
-                                                        dataSubStringB = dataString.substring(640, 704);
+                                                        dataSubStringA = dataString.substring(576, 640);
                                                     }
-                                                    subArray.push(dataSubStringB);
-                                                    if (dataString.length > 704) {
-                                                        if (dataString.length < 768) {
-                                                            dataSubStringC = dataString.substring(704, dataString.length);
+                                                    subArray.push(dataSubStringA);
+                                                    if (dataString.length > 640) {
+                                                        if (dataString.length < 704) {
+                                                            dataSubStringB = dataString.substring(640, dataString.length);
+                                                            dataSubStringB += this.addZeros(dataSubStringB);
                                                         }
                                                         else {
-                                                            dataSubStringC = dataString.substring(704, 768);
+                                                            dataSubStringB = dataString.substring(640, 704);
                                                         }
-                                                        subArray.push(dataSubStringC);
-                                                        if (dataString.length > 768) {
-                                                            if (dataString.length < 832) {
-                                                                dataSubStringD = dataString.substring(768, dataString.length);
+                                                        subArray.push(dataSubStringB);
+                                                        if (dataString.length > 704) {
+                                                            if (dataString.length < 768) {
+                                                                dataSubStringC = dataString.substring(704, dataString.length);
+                                                                dataSubStringC += this.addZeros(dataSubStringC);
                                                             }
                                                             else {
-                                                                dataSubStringD = dataString.substring(768, 832);
+                                                                dataSubStringC = dataString.substring(704, 768);
                                                             }
-                                                            subArray.push(dataSubStringD);
-                                                            if (dataString.length > 832) {
-                                                                if (dataString.length < 896) {
-                                                                    dataSubStringE = dataString.substring(832, dataString.length);
+                                                            subArray.push(dataSubStringC);
+                                                            if (dataString.length > 768) {
+                                                                if (dataString.length < 832) {
+                                                                    dataSubStringD = dataString.substring(768, dataString.length);
+                                                                    dataSubStringD += this.addZeros(dataSubStringD);
                                                                 }
                                                                 else {
-                                                                    dataSubStringE = dataString.substring(832, 896);
+                                                                    dataSubStringD = dataString.substring(768, 832);
                                                                 }
-                                                                subArray.push(dataSubStringE);
-                                                                if (dataString.length > 896) {
-                                                                    if (dataString.length < 960) {
-                                                                        dataSubStringF = dataString.substring(896, dataString.length);
+                                                                subArray.push(dataSubStringD);
+                                                                if (dataString.length > 832) {
+                                                                    if (dataString.length < 896) {
+                                                                        dataSubStringE = dataString.substring(832, dataString.length);
+                                                                        dataSubStringE += this.addZeros(dataSubStringE);
                                                                     }
                                                                     else {
-                                                                        dataSubStringF = dataString.substring(896, 960);
+                                                                        dataSubStringE = dataString.substring(832, 896);
                                                                     }
-                                                                    subArray.push(dataSubStringF);
-                                                                    if (dataString.length > 960) {
-                                                                        if (dataString.length < 1024) {
-                                                                            dataSubString10 = dataString.substring(960, dataString.length);
+                                                                    subArray.push(dataSubStringE);
+                                                                    if (dataString.length > 896) {
+                                                                        if (dataString.length < 960) {
+                                                                            dataSubStringF = dataString.substring(896, dataString.length);
+                                                                            dataSubStringF += this.addZeros(dataSubStringF);
                                                                         }
                                                                         else {
-                                                                            dataSubString10 = dataString.substring(960, 1024);
+                                                                            dataSubStringF = dataString.substring(896, 960);
                                                                         }
-                                                                        subArray.push(dataSubString10);
-                                                                        if (dataString.length > 1024) {
-                                                                            if (dataString.length < 1088) {
-                                                                                dataSubString11 = dataString.substring(1024, dataString.length);
+                                                                        subArray.push(dataSubStringF);
+                                                                        if (dataString.length > 960) {
+                                                                            if (dataString.length < 1024) {
+                                                                                dataSubString10 = dataString.substring(960, dataString.length);
+                                                                                dataSubString10 += this.addZeros(dataSubString10);
                                                                             }
                                                                             else {
-                                                                                dataSubString11 = dataString.substring(1024, 1088);
+                                                                                dataSubString10 = dataString.substring(960, 1024);
                                                                             }
-                                                                            subArray.push(dataSubString11);
-                                                                            if (dataString.length > 1088) {
-                                                                                if (dataString.length < 1152) {
-                                                                                    dataSubstring12 = dataString.substring(1088, dataString.length);
+                                                                            subArray.push(dataSubString10);
+                                                                            if (dataString.length > 1024) {
+                                                                                if (dataString.length < 1088) {
+                                                                                    dataSubString11 = dataString.substring(1024, dataString.length);
+                                                                                    dataSubString11 += this.addZeros(dataSubString11);
                                                                                 }
                                                                                 else {
-                                                                                    dataSubstring12 = dataString.substring(1088, 1152);
+                                                                                    dataSubString11 = dataString.substring(1024, 1088);
                                                                                 }
-                                                                                subArray.push(dataSubstring12);
+                                                                                subArray.push(dataSubString11);
+                                                                                if (dataString.length > 1088) {
+                                                                                    if (dataString.length < 1152) {
+                                                                                        dataSubstring12 = dataString.substring(1088, dataString.length);
+                                                                                        dataSubstring12 += this.addZeros(dataSubstring12);
+                                                                                    }
+                                                                                    else {
+                                                                                        dataSubstring12 = dataString.substring(1088, 1152);
+                                                                                    }
+                                                                                    subArray.push(dataSubstring12);
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
@@ -273,60 +307,80 @@ var TSOS;
                         }
                     }
                 }
-            }
-            for (var i = 1; i < 63; i++) {
-                if (files[i][7] == fileName) {
-                    tsb = i;
-                    row = i + 1;
-                    i = 999;
+                for (var i = 1; i < 63; i++) {
+                    if (files[i][7] == fileName) {
+                        tsb = i;
+                        row = i + 1;
+                        i = 999;
+                    }
                 }
-            }
-            if (subArray.length > 0) {
-                var counterNum = 0;
-                for (var t = 0; t < subArray.length; t++) {
+                if (subArray.length > 0) {
+                    var counterNum = 0;
+                    for (var t = 0; t < subArray.length; t++) {
+                        for (var i = 64; i < 256; i++) {
+                            if (files[i][3] == "0") {
+                                if (counterNum == 0) {
+                                    files[tsb][4] = files[i][0];
+                                    files[tsb][5] = files[i][1];
+                                    files[tsb][6] = files[i][2];
+                                    document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
+                                    document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
+                                    document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[tsb][6];
+                                    counterNum++;
+                                    files[i][4] = files[i + 1][0];
+                                    files[i][5] = files[i + 1][1];
+                                    files[i][6] = files[i + 1][2];
+                                    if (t == subArray.length - 1) {
+                                        files[i][4] = "0";
+                                        files[i][5] = "0";
+                                        files[i][6] = "0";
+                                    }
+                                    row = i + 1;
+                                    document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[i][4];
+                                    document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[i][5];
+                                    document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[i][6];
+                                }
+                                else {
+                                    files[i][4] = files[i + 1][0];
+                                    files[i][5] = files[i + 1][1];
+                                    files[i][6] = files[i + 1][2];
+                                    if (t == subArray.length - 1) {
+                                        files[i][4] = "0";
+                                        files[i][5] = "0";
+                                        files[i][6] = "0";
+                                    }
+                                    row = i + 1;
+                                    document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[i][4];
+                                    document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[i][5];
+                                    document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[i][6];
+                                }
+                                //document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
+                                //document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
+                                // document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[tsb][6];
+                                files[i][3] = "1";
+                                // files[i][7] = dataString;
+                                files[i][7] = subArray[t];
+                                availTSB = i;
+                                row = i + 1;
+                                i = 999;
+                                document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[availTSB][3];
+                                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[availTSB][7];
+                            }
+                        }
+                    }
+                }
+                else {
                     for (var i = 64; i < 256; i++) {
                         if (files[i][3] == "0") {
-                            if (counterNum == 0) {
-                                files[tsb][4] = files[i][0];
-                                files[tsb][5] = files[i][1];
-                                files[tsb][6] = files[i][2];
-                                document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
-                                document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
-                                document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[tsb][6];
-                                counterNum++;
-                                files[i][4] = files[i + 1][0];
-                                files[i][5] = files[i + 1][1];
-                                files[i][6] = files[i + 1][2];
-                                if (t == subArray.length - 1) {
-                                    files[i][4] = "0";
-                                    files[i][5] = "0";
-                                    files[i][6] = "0";
-                                }
-                                row = i + 1;
-                                document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[i][4];
-                                document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[i][5];
-                                document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[i][6];
-                            }
-                            else {
-                                files[i][4] = files[i + 1][0];
-                                files[i][5] = files[i + 1][1];
-                                files[i][6] = files[i + 1][2];
-                                if (t == subArray.length - 1) {
-                                    files[i][4] = "0";
-                                    files[i][5] = "0";
-                                    files[i][6] = "0";
-                                }
-                                row = i + 1;
-                                document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[i][4];
-                                document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[i][5];
-                                document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[i][6];
-                            }
-                            //document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
-                            //document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
-                            // document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[tsb][6];
+                            files[tsb][4] = files[i][0];
+                            files[tsb][5] = files[i][1];
+                            files[tsb][6] = files[i][2];
+                            document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
+                            document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
+                            document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[tsb][6];
                             files[i][3] = "1";
-                            // files[i][7] = dataString;
-                            files[i][7] = subArray[t];
+                            files[i][7] = dataString;
+                            //files[i][7] = subArray[t];
                             availTSB = i;
                             row = i + 1;
                             i = 999;
@@ -335,79 +389,72 @@ var TSOS;
                         }
                     }
                 }
+                //document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[availTSB][3];
+                //document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[availTSB][7];
+                _StdOut.putText("Successfully wrote data to file.");
+                sessionStorage["files"] = JSON.stringify(files);
             }
             else {
-                for (var i = 64; i < 256; i++) {
-                    if (files[i][3] == "0") {
-                        files[tsb][4] = files[i][0];
-                        files[tsb][5] = files[i][1];
-                        files[tsb][6] = files[i][2];
-                        document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
-                        document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
-                        document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[tsb][6];
-                        files[i][3] = "1";
-                        files[i][7] = dataString;
-                        //files[i][7] = subArray[t];
-                        availTSB = i;
-                        row = i + 1;
-                        i = 999;
-                        document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[availTSB][3];
-                        document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[availTSB][7];
-                    }
-                }
+                _StdOut.putText("Need to format Hard Drive to edit files.");
             }
-            //document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[availTSB][3];
-            //document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[availTSB][7];
-            _StdOut.putText("Successfully wrote data to file.");
-            sessionStorage["files"] = JSON.stringify(files);
         };
         //reads the data connected to a file name
         FileSystemDeviceDriver.prototype.readFile = function (val) {
-            var fileName = this.convertTextToHex(val);
-            var dataRead = "";
-            var metaT = "";
-            var metaS = "";
-            var metaB = "";
-            for (var i = 1; i < 63; i++) {
-                if (files[i][7] == fileName) {
-                    metaT = files[i][4];
-                    metaS = files[i][5];
-                    metaB = files[i][6];
-                    i = 999;
+            if (formatted == true) {
+                var fileName = this.convertTextToHex(val);
+                var dataRead = "";
+                var metaT = "";
+                var metaS = "";
+                var metaB = "";
+                for (var i = 1; i < 63; i++) {
+                    if (files[i][7] == fileName) {
+                        metaT = files[i][4];
+                        metaS = files[i][5];
+                        metaB = files[i][6];
+                        i = 999;
+                    }
+                }
+                for (var x = 64; x < 256; x++) {
+                    if (files[x][0] == metaT && files[x][1] == metaS && files[x][2] == metaB) {
+                        if (metaT == "0" && metaS == "0" && metaB == "0") {
+                        }
+                        else {
+                            dataRead = this.convertHexToText(files[x][7]);
+                            _StdOut.putText(dataRead);
+                            _StdOut.advanceLine();
+                            metaT = files[x][4];
+                            metaS = files[x][5];
+                            metaB = files[x][6];
+                            x = 64;
+                        }
+                    }
                 }
             }
-            for (var x = 64; x < 256; x++) {
-                if (files[x][0] == metaT && files[x][1] == metaS && files[x][2] == metaB) {
-                    if (metaT == "0" && metaS == "0" && metaB == "0") {
-                    }
-                    else {
-                        dataRead = this.convertHexToText(files[x][7]);
-                        _StdOut.putText(dataRead);
-                        _StdOut.advanceLine();
-                        metaT = files[x][4];
-                        metaS = files[x][5];
-                        metaB = files[x][6];
-                        x = 64;
-                    }
-                }
+            else {
+                _StdOut.putText("Need to format Hard Drive to read files.");
             }
         };
         //lists all files in file system
         FileSystemDeviceDriver.prototype.ls = function () {
-            var fileName = "";
-            var empty = true;
-            for (var i = 1; i < 63; i++) {
-                if (files[i][3] == "1") {
-                    empty = false;
-                    fileName = this.convertHexToText(files[i][7]);
-                    _StdOut.putText(fileName);
-                    _StdOut.advanceLine();
-                }
-                else {
-                    if (i == 62 && empty == true) {
-                        _StdOut.putText("No files currently exist.");
+            if (formatted == true) {
+                var fileName = "";
+                var empty = true;
+                for (var i = 1; i < 63; i++) {
+                    if (files[i][3] == "1") {
+                        empty = false;
+                        fileName = this.convertHexToText(files[i][7]);
+                        _StdOut.putText(fileName);
+                        _StdOut.advanceLine();
+                    }
+                    else {
+                        if (i == 62 && empty == true) {
+                            _StdOut.putText("No files currently exist.");
+                        }
                     }
                 }
+            }
+            else {
+                _StdOut.putText("Need to format Hard Drive to see files.");
             }
         };
         //converts text value to hex value
@@ -679,6 +726,16 @@ var TSOS;
                 newInput += "0";
             }
             return newInput;
+        };
+        //add zeros
+        FileSystemDeviceDriver.prototype.addZeros = function (input) {
+            var diffNum = 0;
+            var zerosNeeded = "";
+            diffNum = 64 - input.length;
+            for (var y = 0; y < diffNum; y++) {
+                zerosNeeded += "0";
+            }
+            return zerosNeeded;
         };
         //converts hex value to text value
         FileSystemDeviceDriver.prototype.convertHexToText = function (hexInput) {

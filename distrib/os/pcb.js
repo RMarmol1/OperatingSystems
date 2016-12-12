@@ -4,7 +4,7 @@
 var TSOS;
 (function (TSOS) {
     var PCB = (function () {
-        function PCB(pcbPID, pcbpc, pcbOp, pcbAcc, pcbXReg, pcbYReg, pcbZReg, pcbState, pcbLocation, pcbStepCounter) {
+        function PCB(pcbPID, pcbpc, pcbOp, pcbAcc, pcbXReg, pcbYReg, pcbZReg, pcbState, pcbLocation, pcbPriority, pcbStepCounter) {
             if (pcbPID === void 0) { pcbPID = 0; }
             if (pcbpc === void 0) { pcbpc = 0; }
             if (pcbOp === void 0) { pcbOp = ""; }
@@ -14,6 +14,7 @@ var TSOS;
             if (pcbZReg === void 0) { pcbZReg = 0; }
             if (pcbState === void 0) { pcbState = "Ready"; }
             if (pcbLocation === void 0) { pcbLocation = "Memory"; }
+            if (pcbPriority === void 0) { pcbPriority = 32; }
             if (pcbStepCounter === void 0) { pcbStepCounter = 0; }
             this.pcbPID = pcbPID;
             this.pcbpc = pcbpc;
@@ -24,6 +25,7 @@ var TSOS;
             this.pcbZReg = pcbZReg;
             this.pcbState = pcbState;
             this.pcbLocation = pcbLocation;
+            this.pcbPriority = pcbPriority;
             this.pcbStepCounter = pcbStepCounter;
         }
         PCB.prototype.init = function () {
@@ -36,6 +38,7 @@ var TSOS;
             this.pcbZReg = 0;
             this.pcbState = "Ready";
             this.pcbLocation = "Memory";
+            this.pcbPriority = 32;
             this.pcbStepCounter = 0;
         };
         //prints pcb contents in pcb html table

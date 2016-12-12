@@ -523,24 +523,19 @@ var TSOS;
                         _Memory.processArray[pidCounter] = arrayHex;
                         _MemoryManager.posArray[pidCounter] = posNum;
                         //priority
-                        if (priority == true) {
-                            if (args[0] == null) {
-                                _MemoryManager.priorityArray[pidCounter] = 32;
-                            }
-                            else {
-                                var priorityNum = 0;
-                                priorityNum = parseInt(args[0]);
-                                _MemoryManager.priorityArray[pidCounter] = priorityNum;
-                            }
+                        if (args[0] == null) {
+                            _MemoryManager.priorityArray[pidCounter] = 32;
                         }
                         else {
-                            //default
-                            _MemoryManager.priorityArray[pidCounter] = 32;
+                            var priorityNum = 0;
+                            priorityNum = parseInt(args[0]);
+                            _MemoryManager.priorityArray[pidCounter] = priorityNum;
                         }
                         //PCB
                         _MemoryManager.pcbArray[pidCounter] = new TSOS.PCB();
                         _MemoryManager.pcbArray[pidCounter].init();
                         _MemoryManager.pcbArray[pidCounter].pcbPID = pidCounter;
+                        _MemoryManager.pcbArray[pidCounter].pcbPriority = _MemoryManager.priorityArray[pidCounter];
                         _MemoryManager.pcbArray[pidCounter].pcbLocation = "Hard Drive";
                         _ReadyQueue.loadReadyQueue();
                         pidCounter++;
@@ -553,19 +548,13 @@ var TSOS;
                     currentPIDInMem.push(pidCounter);
                     _Memory.processID = pidCounter;
                     //priority
-                    if (priority == true) {
-                        if (args[0] == null) {
-                            _MemoryManager.priorityArray[pidCounter] = 32;
-                        }
-                        else {
-                            var priorityNum = 0;
-                            priorityNum = parseInt(args[0]);
-                            _MemoryManager.priorityArray[pidCounter] = priorityNum;
-                        }
+                    if (args[0] == null) {
+                        _MemoryManager.priorityArray[pidCounter] = 32;
                     }
                     else {
-                        //default
-                        _MemoryManager.priorityArray[pidCounter] = 32;
+                        var priorityNum = 0;
+                        priorityNum = parseInt(args[0]);
+                        _MemoryManager.priorityArray[pidCounter] = priorityNum;
                     }
                     _StdOut.putText("PID[" + pidCounter + "] has been added at location " + posNum + " Priority: " + _MemoryManager.priorityArray[pidCounter]);
                     _Memory.formatSize(_Memory.processID);
@@ -575,6 +564,7 @@ var TSOS;
                     _MemoryManager.pcbArray[pidCounter] = new TSOS.PCB();
                     _MemoryManager.pcbArray[pidCounter].init();
                     _MemoryManager.pcbArray[pidCounter].pcbPID = pidCounter;
+                    _MemoryManager.pcbArray[pidCounter].pcbPriority = _MemoryManager.priorityArray[pidCounter];
                     _ReadyQueue.loadReadyQueue();
                     pidCounter++;
                 }

@@ -276,6 +276,8 @@ module TSOS {
                             _Memory.position1 = false;
                             _Memory.position2 = false;
                             _Memory.position3 = false;
+                            //fix regular run
+                            runAll = false;
                             
                         }
 

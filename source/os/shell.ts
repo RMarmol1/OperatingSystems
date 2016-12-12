@@ -687,7 +687,7 @@ module TSOS {
                         _MemoryManager.posArray[pidCounter] = posNum;
 
                         //priority
-                        if (priority == true) {
+                        
                             if (args[0] == null) {
                                 _MemoryManager.priorityArray[pidCounter] = 32;
                             } else {
@@ -696,15 +696,13 @@ module TSOS {
                                 priorityNum = parseInt(args[0]);
                                 _MemoryManager.priorityArray[pidCounter] = priorityNum;
                             }
-                        } else {
-                            //default
-                            _MemoryManager.priorityArray[pidCounter] = 32;
-                        }
+                        
 
                         //PCB
                         _MemoryManager.pcbArray[pidCounter] = new PCB();
                         _MemoryManager.pcbArray[pidCounter].init();
                         _MemoryManager.pcbArray[pidCounter].pcbPID = pidCounter;
+                        _MemoryManager.pcbArray[pidCounter].pcbPriority = _MemoryManager.priorityArray[pidCounter];
                         _MemoryManager.pcbArray[pidCounter].pcbLocation = "Hard Drive";
                         _ReadyQueue.loadReadyQueue();
 
@@ -720,19 +718,16 @@ module TSOS {
                     _Memory.processID = pidCounter;
 
                     //priority
-                    if (priority == true) {
-                        if (args[0] == null) {
+                    
+                    if (args[0] == null) {
                             _MemoryManager.priorityArray[pidCounter] = 32;
-                        } else {
+                    } else {
 
                             var priorityNum = 0;
                             priorityNum = parseInt(args[0]);
                             _MemoryManager.priorityArray[pidCounter] = priorityNum;
-                        }
-                    } else {
-                        //default
-                        _MemoryManager.priorityArray[pidCounter] = 32;
                     }
+                    
 
 
                     _StdOut.putText("PID[" + pidCounter + "] has been added at location " + posNum + " Priority: " + _MemoryManager.priorityArray[pidCounter]);
@@ -748,6 +743,7 @@ module TSOS {
                     _MemoryManager.pcbArray[pidCounter] = new PCB();
                     _MemoryManager.pcbArray[pidCounter].init();
                     _MemoryManager.pcbArray[pidCounter].pcbPID = pidCounter;
+                    _MemoryManager.pcbArray[pidCounter].pcbPriority = _MemoryManager.priorityArray[pidCounter];
                     _ReadyQueue.loadReadyQueue();
 
 

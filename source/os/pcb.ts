@@ -15,6 +15,7 @@ module TSOS {
             public pcbZReg = 0,
             public pcbState = "Ready",
             public pcbLocation = "Memory",
+            public pcbPriority = 32,
             public pcbStepCounter = 0) {
 
         }
@@ -29,6 +30,7 @@ module TSOS {
             this.pcbZReg = 0;
             this.pcbState = "Ready";
             this.pcbLocation = "Memory";
+            this.pcbPriority = 32;
             this.pcbStepCounter = 0;
 
         }
