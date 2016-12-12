@@ -63,8 +63,8 @@ module TSOS {
                         fileCreated = true;
                         _FileSystemDeviceDriver.createFile(currentPIDInMem[2].toString());
                         _StdOut.advanceLine();
-                        _FileSystemDeviceDriver.writeToFile(currentPIDInMem[2].toString(), _Memory.processArray[currentPIDInMem[2]].toString());
-                        _StdOut.advanceLine();
+                        //_FileSystemDeviceDriver.writeToFile(currentPIDInMem[2].toString(), _Memory.processArray[currentPIDInMem[2]].toString());
+                        //_StdOut.advanceLine();
                         
                     } 
 
