@@ -30,6 +30,10 @@ module TSOS {
             }
         }
 
+        public krnFsDriverEntry() {
+            this.status = "loaded";
+        }
+
 		//creates a file in the file system
         public createFile(val) {
             if (formatted == true) {

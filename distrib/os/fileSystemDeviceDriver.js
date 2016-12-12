@@ -35,6 +35,9 @@ var TSOS;
                 _StdOut.putText("Session Storage Cannot Be Supported in this Browser.");
             }
         };
+        FileSystemDeviceDriver.prototype.krnFsDriverEntry = function () {
+            this.status = "loaded";
+        };
         //creates a file in the file system
         FileSystemDeviceDriver.prototype.createFile = function (val) {
             if (formatted == true) {
