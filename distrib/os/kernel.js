@@ -55,6 +55,7 @@ var TSOS;
             _ReadyQueue = new TSOS.ReadyQueue();
             _ReadyQueue.init();
             //intializes file system device driver
+            this.krnTrace("Loading the file system device driver.");
             _FileSystemDeviceDriver = new TSOS.FileSystemDeviceDriver();
             // Enable the OS Interrupts.  (Not the CPU clock interrupt, as that is done in the hardware sim.)
             this.krnTrace("Enabling the interrupts.");

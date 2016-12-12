@@ -643,12 +643,74 @@ var TSOS;
                 _CPU.clearCPU();
                 if (_MemoryManager.posArray[args[0]] == 0) {
                     _Memory.position1 = false;
+                    pidNum = args[0];
+                    _ReadyQueue.finishProcess();
+                    if (_Memory.position2 == true) {
+                        currentPIDInMem[0] = currentPIDInMem[1];
+                        _MemoryManager.posArray[currentPIDInMem[0]] = 0;
+                        pidNum = currentPIDInMem[0];
+                        _Memory.position1 = true;
+                        _ReadyQueue.setReadyQueue();
+                        if (_Memory.position3 == true) {
+                            currentPIDInMem[1] = currentPIDInMem[2];
+                            _MemoryManager.posArray[currentPIDInMem[1]] = 1;
+                            currentPIDInMem.pop();
+                            pidNum = currentPIDInMem[1];
+                            _Memory.position3 = false;
+                            // _ReadyQueue.setReadyQueue();
+                            _ReadyQueue.finishProcess();
+                        }
+                        if (_ReadyQueue.position4 == true) {
+                            currentPIDInMem[0] = _MemoryManager.posArray.indexOf(99);
+                            _MemoryManager.posArray[currentPIDInMem[0]] = 0;
+                            _MemoryManager.pcbArray[currentPIDInMem[0]].pcbLocation = "Memory";
+                            pidNum = currentPIDInMem[0];
+                            _ReadyQueue.setReadyQueue();
+                            _Memory.position3 = true;
+                        }
+                    }
+                    else {
+                    }
                 }
                 else if (_MemoryManager.posArray[args[0]] == 1) {
                     _Memory.position2 = false;
+                    _ReadyQueue.finishProcess();
+                    if (_Memory.position3 == true) {
+                        currentPIDInMem[1] = currentPIDInMem[2];
+                        _MemoryManager.posArray[currentPIDInMem[1]] = 1;
+                        currentPIDInMem.pop();
+                        pidNum = currentPIDInMem[1];
+                        _Memory.position2 = true;
+                        _ReadyQueue.setReadyQueue();
+                    }
+                    else {
+                        if (_ReadyQueue.position4 == true) {
+                            currentPIDInMem[1] = _MemoryManager.posArray.indexOf(99);
+                            _MemoryManager.posArray[currentPIDInMem[1]] = 0;
+                            _MemoryManager.pcbArray[currentPIDInMem[1]].pcbLocation = "Memory";
+                            pidNum = currentPIDInMem[1];
+                            _Memory.position3 = true;
+                            _ReadyQueue.setReadyQueue();
+                        }
+                    }
                 }
                 else if (_MemoryManager.posArray[args[0]] == 2) {
                     _Memory.position3 = false;
+                    currentPIDInMem.pop();
+                    _ReadyQueue.setReadyQueue();
+                    if (_ReadyQueue.position4 == true) {
+                        currentPIDInMem[2] = _MemoryManager.posArray.indexOf(99);
+                        _MemoryManager.posArray[currentPIDInMem[2]] = 2;
+                        _MemoryManager.pcbArray[currentPIDInMem[2]].pcbLocation = "Memory";
+                        pidNum = currentPIDInMem[2];
+                        _ReadyQueue.setReadyQueue();
+                        _Memory.position3 = true;
+                    }
+                }
+                else if (_MemoryManager.posArray[args[0]] == 99) {
+                    _ReadyQueue.position4 = false;
+                    _MemoryManager.posArray[_MemoryManager.posArray.indexOf(99)] = 100;
+                    _ReadyQueue.setReadyQueue();
                 }
                 //currentPIDInMem[args[0]] = null;
                 _MemoryManager.pcbArray[args[0]].pcbStepCounter = 9999;
@@ -660,12 +722,69 @@ var TSOS;
                 _Memory.processArray[args[0]] = null;
                 if (_MemoryManager.posArray[args[0]] == 0) {
                     _Memory.position1 = false;
+                    _ReadyQueue.finishProcess();
+                    if (_Memory.position2 == true) {
+                        pidNum = currentPIDInMem[1];
+                        _ReadyQueue.finishProcess();
+                        currentPIDInMem[0] = currentPIDInMem[1];
+                        _MemoryManager.posArray[currentPIDInMem[0]] = 0;
+                        _Memory.position1 = true;
+                        pidNum = currentPIDInMem[0];
+                        _ReadyQueue.setReadyQueue();
+                        if (_Memory.position3 == true) {
+                            pidNum = currentPIDInMem[2];
+                            _ReadyQueue.finishProcess();
+                            currentPIDInMem[1] = currentPIDInMem[2];
+                            _MemoryManager.posArray[currentPIDInMem[1]] = 1;
+                            currentPIDInMem.pop();
+                            _Memory.position3 = false;
+                            pidNum = currentPIDInMem[1];
+                            _ReadyQueue.setReadyQueue();
+                        }
+                        if (_ReadyQueue.position4 == true) {
+                            pidNum = _MemoryManager.posArray.indexOf(99);
+                            _ReadyQueue.finishProcess();
+                            currentPIDInMem[0] = _MemoryManager.posArray.indexOf(99);
+                            _MemoryManager.posArray[currentPIDInMem[0]] = 0;
+                            _MemoryManager.pcbArray[currentPIDInMem[0]].pcbLocation = "Memory";
+                            _Memory.position3 = true;
+                            pidNum = currentPIDInMem[0];
+                            _ReadyQueue.setReadyQueue();
+                        }
+                    }
+                    else {
+                    }
                 }
                 else if (_MemoryManager.posArray[args[0]] == 1) {
                     _Memory.position2 = false;
+                    if (_Memory.position3 == true) {
+                        currentPIDInMem[1] = currentPIDInMem[2];
+                        _MemoryManager.posArray[currentPIDInMem[1]] = 1;
+                        currentPIDInMem.pop();
+                        _Memory.position2 = true;
+                    }
+                    else {
+                        if (_ReadyQueue.position4 == true) {
+                            currentPIDInMem[1] = _MemoryManager.posArray.indexOf(99);
+                            _MemoryManager.posArray[currentPIDInMem[1]] = 0;
+                            _MemoryManager.pcbArray[currentPIDInMem[1]].pcbLocation = "Memory";
+                            _Memory.position3 = true;
+                        }
+                    }
                 }
                 else if (_MemoryManager.posArray[args[0]] == 2) {
                     _Memory.position3 = false;
+                    currentPIDInMem.pop();
+                    if (_ReadyQueue.position4 == true) {
+                        currentPIDInMem[2] = _MemoryManager.posArray.indexOf(99);
+                        _MemoryManager.posArray[currentPIDInMem[2]] = 2;
+                        _MemoryManager.pcbArray[currentPIDInMem[2]].pcbLocation = "Memory";
+                        _Memory.position3 = true;
+                    }
+                }
+                else if (_MemoryManager.posArray[args[0]] == 99) {
+                    _ReadyQueue.position4 = false;
+                    _MemoryManager.posArray[_MemoryManager.posArray.indexOf(99)] = 100;
                 }
                 _MemoryManager.pcbArray[args[0]].pcbStepCounter = 9999;
                 //currentPIDInMem[args[0]] = null;

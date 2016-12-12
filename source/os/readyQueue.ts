@@ -167,6 +167,18 @@ module TSOS {
                 document.getElementById("queueTable").rows[3].cells[8].innerHTML = "--";
                 document.getElementById("queueTable").rows[3].cells[9].innerHTML = "--";
             }
+            if (_MemoryManager.posArray[pidNum] == 99) {
+                document.getElementById("queueTable").rows[4].cells[0].innerHTML = "--";
+                document.getElementById("queueTable").rows[4].cells[1].innerHTML = "--";
+                document.getElementById("queueTable").rows[4].cells[2].innerHTML = "--";
+                document.getElementById("queueTable").rows[4].cells[3].innerHTML = "--";
+                document.getElementById("queueTable").rows[4].cells[4].innerHTML = "--";
+                document.getElementById("queueTable").rows[4].cells[5].innerHTML = "--";
+                document.getElementById("queueTable").rows[4].cells[6].innerHTML = "--";
+                document.getElementById("queueTable").rows[4].cells[7].innerHTML = "--";
+                document.getElementById("queueTable").rows[4].cells[8].innerHTML = "--";
+                document.getElementById("queueTable").rows[4].cells[9].innerHTML = "--";
+            }
         }
 
         public clearHardDrivePCB() {
