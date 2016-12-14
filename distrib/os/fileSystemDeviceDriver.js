@@ -44,21 +44,32 @@ var TSOS;
                 var fileName = val;
                 var availTSB = 0;
                 var row = 0;
+                var alreadyExists = false;
                 for (var i = 1; i < 63; i++) {
-                    if (files[i][3] == "0") {
-                        availTSB = i;
-                        row = i + 1;
-                        files[i][3] = "1";
-                        files[i][7] = this.convertTextToHex(fileName);
-                        i = 999;
-                        _StdOut.putText("Successfully created file: " + fileName);
-                    }
-                    else {
+                    if (files[i][7] == this.convertTextToHex(fileName)) {
+                        alreadyExists = true;
                     }
                 }
-                document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[availTSB][3];
-                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[availTSB][7];
-                sessionStorage["files"] = JSON.stringify(files);
+                if (alreadyExists == false) {
+                    for (var i = 1; i < 63; i++) {
+                        if (files[i][3] == "0") {
+                            availTSB = i;
+                            row = i + 1;
+                            files[i][3] = "1";
+                            files[i][7] = this.convertTextToHex(fileName);
+                            i = 999;
+                            _StdOut.putText("Successfully created file: " + fileName);
+                        }
+                        else {
+                        }
+                    }
+                    document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[availTSB][3];
+                    document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[availTSB][7];
+                    sessionStorage["files"] = JSON.stringify(files);
+                }
+                else {
+                    _StdOut.putText("File already exists.");
+                }
             }
             else {
                 _StdOut.putText("Need to format Hard Drive to create files.");
