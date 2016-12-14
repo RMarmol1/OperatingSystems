@@ -119,7 +119,7 @@ var TSOS;
                                 document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[tsb][3];
                                 document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
                                 document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
-                                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[tsb][6];
+                                document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[tsb][6];
                                 document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";
                             }
                         }
@@ -180,14 +180,14 @@ var TSOS;
                                 metaB = files[x][6];
                                 tsb = x;
                                 row = x + 1;
-                                files[x][3] = "0";
+                                //files[x][3] = "0";
                                 files[x][4] = "0";
                                 files[x][5] = "0";
                                 files[x][6] = "0";
                                 document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[tsb][3];
                                 document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
                                 document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
-                                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[tsb][6];
+                                document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[tsb][6];
                                 document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";
                             }
                         }
@@ -241,13 +241,14 @@ var TSOS;
                 var metaS = 0;
                 var metaB = 0*/
                 var reWrite = "";
+                //whenever a file is rewritten to it deletes all its data and rewrites it
                 for (var i = 1; i < 63; i++) {
                     if (files[i][7] == fileName) {
                         reWrite = this.convertHexToText(files[i][7]);
                         if (files[i][4] == "0" && files[i][5] == "0" && files[i][6] == "0") {
                         }
                         else {
-                            _StdOut.putText("Made it");
+                            //_StdOut.putText("Made it");
                             this.reWriteFile(reWrite);
                         }
                     }
