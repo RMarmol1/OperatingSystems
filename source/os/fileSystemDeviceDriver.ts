@@ -30,6 +30,7 @@ module TSOS {
             }
         }
 
+        //when driver is created change status to loaded
         public krnFsDriverEntry() {
             this.status = "loaded";
         }
@@ -42,12 +43,14 @@ module TSOS {
                 var row = 0;
                 var alreadyExists = false;
 
+                //check if a file of the same name already exists
                 for (var i = 1; i < 63; i++) {
                     if (files[i][7] == this.convertTextToHex(fileName)) {
                         alreadyExists = true;
                     }
                 }
 
+                //if not then create file
                 if (alreadyExists == false) {
 
                     for (var i = 1; i < 63; i++) {
@@ -116,7 +119,7 @@ module TSOS {
                         document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";
 
                        
-
+                        //delete all data blocks
                         for (var x = 64; x < 256; x++) {
                             if (files[x][0] == metaT && files[x][1] == metaS && files[x][2] == metaB) {
                                 files[x][3] = "0";
@@ -153,13 +156,6 @@ module TSOS {
                 }
 
 
-
-               /* document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[tsb][3];
-                document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
-                document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
-                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[tsb][6];
-                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";*/
-
                 sessionStorage["files"] = JSON.stringify(files);
             } else {
                 _StdOut.putText("Need to format Hard Drive to delete files.");
@@ -168,7 +164,7 @@ module TSOS {
 
 
        
-        //deletes file and data that accompanies it
+        //deletes files data so it is ready to be rewritten to
         public reWriteFile(val) {
             if (formatted == true) {
                 var fileName = val;
@@ -189,17 +185,7 @@ module TSOS {
                         metaS = files[i][5];
                         metaB = files[i][6];
 
-                        /*files[i][3] = "0";
-                        files[i][4] = "0";
-                        files[i][5] = "0";
-                        files[i][6] = "0";
-
-                        document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[i][3];
-                        document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[i][4];
-                        document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[i][5];
-                        document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[i][6];
-                        document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";
-                        */
+                        
 
 
                         for (var x = 64; x < 256; x++) {
@@ -239,11 +225,7 @@ module TSOS {
 
 
 
-                /* document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[tsb][3];
-                 document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
-                 document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
-                 document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[tsb][6];
-                 document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";*/
+                
 
                 sessionStorage["files"] = JSON.stringify(files);
             } else {
@@ -306,7 +288,7 @@ module TSOS {
 
 
                 
-
+                //separates data according to length to fit in each block
                 if (dataString.length > 60) {
                     dataSubString1 = dataString.substring(0, 60);
                     subArray.push(dataSubString1);

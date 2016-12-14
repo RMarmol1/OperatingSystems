@@ -127,12 +127,12 @@ var files = [];
 var address = [];
 var data = [];
 
-var roundRobin = true;
+var roundRobin = true; //scheduling types
 var fcfs = false;
 var priority = false;
 
-var formatted = false;
-var fileCreated = false;
+var formatted = false; //checks if hard drive is formatted
+var fileCreated = false; //checks if file is already created
 
 //var imageData = new ImageData(100, 100);
  //   image = _DrawingContext.getImageData(0, 0, 1000, 10000);

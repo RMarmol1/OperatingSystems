@@ -307,6 +307,48 @@ var TSOS;
                     case "run":
                         _StdOut.putText("runs given PID");
                         break;
+                    case "bsod":
+                        _StdOut.putText("Emulates Blue Screen of Death fatal error.");
+                        break;
+                    case "clearmem":
+                        _StdOut.putText("Clears all memory partitions.");
+                        break;
+                    case "runall":
+                        _StdOut.putText("Runs all PIDs");
+                        break;
+                    case "quantum":
+                        _StdOut.putText("Sets the amount of turns in Round Robin scheduling.");
+                        break;
+                    case "ps":
+                        _StdOut.putText("Lists all currently running processes.");
+                        break;
+                    case "kill":
+                        _StdOut.putText("Terminates a process in memory");
+                        break;
+                    case "create":
+                        _StdOut.putText("Creates a file in Hard Drive with nmame set by user.");
+                        break;
+                    case "read":
+                        _StdOut.putText("Reads data from given file name.");
+                        break;
+                    case "write":
+                        _StdOut.putText("Writes to file name whatever is in quotes.");
+                        break;
+                    case "delete":
+                        _StdOut.putText("Deletes file and associated data from Hard Drive.");
+                        break;
+                    case "format":
+                        _StdOut.putText("Formats the Hard Drive in session storage.");
+                        break;
+                    case "ls":
+                        _StdOut.putText("Lists all files in Hard Drive.");
+                        break;
+                    case "getschedule":
+                        _StdOut.putText("Returns currently running scheduling algorithm.");
+                        break;
+                    case "setschedule":
+                        _StdOut.putText("Sets scheduling algorithm to either: Round Robin, FCFC, or Priority.");
+                        break;
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
