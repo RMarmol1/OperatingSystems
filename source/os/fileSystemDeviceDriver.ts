@@ -112,7 +112,7 @@ module TSOS {
                         document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[i][3];
                         document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[i][4];
                         document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[i][5];
-                        document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[i][6];
+                        document.getElementById("hardDriveTable").rows[row].cells[4].innerHTML = files[i][6];
                         document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";
 
                        
@@ -279,6 +279,7 @@ module TSOS {
                 var dataSubString10 = "";
                 var dataSubString11 = "";
                 var dataSubstring12 = "";
+                var dataSubString13 = "";
                 var subArray = [];
                 var tsb = 0;
                 var availTSB = 0;
@@ -306,144 +307,151 @@ module TSOS {
 
                 
 
-                if (dataString.length > 64) {
-                    dataSubString1 = dataString.substring(0, 64);
+                if (dataString.length > 60) {
+                    dataSubString1 = dataString.substring(0, 60);
                     subArray.push(dataSubString1);
-                    if (dataString.length < 128) {
-                        dataSubString2 = dataString.substring(64, dataString.length);
+                    if (dataString.length < 120) {
+                        dataSubString2 = dataString.substring(60, dataString.length);
                         dataSubString2 += this.addZeros(dataSubString2);
                     } else {
-                        dataSubString2 = dataString.substring(64, 128);
+                        dataSubString2 = dataString.substring(60, 120);
                     }
                     subArray.push(dataSubString2);
-                    if (dataString.length > 128) {
-                        if (dataString.length < 192) {
-                            dataSubString3 = dataString.substring(128, dataString.length);
+                    if (dataString.length > 120) {
+                        if (dataString.length < 180) {
+                            dataSubString3 = dataString.substring(120, dataString.length);
                             dataSubString3 += this.addZeros(dataSubString3);
                         } else {
-                            dataSubString3 = dataString.substring(128, 192);
+                            dataSubString3 = dataString.substring(120, 180);
                         }
                         subArray.push(dataSubString3);
-                        if (dataString.length > 192) {
-                            if (dataString.length < 256) {
-                                dataSubString4 = dataString.substring(192, dataString.length);
+                        if (dataString.length > 180) {
+                            if (dataString.length < 240) {
+                                dataSubString4 = dataString.substring(180, dataString.length);
                                 dataSubString4 += this.addZeros(dataSubString4);
                             } else {
-                                dataSubString4 = dataString.substring(192, 256);
+                                dataSubString4 = dataString.substring(180, 240);
                             }
                             subArray.push(dataSubString4);
-                            if (dataString.length > 256) {
-                                if (dataString.length < 320) {
-                                    dataSubString5 = dataString.substring(256, dataString.length);
+                            if (dataString.length > 240) {
+                                if (dataString.length < 300) {
+                                    dataSubString5 = dataString.substring(240, dataString.length);
                                     dataSubString5 += this.addZeros(dataSubString5);
                                 } else {
-                                    dataSubString5 = dataString.substring(256, 320);
+                                    dataSubString5 = dataString.substring(240, 300);
                                 }
                                 subArray.push(dataSubString5);
-                                if (dataString.length > 320) {
-                                    if (dataString.length < 384) {
-                                        dataSubString6 = dataString.substring(320, dataString.length);
+                                if (dataString.length > 300) {
+                                    if (dataString.length < 360) {
+                                        dataSubString6 = dataString.substring(300, dataString.length);
                                         dataSubString6 += this.addZeros(dataSubString6);
                                     } else {
-                                        dataSubString6 = dataString.substring(320, 384);
+                                        dataSubString6 = dataString.substring(300, 360);
                                     }
                                     subArray.push(dataSubString6);
-                                    if (dataString.length > 384) {
-                                        if (dataString.length < 448) {
-                                            dataSubString7 = dataString.substring(384, dataString.length);
+                                    if (dataString.length > 360) {
+                                        if (dataString.length < 420) {
+                                            dataSubString7 = dataString.substring(360, dataString.length);
                                             dataSubString7 += this.addZeros(dataSubString7);
                                         } else {
-                                            dataSubString7 = dataString.substring(384, 448);
+                                            dataSubString7 = dataString.substring(360, 420);
                                         }
                                         subArray.push(dataSubString7);
-                                        if (dataString.length > 448) {
-                                            if (dataString.length < 512) {
-                                                dataSubString8 = dataString.substring(448, dataString.length);
+                                        if (dataString.length > 420) {
+                                            if (dataString.length < 480) {
+                                                dataSubString8 = dataString.substring(420, dataString.length);
                                                 dataSubString8 += this.addZeros(dataSubString8);
                                             } else {
-                                                dataSubString8 = dataString.substring(448, 512);
+                                                dataSubString8 = dataString.substring(420, 480);
                                             }
                                             subArray.push(dataSubString8);
-                                            if (dataString.length > 512) {
-                                                if (dataString.length < 576) {
-                                                    dataSubString9 = dataString.substring(512, dataString.length);
+                                            if (dataString.length > 480) {
+                                                if (dataString.length < 540) {
+                                                    dataSubString9 = dataString.substring(480, dataString.length);
                                                     dataSubString9 += this.addZeros(dataSubString9);
                                                 } else {
-                                                    dataSubString9 = dataString.substring(512, 576);
+                                                    dataSubString9 = dataString.substring(480, 540);
                                                 }
                                                 subArray.push(dataSubString9);
-                                                if (dataString.length > 576) {
-                                                    if (dataString.length < 640) {
-                                                        dataSubStringA = dataString.substring(576, dataString.length);
+                                                if (dataString.length > 540) {
+                                                    if (dataString.length < 600) {
+                                                        dataSubStringA = dataString.substring(540, dataString.length);
                                                         dataSubStringA += this.addZeros(dataSubStringA);
                                                     } else {
-                                                        dataSubStringA = dataString.substring(576, 640);
+                                                        dataSubStringA = dataString.substring(540, 600);
                                                     }
                                                     subArray.push(dataSubStringA);
-                                                    if (dataString.length > 640) {
-                                                        if (dataString.length < 704) {
-                                                            dataSubStringB = dataString.substring(640, dataString.length);
+                                                    if (dataString.length > 600) {
+                                                        if (dataString.length < 660) {
+                                                            dataSubStringB = dataString.substring(600, dataString.length);
                                                             dataSubStringB += this.addZeros(dataSubStringB);
                                                         } else {
-                                                            dataSubStringB = dataString.substring(640, 704);
+                                                            dataSubStringB = dataString.substring(600, 660);
                                                         }
                                                         subArray.push(dataSubStringB);
-                                                        if (dataString.length > 704) {
-                                                            if (dataString.length < 768) {
-                                                                dataSubStringC = dataString.substring(704, dataString.length);
+                                                        if (dataString.length > 660) {
+                                                            if (dataString.length < 720) {
+                                                                dataSubStringC = dataString.substring(660, dataString.length);
                                                                 dataSubStringC += this.addZeros(dataSubStringC);
                                                             } else {
-                                                                dataSubStringC = dataString.substring(704, 768);
+                                                                dataSubStringC = dataString.substring(660, 720);
                                                             }
                                                             subArray.push(dataSubStringC);
-                                                            if (dataString.length > 768) {
-                                                                if (dataString.length < 832) {
-                                                                    dataSubStringD = dataString.substring(768, dataString.length);
+                                                            if (dataString.length > 780) {
+                                                                if (dataString.length < 840) {
+                                                                    dataSubStringD = dataString.substring(780, dataString.length);
                                                                     dataSubStringD += this.addZeros(dataSubStringD);
                                                                 } else {
-                                                                    dataSubStringD = dataString.substring(768, 832);
+                                                                    dataSubStringD = dataString.substring(780, 840);
                                                                 }
                                                                 subArray.push(dataSubStringD);
-                                                                if (dataString.length > 832) {
-                                                                    if (dataString.length < 896) {
-                                                                        dataSubStringE = dataString.substring(832, dataString.length);
+                                                                if (dataString.length > 840) {
+                                                                    if (dataString.length < 900) {
+                                                                        dataSubStringE = dataString.substring(840, dataString.length);
                                                                         dataSubStringE += this.addZeros(dataSubStringE);
                                                                     } else {
-                                                                        dataSubStringE = dataString.substring(832, 896);
+                                                                        dataSubStringE = dataString.substring(840, 900);
                                                                     }
                                                                     subArray.push(dataSubStringE);
-                                                                    if (dataString.length > 896) {
+                                                                    if (dataString.length > 900) {
                                                                         if (dataString.length < 960) {
-                                                                            dataSubStringF = dataString.substring(896, dataString.length);
+                                                                            dataSubStringF = dataString.substring(900, dataString.length);
                                                                             dataSubStringF += this.addZeros(dataSubStringF);
                                                                         } else {
-                                                                            dataSubStringF = dataString.substring(896, 960);
+                                                                            dataSubStringF = dataString.substring(900, 960);
                                                                         }
                                                                         subArray.push(dataSubStringF);
                                                                         if (dataString.length > 960) {
-                                                                            if (dataString.length < 1024) {
+                                                                            if (dataString.length < 1020) {
                                                                                 dataSubString10 = dataString.substring(960, dataString.length);
                                                                                 dataSubString10 += this.addZeros(dataSubString10);
                                                                             } else {
-                                                                                dataSubString10 = dataString.substring(960, 1024);
+                                                                                dataSubString10 = dataString.substring(960, 1020);
                                                                             }
                                                                             subArray.push(dataSubString10);
-                                                                            if (dataString.length > 1024) {
-                                                                                if (dataString.length < 1088) {
-                                                                                    dataSubString11 = dataString.substring(1024, dataString.length);
+                                                                            if (dataString.length > 1020) {
+                                                                                if (dataString.length < 1080) {
+                                                                                    dataSubString11 = dataString.substring(1020, dataString.length);
                                                                                     dataSubString11 += this.addZeros(dataSubString11);
                                                                                 } else {
-                                                                                    dataSubString11 = dataString.substring(1024, 1088);
+                                                                                    dataSubString11 = dataString.substring(1020, 1080);
                                                                                 }
                                                                                 subArray.push(dataSubString11);
-                                                                                if (dataString.length > 1088) {
-                                                                                    if (dataString.length < 1152) {
-                                                                                        dataSubstring12 = dataString.substring(1088, dataString.length);
+                                                                                if (dataString.length > 1080) {
+                                                                                    if (dataString.length < 1140) {
+                                                                                        dataSubstring12 = dataString.substring(1080, dataString.length);
                                                                                         dataSubstring12 += this.addZeros(dataSubstring12);
                                                                                     } else {
-                                                                                        dataSubstring12 = dataString.substring(1088, 1152);
+                                                                                        dataSubstring12 = dataString.substring(1080, 1140);
                                                                                     }
                                                                                     subArray.push(dataSubstring12);
+                                                                                    if (dataString.length > 1200) {
+                                                                                        dataSubString13 = dataString.substring(1200, dataString.length);
+                                                                                        dataSubString13 += this.addZeros(dataSubString13);
+                                                                                    } else {
+                                                                                        dataSubString13 = dataString.substring(1200, 1260);
+                                                                                    }
+                                                                                    subArray.push(dataSubString13);
                                                                                 }
 
                                                                             }
@@ -920,7 +928,7 @@ module TSOS {
                 newInput += inputHex[x];
             }
 
-            diffNum = 64 - newInput.length;
+            diffNum = 60 - newInput.length;
 
             for (var y = 0; y < diffNum; y++) {
                 newInput += "0";
@@ -934,7 +942,7 @@ module TSOS {
             var diffNum = 0;
             var zerosNeeded = "";
 
-            diffNum = 64 - input.length;
+            diffNum = 60 - input.length;
 
             for (var y = 0; y < diffNum; y++) {
                 zerosNeeded += "0";
