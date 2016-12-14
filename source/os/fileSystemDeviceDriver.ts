@@ -72,6 +72,8 @@ module TSOS {
                     document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[availTSB][7];
 
                     sessionStorage["files"] = JSON.stringify(files);
+
+                    this.writeToFile(fileName, "");
                 } else {
                     _StdOut.putText("File already exists.");
                 }
@@ -102,6 +104,19 @@ module TSOS {
                         metaS = files[i][5];
                         metaB = files[i][6];
 
+                        files[i][3] = "0";
+                        files[i][4] = "0";
+                        files[i][5] = "0";
+                        files[i][6] = "0";
+                        
+                        document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[i][3];
+                        document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[i][4];
+                        document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[i][5];
+                        document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[i][6];
+                        document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";
+
+                       
+
                         for (var x = 64; x < 256; x++) {
                             if (files[x][0] == metaT && files[x][1] == metaS && files[x][2] == metaB) {
                                 files[x][3] = "0";
@@ -109,14 +124,22 @@ module TSOS {
                                 metaT = files[x][4];
                                 metaS = files[x][5];
                                 metaB = files[x][6];
+                                tsb = x;
+                                row = x + 1;
+                                files[x][3] = "0";
+                                files[x][4] = "0";
+                                files[x][5] = "0";
+                                files[x][6] = "0";
+                                document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[tsb][3];
+                                document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
+                                document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
+                                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[tsb][6];
+                                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";
                                 //x = 999;
                             }
                         }
 
-                        files[i][3] = "0";
-                        files[i][4] = "0";
-                        files[i][5] = "0";
-                        files[i][6] = "0";
+                        
 
                         i = 999;
 
@@ -131,8 +154,11 @@ module TSOS {
 
 
 
-                document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[tsb][3];
-                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[tsb][7];
+               /* document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[tsb][3];
+                document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
+                document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
+                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[tsb][6];
+                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";*/
 
                 sessionStorage["files"] = JSON.stringify(files);
             } else {
@@ -140,10 +166,98 @@ module TSOS {
             }
         }
 
+
+       
+        //deletes file and data that accompanies it
+        public reWriteFile(val) {
+            if (formatted == true) {
+                var fileName = val;
+                var row = 0;
+                var tsb = 0;
+                var metaT = "";
+                var metaS = "";
+                var metaB = "";
+                var found = false;
+
+                for (var i = 1; i < 63; i++) {
+                    if (files[i][7] == this.convertTextToHex(fileName)) {
+
+                        //files[i][7] = "";
+                        row = i + 1;
+                        tsb = i;
+                        metaT = files[i][4];
+                        metaS = files[i][5];
+                        metaB = files[i][6];
+
+                        /*files[i][3] = "0";
+                        files[i][4] = "0";
+                        files[i][5] = "0";
+                        files[i][6] = "0";
+
+                        document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[i][3];
+                        document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[i][4];
+                        document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[i][5];
+                        document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[i][6];
+                        document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";
+                        */
+
+
+                        for (var x = 64; x < 256; x++) {
+                            if (files[x][0] == metaT && files[x][1] == metaS && files[x][2] == metaB) {
+                                files[x][3] = "0";
+                                files[x][7] = "";
+                                metaT = files[x][4];
+                                metaS = files[x][5];
+                                metaB = files[x][6];
+                                tsb = x;
+                                row = x + 1;
+                                files[x][3] = "0";
+                                files[x][4] = "0";
+                                files[x][5] = "0";
+                                files[x][6] = "0";
+                                document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[tsb][3];
+                                document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
+                                document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
+                                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[tsb][6];
+                                document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";
+                                //x = 999;
+                            }
+                        }
+
+
+
+                        i = 999;
+
+                        //_StdOut.putText("Successfully deleted file: " + fileName);
+                        found = true;
+                    }
+                }
+
+                if (found == false) {
+                    _StdOut.putText("Error file not found.");
+                }
+
+
+
+                /* document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[tsb][3];
+                 document.getElementById("hardDriveTable").rows[row].cells[2].innerHTML = files[tsb][4];
+                 document.getElementById("hardDriveTable").rows[row].cells[3].innerHTML = files[tsb][5];
+                 document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[tsb][6];
+                 document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = "000000000000000000000000000000000000000000000000000000000000";*/
+
+                sessionStorage["files"] = JSON.stringify(files);
+            } else {
+                _StdOut.putText("Need to format Hard Drive to delete files.");
+            }
+        }
+
+
 		//finds available space, writes in data, and connects to filename
         public writeToFile(file, data) {
 
             if (formatted == true) {
+
+                
 
                 var fileName = this.convertTextToHex(file);
                 var dataString = this.convertTextToHex(data);
@@ -169,6 +283,28 @@ module TSOS {
                 var tsb = 0;
                 var availTSB = 0;
                 var row = 0;
+                /*var metaT = 0;
+                var metaS = 0;
+                var metaB = 0*/
+
+                var reWrite = "";
+
+                
+                for (var i = 1; i < 63; i++) {
+                    if (files[i][7] == fileName) {
+                        reWrite = this.convertHexToText(files[i][7]);
+                        if (files[i][4] == "0" && files[i][5] == "0" && files[i][6] == "0") {
+                        } else {
+                            _StdOut.putText("Made it");
+                            this.reWriteFile(reWrite);
+                        }
+                    }
+                }
+                
+                
+
+
+                
 
                 if (dataString.length > 64) {
                     dataSubString1 = dataString.substring(0, 64);
@@ -332,6 +468,10 @@ module TSOS {
                         tsb = i;
                         row = i + 1;
                         i = 999;
+                       /* metaT = files[i][4];
+                        metaS = files[i][5];
+                        metaB = files[i][6];*/
+
                     }
                 }
 
@@ -340,6 +480,8 @@ module TSOS {
                     for (var t = 0; t < subArray.length; t++) {
 
                         for (var i = 64; i < 256; i++) {
+                            
+
                             if (files[i][3] == "0") {
                                 if (counterNum == 0) { //first section
                                     files[tsb][4] = files[i][0];
@@ -428,7 +570,12 @@ module TSOS {
                 //document.getElementById("hardDriveTable").rows[row].cells[1].innerHTML = files[availTSB][3];
                 //document.getElementById("hardDriveTable").rows[row].cells[5].innerHTML = files[availTSB][7];
 
-                _StdOut.putText("Successfully wrote data to file.");
+                if (data == "") {
+                } else {
+                    _StdOut.putText("Successfully wrote data to file.");
+                }
+
+                
 
                 sessionStorage["files"] = JSON.stringify(files);
             } else {
